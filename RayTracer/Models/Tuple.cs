@@ -42,7 +42,7 @@ public class Tuple
 
     public bool Equals(Tuple? other)
     {
-        return other != null &&
+        return other is not null &&
             X.IsEqualTo(other.X) &&
             Y.IsEqualTo(other.Y) &&
             Z.IsEqualTo(other.Z) &&
@@ -61,7 +61,7 @@ public class Tuple
     public static bool operator !=(Tuple? left, Tuple? right)
     {
         if (left is null && right is null) return false;
-        if (left is not null && right is not null) return true;
+        if (left is null && right is not null) return true;
         return !left!.Equals(right);
     }
     #endregion
