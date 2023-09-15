@@ -6,10 +6,11 @@ public class Point : Tuple
     {
     }
 
-    #region operators
+    #region arithmetic operators
     /// <summary>
-    /// Adds a <see cref="Vector"/> to a <see cref="Point"/>.
+    /// Adds a <see cref="Vector"/> to the <see cref="Point"/>.
     /// </summary>
+    /// <returns>The <paramref name="vector"/> added to the <see cref="Point"/>.</returns>
     public Point Add(Vector vector)
     {
         return new Point(X + vector.X, Y + vector.Y, Z + vector.Z);
@@ -19,13 +20,15 @@ public class Point : Tuple
     /// <summary>
     /// Subtracts a <see cref="Point"/> from another.
     /// </summary>
+    /// <returns><paramref name="other"/> subtracted from the <see cref="Point"/>.</returns>
     public Vector Subtract(Point other)
     {
         return new Vector(X - other.X, Y - other.Y, Z - other.Z);
     }
     /// <summary>
-    /// Subtracts a <see cref="Vector"/> from a <see cref="Point"/>
+    /// Subtracts a <see cref="Vector"/> from the <see cref="Point"/>.
     /// </summary>
+    /// <returns>The <paramref name="vector"/> subtracted from the <see cref="Point"/>.</returns>
     public Point Subtract(Vector vector)
     {
         return new Point(X - vector.X, Y - vector.Y, Z - vector.Z);
