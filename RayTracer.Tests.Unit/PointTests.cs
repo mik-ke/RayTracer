@@ -1,0 +1,126 @@
+﻿using RayTracer.Models;
+using Xunit;
+
+namespace RayTracer.Tests.Unit;
+
+public class PointTests
+{
+    [Fact]
+    public void Constructor_ShouldHaveWOne_WhenCreated()
+    {
+        // Arrange
+        // Act
+        Models.Tuple point = new Point(4.3, -4.2, 3.1);
+
+        // Assert
+        Assert.Equal(1.0, point.W);
+    }
+
+    [Fact]
+    public void Constructor_ShouldInitializeCorrectProperties_WhenCreated()
+    {
+        // Arrange
+        // Act
+        Models.Tuple point = new Point(4.3, -4.2, 3.1);
+
+        // Assert
+        Assert.Equal(4.3, point.X);
+        Assert.Equal(-4.2, point.Y);
+        Assert.Equal(3.1, point.Z);
+        Assert.Equal(1.0, point.W);
+        Assert.True(point is Point);
+        Assert.False(point is Vector);
+    }
+
+    #region operators
+    [Fact]
+    public void Add_ShouldBeCorrect_WhenCalled()
+    {
+        // Arrange
+        Point point = new(3, -2, 5);
+        Vector vector = new (-2, 3, 1);
+        Point expected = new(1, 1, 6);
+
+        // Act
+        Point actual = point.Add(vector);
+
+        // Assert
+        Assert.Equal(expected, actual);
+    }
+
+    [Fact]
+    public void PlusOperator_ShouldBeCorrect_WhenCalled()
+    {
+        // Arrange
+        Point point = new(3, -2, 5);
+        Vector vector = new (-2, 3, 1);
+        Point expected = new(1, 1, 6);
+
+        // Act
+        Point actual = point + vector;
+
+        // Assert
+        Assert.Equal(expected, actual);
+    }
+
+    [Fact]
+    public void Subtract_ShouldBeCorrect_WhenPointSubtracted()
+    {
+        // Arrange
+        Point leftPoint = new(3, 2, 1);
+        Point rightPoint = new(5, 6, 7);
+        Vector expected = new(-2, -4, -6);
+
+        // Act
+        Vector actual = leftPoint.Subtract(rightPoint);
+
+        // Assert
+        Assert.Equal(expected, actual);
+    }
+
+    [Fact]
+    public void MinusOperator_ShouldBeCorrect_WhenPointSubtracted()
+    {
+        // Arrange
+        Point leftPoint = new(3, 2, 1);
+        Point rightPoint = new(5, 6, 7);
+        Vector expected = new(-2, -4, -6);
+
+        // Act
+        Vector actual = leftPoint - rightPoint;
+
+        // Assert
+        Assert.Equal(expected, actual);
+    }
+
+    [Fact]
+    public void Subtract_ShouldBeCorrect_WhenVectorSubtracted()
+    {
+        // Arrange
+        Point point = new(3, 2, 1);
+        Vector vector = new(5, 6, 7);
+        Point expected = new Point(-2, -4, -6);
+
+        // Act
+        Point actual = point.Subtract(vector);
+
+        // Assert
+        Assert.Equal(expected, actual);
+    }
+
+    [Fact]
+    public void MinusOperator_ShouldBeCorrect_WhenVectorSubtracted()
+    {
+        // Arrange
+        Point point = new(3, 2, 1);
+        Vector vector = new(5, 6, 7);
+        Point expected = new(-2, -4, -6);
+
+        // Act
+        Point actual = point - vector;
+
+        // Assert
+        Assert.Equal(expected, actual);
+    }
+    #endregion
+}
