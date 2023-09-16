@@ -1,6 +1,6 @@
 ﻿namespace RayTracer.Models;
 
-public class Vector : Tuple
+public sealed class Vector : Tuple
 {
     #region properties
     /// <summary>
