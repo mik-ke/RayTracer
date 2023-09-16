@@ -99,4 +99,6 @@ public class Vector : Tuple
             Z * other.X - X * other.Z,
             X * other.Y - Y * other.X);
     }
+
+    public override string ToString() => $"Vector({X}, {Y}, {Z})";
 }

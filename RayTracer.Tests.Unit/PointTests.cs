@@ -20,13 +20,17 @@ public class PointTests
     public void Constructor_ShouldInitializeCorrectProperties_WhenCreated()
     {
         // Arrange
+        const double x = 4.3;
+        const double y = -4.2;
+        const double z = 3.1;
+
         // Act
-        Models.Tuple point = new Point(4.3, -4.2, 3.1);
+        Models.Tuple point = new Point(x, y, z);
 
         // Assert
-        Assert.Equal(4.3, point.X);
-        Assert.Equal(-4.2, point.Y);
-        Assert.Equal(3.1, point.Z);
+        Assert.Equal(x, point.X);
+        Assert.Equal(y, point.Y);
+        Assert.Equal(z, point.Z);
         Assert.Equal(1.0, point.W);
         Assert.True(point is Point);
         Assert.False(point is Vector);

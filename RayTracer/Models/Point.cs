@@ -36,4 +36,6 @@ public class Point : Tuple
     public static Point operator -(Point point, Vector vector) => point.Subtract(vector);
     public static Vector operator -(Point leftPoint, Point rightPoint) => leftPoint.Subtract(rightPoint);
     #endregion
+
+    public override string ToString() => $"Point({X}, {Y}, {Z})";
 }

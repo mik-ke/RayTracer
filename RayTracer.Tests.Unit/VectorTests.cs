@@ -21,13 +21,17 @@ public class VectorTests
     public void Constructor_ShouldInitializeCorrectProperties_WhenCreated()
     {
         // Arrange
+        const double x = 4.3;
+        const double y = -4.2;
+        const double z = 3.1;
+
         // Act
-        Models.Tuple vector = new Vector(4.3, -4.2, 3.1);
+        Models.Tuple vector = new Vector(x, y, z);
 
         // Assert
-        Assert.Equal(4.3, vector.X);
-        Assert.Equal(-4.2, vector.Y);
-        Assert.Equal(3.1, vector.Z);
+        Assert.Equal(x, vector.X);
+        Assert.Equal(y, vector.Y);
+        Assert.Equal(z, vector.Z);
         Assert.Equal(0.0, vector.W);
         Assert.False(vector is Point);
         Assert.True(vector is Vector);
