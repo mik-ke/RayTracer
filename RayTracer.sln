@@ -11,6 +11,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProjectileProgram.CLI", "Pr
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TestPrograms", "TestPrograms", "{5EF8F723-0F78-4549-A0A5-14B27B45727F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectileProgramPpm.CLI", "ProjectileProgramPpm.CLI\ProjectileProgramPpm.CLI.csproj", "{C1377A36-5609-4647-A7C6-3D74FED1999A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,12 +31,17 @@ Global
 		{4BF77BAA-6222-4CB3-A394-713D61F789FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4BF77BAA-6222-4CB3-A394-713D61F789FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4BF77BAA-6222-4CB3-A394-713D61F789FD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C1377A36-5609-4647-A7C6-3D74FED1999A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C1377A36-5609-4647-A7C6-3D74FED1999A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C1377A36-5609-4647-A7C6-3D74FED1999A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C1377A36-5609-4647-A7C6-3D74FED1999A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{4BF77BAA-6222-4CB3-A394-713D61F789FD} = {5EF8F723-0F78-4549-A0A5-14B27B45727F}
+		{C1377A36-5609-4647-A7C6-3D74FED1999A} = {5EF8F723-0F78-4549-A0A5-14B27B45727F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3EF37C13-6F1C-48E0-81FB-6B33FCD2D8DE}
