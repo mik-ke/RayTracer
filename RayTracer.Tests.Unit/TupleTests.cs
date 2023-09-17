@@ -187,7 +187,7 @@ public class TupleTests
         var t2HashCode = t2.GetHashCode();
 
         // Assert
-        Assert.True(t1HashCode == t2HashCode);
+        Assert.Equal(t1HashCode, t2HashCode);
     }
 
     [Theory]
@@ -206,7 +206,7 @@ public class TupleTests
         var t2HashCode = t2.GetHashCode();
 
         // Assert
-        Assert.True(t1HashCode != t2HashCode);
+        Assert.NotEqual(t1HashCode, t2HashCode);
     }
 
     [Fact]
@@ -221,7 +221,7 @@ public class TupleTests
         var t2HashCode = t2.GetHashCode();
 
         // Assert
-        Assert.True(t1HashCode != t2HashCode);
+        Assert.NotEqual(t1HashCode, t2HashCode);
     }
     #endregion
 }

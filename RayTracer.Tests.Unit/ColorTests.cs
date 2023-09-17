@@ -299,7 +299,7 @@ public class ColorTests
         var c2HashCode = c2.GetHashCode();
 
         // Assert
-        Assert.True(c1HashCode == c2HashCode);
+        Assert.Equal(c1HashCode, c2HashCode);
     }
 
     [Theory]
@@ -318,7 +318,7 @@ public class ColorTests
         var c2HashCode = c2.GetHashCode();
 
         // Assert
-        Assert.True(c1HashCode != c2HashCode);
+        Assert.NotEqual(c1HashCode, c2HashCode);
     }
     #endregion
 }
