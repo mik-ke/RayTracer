@@ -37,7 +37,7 @@ public class VectorTests
         Assert.True(vector is Vector);
     }
 
-    #region arithmetic operators
+    #region arithmetic operations
     [Fact]
     public void Add_ShouldBeCorrect_WhenCalled()
     {

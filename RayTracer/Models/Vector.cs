@@ -13,7 +13,7 @@ public sealed class Vector : Tuple
     {
     }
 
-    #region arithmetic operators
+    #region arithmetic operations
     /// <summary>
     /// Adds a <see cref="Vector"/> to another.
     /// </summary>

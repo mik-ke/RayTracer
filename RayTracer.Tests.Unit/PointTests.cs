@@ -36,7 +36,7 @@ public class PointTests
         Assert.False(point is Vector);
     }
 
-    #region arithmetic operators
+    #region arithmetic operations
     [Fact]
     public void Add_ShouldBeCorrect_WhenCalled()
     {

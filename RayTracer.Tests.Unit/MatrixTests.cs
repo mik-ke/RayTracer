@@ -103,8 +103,192 @@ public class MatrixTests
 		Assert.IsType<ArgumentOutOfRangeException>(e);
 	}
 
-    #region arithmetic operators
-    #endregion
+	#region arithmetic operations
+	[Theory]
+	[InlineData(true)]
+	[InlineData(false)]
+	public void Multiply_ShouldBeCorrect_WhenCalledWithFourByFourMatrices(bool useOperator)
+	{
+		// Arrange
+		Matrix left = new(
+			new double[4, 4]
+			{
+				{ 1, 2, 3, 4 },
+				{ 5, 6, 7, 8 },
+				{ 9, 8, 7, 6 },
+				{ 5, 4, 3, 2 }
+			});
+		Matrix right = new(
+			new double[4, 4]
+			{
+				{ -2, 1, 2, 3 },
+				{ 3, 2, 1, -1 },
+				{ 4, 3, 6, 5 },
+				{ 1, 2, 7, 8 }
+			});
+		Matrix expected = new(
+			new double[4, 4]
+			{
+				{ 20, 22, 50, 48 },
+				{ 44, 54, 114, 108 },
+				{ 40, 58, 110, 102 },
+				{ 16, 26, 46, 42 }
+			});
+
+		// Act
+		Matrix actual;
+		if (useOperator)
+			actual = left * right;
+		else
+            actual = left.Multiply(right);
+
+		// Assert
+		Assert.Equal(expected, actual);
+	}
+
+
+	[Theory]
+	[InlineData(true)]
+	[InlineData(false)]
+	public void Multiply_ShouldThrowArgumentException_WhenNumberColumnsOfThisNotEqualToNumberRowsOfOther(bool useOperator)
+	{
+		// Arrange
+		Matrix left = new(10, 20);
+		Matrix right = new(10, 20);
+
+		// Act
+		Exception e = Record.Exception(() => {
+			if (useOperator)
+				return left * right;
+			else
+				return left.Multiply(right);
+        });
+
+		// Assert
+		Assert.IsType<ArgumentException>(e);
+	}
+
+	[Theory]
+	[InlineData(true)]
+	[InlineData(false)]
+	public void Multiply_ShouldBeCorrect_WhenMultipliedByTuple(bool useOperator)
+	{
+		// Arrange
+		Matrix matrix = new(
+			new double[4, 4]
+			{
+				{ 1, 2, 3, 4 },
+				{ 2, 4, 4, 2 },
+				{ 8, 6, 4, 1 },
+				{ 0, 0, 0, 1 }
+			});
+		Point point = new(1, 2, 3);
+		Point expected = new(18, 24, 33);
+
+		// Act
+		Matrix actual;
+		if (useOperator)
+			actual = matrix * point;
+		else
+			actual = matrix.Multiply(point);
+
+		// Assert
+		Assert.Equal(expected, actual);
+	}
+	#endregion
+
+	[Fact]
+	public void Identity_ShouldBeCorrect_WhenCalledWithSquareMatrix()
+	{
+		// Arrange
+		Matrix matrix = new(
+			new double[4, 4]
+			{
+				{ 1, 2, 3, 4 },
+				{ 5, 6, 7, 8 },
+				{ 9, 8, 7, 6 },
+				{ 5, 4, 3, 2 }
+			});
+		Matrix expected = new(
+			new double[4, 4]
+			{
+				{ 1, 0, 0, 0 },
+				{ 0, 1, 0, 0 },
+				{ 0, 0, 1, 0 },
+				{ 0, 0, 0, 1 }
+			});
+
+		// Act
+		var actual = matrix.Identity();
+
+		// Assert
+		Assert.Equal(expected, actual);
+	}
+
+	[Fact]
+	public void Identity_ShouldBeCorrect_WhenCalledWithRectangularMatrix()
+	{
+		// Arrange
+		Matrix matrix = new(
+			new double[2, 3]
+			{
+				{ 1, 2, 4 },
+				{ 2, 3, 5 },
+			});
+		Matrix expected = new(
+			new double[3, 3]
+			{
+				{ 1, 0, 0 },
+				{ 0, 1, 0 },
+				{ 0, 0, 1 },
+			});
+
+		// Act
+		var actual = matrix.Identity();
+
+		// Assert
+		Assert.Equal(expected, actual);
+	}
+
+	[Fact]
+	public void Multiply_ShouldReturnSame_WhenSquareMatrixMultipliedByIdentity()
+	{
+		// Arrange
+		Matrix matrix = new(
+			new double[4, 4]
+			{
+				{ 0, 1, 2, 4 },
+				{ 1, 2, 4, 8 },
+				{ 2, 4, 8, 16 },
+				{ 4, 8, 16, 32 }
+			});
+		Matrix identity = matrix.Identity();
+
+		// Act
+		var actual = matrix.Multiply(identity);
+
+		// Assert
+		Assert.Equal(matrix, actual);
+	}
+
+	[Fact]
+	public void Multiply_ShouldReturnSame_WhenRectangularMatrixMultipliedByIdentity()
+	{
+		// Arrange
+		Matrix matrix = new(
+			new double[2, 3]
+			{
+				{ 1, 2, 4 },
+				{ 2, 3, 5 },
+			});
+		Matrix identity = matrix.Identity();
+
+		// Act
+		var actual = matrix.Multiply(identity);
+
+		// Assert
+		Assert.Equal(matrix, actual);
+	}
 
     #region equality
     [Fact]

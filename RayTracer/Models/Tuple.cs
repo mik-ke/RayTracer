@@ -19,6 +19,19 @@ public abstract class Tuple
         W = w;
     }
 
+    /// <summary>
+    /// <see cref="Tuple"/> converted to a 4 x 1 <see cref="Matrix"/>.
+    /// </summary>
+    /// <param name="tuple"></param>
+    public static implicit operator Matrix(Tuple tuple) => new Matrix(
+        new double[4, 1]
+        {
+            { tuple.X },
+            { tuple.Y },
+            { tuple.Z },
+            { tuple.W }
+        });
+
     #region equality
     public sealed override bool Equals(object? obj) => Equals(obj as Tuple);
 

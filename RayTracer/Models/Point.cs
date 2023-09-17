@@ -6,7 +6,7 @@ public sealed class Point : Tuple
     {
     }
 
-    #region arithmetic operators
+    #region arithmetic operations
     /// <summary>
     /// Adds a <see cref="Vector"/> to the <see cref="Point"/>.
     /// </summary>

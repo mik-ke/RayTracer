@@ -13,6 +13,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TestPrograms", "TestProgram
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProjectileProgramPpm.CLI", "ProjectileProgramPpm.CLI\ProjectileProgramPpm.CLI.csproj", "{C1377A36-5609-4647-A7C6-3D74FED1999A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RayTracer.Common.Library", "RayTracer.Common.Library\RayTracer.Common.Library.csproj", "{74E9976A-13FD-47A2-81AA-7C7C4DD27F79}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,6 +37,10 @@ Global
 		{C1377A36-5609-4647-A7C6-3D74FED1999A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C1377A36-5609-4647-A7C6-3D74FED1999A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C1377A36-5609-4647-A7C6-3D74FED1999A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{74E9976A-13FD-47A2-81AA-7C7C4DD27F79}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{74E9976A-13FD-47A2-81AA-7C7C4DD27F79}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{74E9976A-13FD-47A2-81AA-7C7C4DD27F79}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{74E9976A-13FD-47A2-81AA-7C7C4DD27F79}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

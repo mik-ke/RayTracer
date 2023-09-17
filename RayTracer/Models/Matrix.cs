@@ -69,6 +69,50 @@ public sealed class Matrix
         _matrix[row, column] = value;
     }
 
+    #region arithmetic operations
+    /// <summary>
+    /// Returns a new <see cref="Matrix"/> that is the result of multiplying this by <paramref name="other"/>.
+    /// </summary>
+    /// <exception cref="ArgumentException">Thrown when the number of rows of <paramref name="other"/> is not equal to the number of this matrix's columns.</exception>
+    public Matrix Multiply(Matrix other)
+    {
+        if (NumberOfColumns != other.NumberOfRows)
+            throw new ArgumentException($"Cannot multiply a matrix with {NumberOfColumns} columns by a matrix with unequal number of rows ({other.NumberOfRows})!", nameof(other));
+        Matrix result = new(NumberOfRows, other.NumberOfColumns);
+        for (int row = 0; row < NumberOfRows; row++)
+            for (int column = 0; column < other.NumberOfColumns; column++)
+                result[row, column] = GetRowColumnDotProduct(row, column, other);
+
+        return result;
+    }
+    public static Matrix operator *(Matrix left, Matrix right) => left.Multiply(right);
+
+    /// <summary>
+    /// Returns the dot product of the given <paramref name="row"/> of this matrix and <paramref name="column"/> of <paramref name="other"/>.
+    /// </summary>
+    private double GetRowColumnDotProduct(int row, int column, Matrix other)
+    {
+        double dotProduct = 0;
+        for (int i = 0; i < NumberOfColumns; i++)
+            dotProduct += this[row, i] * other[i, column];
+
+        return dotProduct;
+    }
+    #endregion
+
+    /// <summary>
+    /// Returns the identity matrix of the <see cref="Matrix"/>.
+    /// </summary>
+    public Matrix Identity()
+    {
+        Matrix identity = new(NumberOfColumns, NumberOfColumns);
+        for (int i = 0; i < NumberOfColumns; i++)
+        {
+            identity[i, i] = 1;
+        }
+        return identity;
+    }
+
     #region equality
     public override bool Equals(object? obj) => Equals(obj as Matrix);
     public bool Equals(Matrix? other)

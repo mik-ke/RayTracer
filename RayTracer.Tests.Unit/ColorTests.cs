@@ -22,7 +22,7 @@ public class ColorTests
         Assert.Equal(b, color.B);
     }
 
-    #region arithmetic operators
+    #region arithmetic operations
     [Fact]
     public void Add_ShouldBeCorrect_WhenCalled()
     {

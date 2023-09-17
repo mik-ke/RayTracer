@@ -19,7 +19,7 @@ public sealed class Color
         B = b;
     }
 
-    #region arithmetic operators
+    #region arithmetic operations
     /// <summary>
     /// Adds a <see cref="Color"/> to another.
     /// </summary>
