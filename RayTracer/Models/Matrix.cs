@@ -4,7 +4,7 @@ using System.Text;
 namespace RayTracer.Models;
 
 /// <summary>
-/// Represents a matrix data structure
+/// Represents a matrix data structure.
 /// </summary>
 public sealed class Matrix
 {
@@ -63,9 +63,9 @@ public sealed class Matrix
     /// <exception cref="ArgumentOutOfRangeException">Thrown when row or column index is less than 0 or greater than or equal to the number of rows or columns, respectively.</exception>
     public void SetValue(int row, int column, double value)
     {
-        if (row < 0 || row >= NumberOfRows)
+        if (!IsRowInbounds(row))
             throw new ArgumentOutOfRangeException(nameof(row));
-        if (column < 0 || column >= NumberOfColumns)
+        if (!IsColumnInbounds(column))
             throw new ArgumentOutOfRangeException(nameof(column));
         _matrix[row, column] = value;
     }
@@ -127,13 +127,49 @@ public sealed class Matrix
     }
 
     /// <summary>
-    /// Returns the detrminant of the <see cref="Matrix"/>.
+    /// Returns the inverse of the <see cref="Matrix"/>.
     /// </summary>
-    /// <exception cref="InvalidOperationException">Thrown when the <see cref="Matrix"/> is rectangular.</exception>
+    /// <exception cref="InvalidOperationException">Thrown when the <see cref="Matrix"/> is noninvertible.</exception>
+    public Matrix Inverse()
+    {
+        if (!IsInvertible())
+            throw new InvalidOperationException("Cannot invert noninvertible matrix!");
+
+        int size = NumberOfRows;
+        Matrix inverse = new(size, size);
+        double determinant = Determinant();
+        for (int row = 0; row < size; row++)
+            for (int column = 0; column < size; column++)
+            {
+                double cofactor = Cofactor(row, column);
+
+                inverse[column, row] = cofactor / determinant;
+            }
+
+        return inverse;
+    }
+
+    /// <summary>
+    /// Checks if the matrix is invertible.
+    /// </summary>
+    /// <returns>True if invertible, false otherwise.</returns>
+    public bool IsInvertible()
+    {
+        if (NumberOfRows != NumberOfColumns || NumberOfRows < 1) return false;
+
+        return Determinant() != 0;
+    }
+
+    /// <summary>
+    /// Returns the determinant of the <see cref="Matrix"/>.
+    /// </summary>
+    /// <exception cref="InvalidOperationException">Thrown when the <see cref="Matrix"/> is rectangular or of size 0.</exception>
     public double Determinant()
     {
         if (NumberOfRows != NumberOfColumns)
             throw new InvalidOperationException("Cannot calculate determinant for a rectangular matrix!");
+        if (NumberOfRows < 1)
+            throw new InvalidOperationException("Cannot calculate determinant for 0x0 matrix!");
 
         if (NumberOfRows == 2)
             return this[0, 0] * this[1, 1] - this[0, 1] * this[1, 0];
