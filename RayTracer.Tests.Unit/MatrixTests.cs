@@ -290,6 +290,55 @@ public class MatrixTests
 		Assert.Equal(matrix, actual);
 	}
 
+	[Fact]
+	public void Transpose_ShouldBeCorrect_WhenCalled()
+	{
+		// Arrange
+		Matrix matrix = new(
+			new double[4, 4]
+			{
+				{ 0, 9, 3, 0 },
+				{ 9, 8, 0, 8 },
+				{ 1, 8, 5, 3 },
+				{ 0, 0, 5, 8 }
+			});
+		Matrix expected = new(
+			new double[4, 4]
+			{
+				{ 0, 9, 1, 0 },
+				{ 9, 8, 8, 0 },
+				{ 3, 0, 5, 5 },
+				{ 0, 8, 3, 8 }
+			});
+
+		// Act
+		var actual = matrix.Transpose();
+
+		// Assert
+		Assert.Equal(expected, actual);
+	}
+
+	[Fact]
+	public void Transpose_ShouldReturnIdentityMatrix_WhenCalledOnIdentityMatrix()
+	{
+		// Arrange
+		Matrix matrix = new(
+			new double[4, 4]
+			{
+				{ 0, 9, 3, 0 },
+				{ 9, 8, 0, 8 },
+				{ 1, 8, 5, 3 },
+				{ 0, 0, 5, 8 }
+			});
+		var identity = matrix.Identity();
+
+		// Act
+		var actual = identity.Transpose();
+
+		// Assert
+		Assert.Equal(identity, actual);
+	}
+
     #region equality
     [Fact]
 	public void HasSameDimensions_ShouldReturnTrue_WhenSameRowAndColumnCount()

@@ -1,4 +1,5 @@
 ﻿using RayTracer.Extensions;
+using System.Text;
 
 namespace RayTracer.Models;
 
@@ -113,6 +114,18 @@ public sealed class Matrix
         return identity;
     }
 
+    /// <summary>
+    /// Returns the transpose of the <see cref="Matrix"/>.
+    /// </summary>
+    public Matrix Transpose()
+    {
+        Matrix transpose = new(NumberOfColumns, NumberOfRows);
+        for (int row = 0; row < NumberOfRows; row++)
+            for (int column = 0; column < NumberOfColumns; column++)
+                transpose[column, row] = this[row, column];
+        return transpose;
+    }
+
     #region equality
     public override bool Equals(object? obj) => Equals(obj as Matrix);
     public bool Equals(Matrix? other)
@@ -169,4 +182,19 @@ public sealed class Matrix
         return !left!.Equals(right);
     }
     #endregion
+
+    public override string ToString()
+    {
+        StringBuilder stringBuilder = new();
+        for (int row = 0; row < NumberOfRows; row++)
+        {
+            for (int column = 0; column < NumberOfColumns; column++)
+            {
+                stringBuilder.Append(this[row, column]);
+                if (column != NumberOfColumns - 1) stringBuilder.Append(' ');
+            }
+            if (row != NumberOfRows - 1) stringBuilder.AppendLine();
+        }
+        return stringBuilder.ToString();
+    }
 }
