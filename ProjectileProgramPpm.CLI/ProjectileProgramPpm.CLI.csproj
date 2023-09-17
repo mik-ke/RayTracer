@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ProjectileProgram\ProjectileProgram.CLI.csproj" />
+    <ProjectReference Include="..\ProjectileProgram.CLI\ProjectileProgram.CLI.csproj" />
   </ItemGroup>
 
 </Project>
