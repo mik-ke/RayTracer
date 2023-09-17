@@ -339,6 +339,268 @@ public class MatrixTests
 		Assert.Equal(identity, actual);
 	}
 
+	[Fact]
+	public void Determinant_ShouldWork_WhenCalledForTwoByTwoMatrix()
+	{
+		// Arrange
+		Matrix matrix = new(
+			new double[2, 2]
+			{
+				{ 1, 5 },
+				{ -3, 2 }
+			});
+		const double expected = 17;
+
+		// Act
+		var actual = matrix.Determinant();
+
+		// Assert
+		Assert.Equal(expected, actual);
+	}
+
+	[Fact]
+	public void Determinant_ShouldWork_WhenCalledForThreeByThreeMatrix()
+	{
+		// Arrange
+		Matrix matrix = new(
+			new double[3, 3]
+			{
+				{ 1, 2, 6 },
+				{ -5, 8, -4 },
+				{ 2, 6, 4 }
+			});
+		const double expected = -196;
+
+		// Act
+		var actual = matrix.Determinant();
+
+		// Assert
+		Assert.Equal(expected, actual);
+	}
+
+	[Fact]
+	public void Determinant_ShouldWork_WhenCalledForFourByFourMatrix()
+	{
+		// Arrange
+		Matrix matrix = new(
+			new double[4, 4]
+			{
+				{ -2, -8, 3, 5 },
+				{ -3, 1, 7, 3 },
+				{ 1, 2, -9, 6 },
+				{ -6, 7, 7, -9 }
+			});
+		const double expected = -4071;
+
+		// Act
+		var actual = matrix.Determinant();
+
+		// Assert
+		Assert.Equal(expected, actual);
+	}
+
+	[Fact]
+	public void Determinant_ShouldThrowInvalidOperationException_WhenCalledForRectangularMatrix()
+	{
+		// Arrange
+		Matrix matrix = new(4, 5);
+
+		// Act
+		Exception e = Record.Exception(() => matrix.Determinant());
+
+		// Assert
+		Assert.IsType<InvalidOperationException>(e);
+	}
+
+	[Fact]
+	public void Submatrix_ShouldReturnCorrectTwoByTwoMatrix_WhenCalledForThreeByThreeMatrix()
+	{
+		// Arrange
+		Matrix matrix = new(
+			new double[3, 3]
+			{
+				{ 1, 5, 0 },
+				{ -3, 2, 7 },
+				{ 0, 6, -3 }
+			});
+		Matrix expected = new(
+			new double[2, 2]
+			{
+				{ -3, 2 },
+				{ 0, 6 }
+			});
+		const int rowToRemove = 0;
+		const int columnToRemove = 2;
+
+		// Act
+		var actual = matrix.Submatrix(rowToRemove, columnToRemove);
+
+		// Assert
+		Assert.Equal(expected, actual);
+	}
+
+	[Fact]
+	public void Submatrix_ShouldReturnCorrectThreeByThreeMatrix_WhenCalledForFourByFourMatrix()
+	{
+		// Arrange
+		Matrix matrix = new(
+			new double[4, 4]
+			{
+				{ -6, 1, 1, 6 },
+				{ -8, 5, 8, 6 },
+				{ -1, 0, 8, 2 },
+				{ -7, 1, -1, 1 }
+			});
+		Matrix expected = new(
+			new double[3, 3]
+			{
+				{ -6, 1, 6 },
+				{ -8, 8, 6 },
+				{ -7, -1, 1 }
+			});
+		const int rowToRemove = 2;
+		const int columnToRemove = 1;
+
+		// Act
+		var actual = matrix.Submatrix(rowToRemove, columnToRemove);
+
+		// Assert
+		Assert.Equal(expected, actual);
+	}
+
+	[Theory]
+	[InlineData(1, 2)]
+	[InlineData(2, 1)]
+	[InlineData(1, 1)]
+	public void Submatrix_ShouldThrowInvalidOperationException_WhenMatrixHasOneRowAndOrColumn(int numberOfRows, int numberOfColumns)
+	{
+		// Arrange
+		Matrix matrix = new(numberOfRows, numberOfColumns);
+
+		// Act
+		Exception e = Record.Exception(() => matrix.Submatrix(0, 0));
+
+		// Assert
+		Assert.IsType<InvalidOperationException>(e);
+	}
+
+	[Theory]
+	[InlineData(-1, 0)]
+	[InlineData(10, 0)]
+	[InlineData(0, -1)]
+	[InlineData(0, 20)]
+	public void Submatrix_ShouldThrowArgumentOutOfRangeException_WhenRowAndOrColumnOutOfBounds(int row, int column)
+	{
+		// Arrange
+		Matrix matrix = new(10, 20);
+
+		// Act
+		Exception e = Record.Exception(() => matrix.Submatrix(row, column));
+
+		// Assert
+		Assert.IsType<ArgumentOutOfRangeException>(e);
+	}
+
+	[Fact]
+	public void Minor_ShouldBeCorrect_WhenCalled()
+	{
+		// Arrange
+		Matrix matrix = new(
+			new double[3, 3]
+			{
+				{ 3, 5, 0 },
+				{ 2, -1, -7 },
+				{ 6, -1, 5 }
+			});
+		const int row = 1;
+		const int column = 0;
+		double expected = 25;
+
+		// Act
+		double actual = matrix.Minor(row, column);
+
+		// Assert
+		Assert.Equal(expected, actual);
+	}
+
+	[Fact]
+	public void Minor_ShouldBeEqualToDeterminantOfSubmatrix_WhenCalledForSameRowColumn()
+	{
+		// Arrange
+		Matrix matrix = new(
+			new double[3, 3]
+			{
+				{ 3, 5, 0 },
+				{ 2, -1, -7 },
+				{ 6, -1, 5 }
+			});
+		const int row = 1;
+		const int column = 0;
+		var submatrix = matrix.Submatrix(row, column);
+		var determinant = submatrix.Determinant();
+
+		// Act
+		double actual = matrix.Minor(row, column);
+
+		// Assert
+		Assert.Equal(determinant, actual);
+	}
+
+	[Theory]
+	[InlineData(-1, 0)]
+	[InlineData(10, 0)]
+	[InlineData(0, -1)]
+	[InlineData(0, 20)]
+	public void Minor_ShouldThrowArgumentOutOfRangeException_WhenRowAndOrColumnOutOfBounds(int row, int column)
+	{
+		// Arrange
+		Matrix matrix = new(10, 20);
+
+		// Act
+		Exception e = Record.Exception(() => matrix.Minor(row, column));
+
+		// Assert
+		Assert.IsType<ArgumentOutOfRangeException>(e);
+	}
+
+	[Theory]
+	[InlineData(0, 0, -12)]
+	[InlineData(1, 0, -25)]
+	public void Cofactor_ShouldBeCorrect_WhenCalled(int row, int column, double expected)
+	{
+		// Arrange
+		Matrix matrix = new(
+			new double[3, 3]
+			{
+				{ 3, 5, 0 },
+				{ 2, -1, -7 },
+				{ 6, -1, 5 }
+			});
+
+		// Act
+		var actual = matrix.Cofactor(row, column);
+
+		// Assert
+		Assert.Equal(expected, actual);
+	}
+
+	[Theory]
+	[InlineData(-1, 0)]
+	[InlineData(10, 0)]
+	[InlineData(0, -1)]
+	[InlineData(0, 20)]
+	public void Cofactor_ShouldThrowArgumentOutOfRangeException_WhenRowAndOrColumnOutOfBounds(int row, int column)
+	{
+		// Arrange
+		Matrix matrix = new(10, 20);
+
+		// Act
+		Exception e = Record.Exception(() => matrix.Cofactor(row, column));
+
+		// Assert
+		Assert.IsType<ArgumentOutOfRangeException>(e);
+	}
+
     #region equality
     [Fact]
 	public void HasSameDimensions_ShouldReturnTrue_WhenSameRowAndColumnCount()

@@ -18,13 +18,13 @@ public sealed class Matrix
     #endregion
 
     /// <summary>
-    /// Creates a <paramref name="numRows"/> x <paramref name="numColumns"/> matrix data structure with default double values.
+    /// Creates a <paramref name="numberOfRows"/> x <paramref name="numberOfColumns"/> matrix data structure with default double values.
     /// </summary>
-    public Matrix(int numRows, int numColumns)
+    public Matrix(int numberOfRows, int numberOfColumns)
     {
-        _matrix = new double[numRows, numColumns];
-        NumberOfRows = numRows;
-        NumberOfColumns = numColumns;
+        _matrix = new double[numberOfRows, numberOfColumns];
+        NumberOfRows = numberOfRows;
+        NumberOfColumns = numberOfColumns;
     }
 
     /// <summary>
@@ -50,9 +50,9 @@ public sealed class Matrix
     /// <exception cref="ArgumentOutOfRangeException">Thrown when row or column index is less than 0 or greater than or equal to the number of rows or columns, respectively.</exception>
     public double GetValue(int row, int column)
     {
-        if (row < 0 || row >= NumberOfRows)
+        if (!IsRowInbounds(row))
             throw new ArgumentOutOfRangeException(nameof(row));
-        if (column < 0 || column >= NumberOfColumns)
+        if (!IsColumnInbounds(column))
             throw new ArgumentOutOfRangeException(nameof(column));
         return _matrix[row, column];
     }
@@ -126,6 +126,98 @@ public sealed class Matrix
         return transpose;
     }
 
+    /// <summary>
+    /// Returns the detrminant of the <see cref="Matrix"/>.
+    /// </summary>
+    /// <exception cref="InvalidOperationException">Thrown when the <see cref="Matrix"/> is rectangular.</exception>
+    public double Determinant()
+    {
+        if (NumberOfRows != NumberOfColumns)
+            throw new InvalidOperationException("Cannot calculate determinant for a rectangular matrix!");
+
+        if (NumberOfRows == 2)
+            return this[0, 0] * this[1, 1] - this[0, 1] * this[1, 0];
+
+        double determinant = 0;
+        for (int column = 0; column < NumberOfColumns; column++)
+            determinant += this[0, column] * Cofactor(0, column);
+
+        return determinant;
+    }
+
+    /// <summary>
+    /// Returns the submatrix of this <see cref="Matrix"/> after removing the given <paramref name="rowToRemove"/> and <paramref name="columnToRemove"/>.
+    /// </summary>
+    /// <exception cref="InvalidOperationException">Thrown when <paramref name="rowToRemove"/> or <paramref name="columnToRemove"/> is one.</exception>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="rowToRemove"/> or <paramref name="columnToRemove"/> is out of bounds.</exception>
+    public Matrix Submatrix(int rowToRemove, int columnToRemove)
+    {
+        if (NumberOfRows == 1 || NumberOfColumns == 1)
+            throw new InvalidOperationException("Cannot create a submatrix from a matrix with a single row and/or column!");
+        if (!IsRowInbounds(rowToRemove))
+            throw new ArgumentOutOfRangeException(nameof(rowToRemove));
+        if (!IsColumnInbounds(columnToRemove))
+            throw new ArgumentOutOfRangeException(nameof(columnToRemove));
+
+        Matrix submatrix = new(NumberOfRows - 1, NumberOfColumns - 1);
+        bool rowRemoved = false;
+        for (int row = 0; row < NumberOfRows; row++)
+        {
+            if (row == rowToRemove)
+            {
+                rowRemoved = true;
+                continue;
+            }
+
+            bool columnRemoved = false;
+            for (int column = 0; column < NumberOfColumns; column++)
+            {
+                if (column == columnToRemove)
+                {
+                    columnRemoved = true;
+                    continue;
+                }
+                var submatrixRow = rowRemoved ? row - 1 : row;
+                var submatrixColumn = columnRemoved ? column - 1 : column;
+                submatrix[submatrixRow, submatrixColumn] = this[row, column];
+            }
+        }
+
+        return submatrix;
+    }
+
+    /// <summary>
+    /// Returns the minor of the <see cref="Matrix"/> at <paramref name="row"/>, <paramref name="column"/>.
+    /// </summary>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="row"/> or <paramref name="column"/> is out of bounds.</exception>
+    public double Minor(int row, int column)
+    {
+        if (!IsRowInbounds(row))
+            throw new ArgumentOutOfRangeException(nameof(row));
+        if (!IsColumnInbounds(column))
+            throw new ArgumentOutOfRangeException(nameof(column));
+
+        return Submatrix(row, column).Determinant();
+    }
+
+    /// <summary>
+    /// Returns the cofactor of the <see cref="Matrix"/> at <paramref name="row"/>, <paramref name="column"/>
+    /// </summary>
+    /// <exception cref="ArgumentOutOfRangeException"></exception>
+    public double Cofactor(int row, int column)
+    {
+        if (!IsRowInbounds(row))
+            throw new ArgumentOutOfRangeException(nameof(row));
+        if (!IsColumnInbounds(column))
+            throw new ArgumentOutOfRangeException(nameof(column));
+
+        var minor = Minor(row, column);
+        bool isSignChanged = (row + column) % 2 != 0;
+        if (isSignChanged) minor *= -1;
+
+        return minor;
+    }
+
     #region equality
     public override bool Equals(object? obj) => Equals(obj as Matrix);
     public bool Equals(Matrix? other)
@@ -182,6 +274,24 @@ public sealed class Matrix
         return !left!.Equals(right);
     }
     #endregion
+
+    /// <summary>
+    /// Checks if <paramref name="row"/> is inbounds for the matrix.
+    /// </summary>
+    /// <return>True if inbounds, false otherwise</return>
+    private bool IsRowInbounds(int row)
+    {
+        return row >= 0 && row < NumberOfRows;
+    }
+
+    /// <summary>
+    /// Checks if <paramref name="column"/> is inbounds for the matrix.
+    /// </summary>
+    /// <return>True if inbounds, false otherwise</return>
+    private bool IsColumnInbounds(int column)
+    {
+        return column >= 0 && column < NumberOfColumns;
+    }
 
     public override string ToString()
     {
