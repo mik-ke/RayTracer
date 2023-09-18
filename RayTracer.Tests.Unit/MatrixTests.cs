@@ -828,6 +828,112 @@ public class MatrixTests
 		Assert.IsType<InvalidOperationException>(e);
 	}
 
+	[Fact]
+	public void Translation_ShouldMovePointsForward_WhenTransformMultipliedByPoint()
+	{
+		// Arrange
+		Matrix transform = Matrix.Translation(5, -3, 2);
+		Point point = new(-3, 4, 5);
+		Point expected = new(2, 1, 7);
+
+		// Act
+		var actual = transform * point;
+
+		// Assert
+		Assert.Equal(expected, actual);
+	}
+
+	[Fact]
+	public void Translation_ShouldMovePointsInReverse_WhenInverseTransformMultipliedByPoint()
+	{
+		// Arrange
+		Matrix transform = Matrix.Translation(5, -3, 2);
+		Matrix inverse = transform.Inverse();
+		Point point = new(-3, 4, 5);
+		Point expected = new(-8, 7, 3);
+
+		// Act
+		var actual = inverse * point;
+
+		// Assert
+		Assert.Equal(expected, actual);
+	}
+
+	[Fact]
+	public void Translation_ShouldNotChangeVector_WhenTransformMultipliedByVector()
+	{
+		// Arrange
+		Matrix transform = Matrix.Translation(5, -3, 2);
+		Vector vector = new(-3, 4, 5);
+
+		// Act
+		var actual = transform * vector;
+
+		// Assert
+		Assert.Equal(vector, actual);
+	}
+
+	[Fact]
+	public void Scaling_ShouldScalePointCorrectly_WhenMultipliedByPoint()
+	{
+		// Arrange
+		Matrix transform = Matrix.Scaling(2, 3, 4);
+		Point point = new(-4, 6, 8);
+		Point expected = new(-8, 18, 32);
+
+		// Act
+		var actual = transform * point;
+
+		// Assert
+		Assert.Equal(expected, actual);
+	}
+
+	[Fact]
+	public void Scaling_ShouldScaleVectorCorrectly_WhenMultipliedByVector()
+	{
+		// Arrange
+		Matrix transform = Matrix.Scaling(2, 3, 4);
+		Vector vector = new(-4, 6, 8);
+		Vector expected = new(-8, 18, 32);
+
+		// Act
+		var actual = transform * vector;
+
+		// Assert
+		Assert.Equal(expected, actual);
+	}
+
+	[Fact]
+	public void Scaling_ShouldShrinkVectorCorrectly_WhenScalingInverseMultipliedByVector()
+	{
+		// Arrange
+		Matrix transform = Matrix.Scaling(2, 3, 4);
+		Matrix inverse = transform.Inverse();
+		Vector vector = new(-4, 6, 8);
+		Vector expected = new(-2, 2, 2);
+
+		// Act
+		var actual = inverse * vector;
+
+		// Assert
+		Assert.Equal(expected, actual);
+	}
+
+	[Fact]
+	public void Scaling_ShouldReflectPointCorrectly_WhenMultipliedByPoint()
+	{
+		// Arrange
+		Matrix transform = Matrix.Scaling(-1, 1, 1);
+		Point point = new(2, 3, 4);
+		Point expected = new(-2, 3, 4);
+
+		// Act
+		var actual = transform * point;
+
+		// Assert
+		Assert.Equal(expected, actual);
+	}
+
     #region equality
     [Fact]
 	public void HasSameDimensions_ShouldReturnTrue_WhenSameRowAndColumnCount()

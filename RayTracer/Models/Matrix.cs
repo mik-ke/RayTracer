@@ -17,6 +17,52 @@ public sealed class Matrix
     public int NumberOfColumns { get; init; }
     #endregion
 
+    #region static
+    /// <summary>
+    /// Returns a new identity <see cref="Matrix"/> of the given <paramref name="size"/>.
+    /// </summary>
+    public static Matrix Identity(int size)
+    {
+        Matrix identity = new Matrix(size, size);
+        for (int i = 0; i < size; i++)
+        {
+            identity[i, i] = 1;
+        }
+        return identity;
+    }
+
+    /// <summary>
+    /// Returns a new 4x4 translation <see cref="Matrix"/> with the given values <paramref name="x"/>, <paramref name="y"/> and <paramref name="z"/>.
+    /// </summary>
+    public static Matrix Translation(int x, int y, int z)
+    {
+        return new Matrix(
+            new double[4, 4]
+            {
+                { 1, 0, 0, x },
+                { 0, 1, 0, y },
+                { 0, 0, 1, z },
+                { 0, 0, 0, 1 }
+            });
+    }
+
+    /// <summary>
+    /// Returns a new 4x4 scaling <see cref="Matrix"/> with the given values <paramref name="x"/>, <paramref name="y"/> and <paramref name="z"/>.
+    /// </summary>
+    public static Matrix Scaling(int x, int y, int z)
+    {
+        return new Matrix(
+            new double[4, 4]
+            {
+                { x, 0, 0, 0 },
+                { 0, y, 0, 0 },
+                { 0, 0, z, 0 },
+                { 0, 0, 0, 1 },
+            });
+    }
+    #endregion
+
+
     /// <summary>
     /// Creates a <paramref name="numberOfRows"/> x <paramref name="numberOfColumns"/> matrix data structure with default double values.
     /// </summary>
@@ -106,12 +152,7 @@ public sealed class Matrix
     /// </summary>
     public Matrix Identity()
     {
-        Matrix identity = new(NumberOfColumns, NumberOfColumns);
-        for (int i = 0; i < NumberOfColumns; i++)
-        {
-            identity[i, i] = 1;
-        }
-        return identity;
+        return Identity(NumberOfColumns);
     }
 
     /// <summary>
