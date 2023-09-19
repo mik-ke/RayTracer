@@ -62,6 +62,53 @@ public sealed class Matrix
     }
     #endregion
 
+    #region rotation
+    /// <summary>
+    /// Returns a new 4x4 <see cref="Matrix"/> for rotating tuples <paramref name="rotationRadians"/> around the x axis.
+    /// </summary>
+    public static Matrix RotationX(double rotationRadians)
+    {
+        return new Matrix(
+            new double[4, 4]
+            {
+                { 1, 0, 0, 0 },
+                { 0, Math.Cos(rotationRadians), -Math.Sin(rotationRadians), 0 },
+                { 0, Math.Sin(rotationRadians), Math.Cos(rotationRadians), 0 },
+                { 0, 0, 0, 1 }
+            });
+    }
+
+    /// <summary>
+    /// Returns a new 4x4 <see cref="Matrix"/> for rotating tuples <paramref name="rotationRadians"/> around the y axis.
+    /// </summary>
+    public static Matrix RotationY(double rotationRadians)
+    {
+        return new Matrix(
+            new double[4, 4]
+            {
+                { Math.Cos(rotationRadians), 0, Math.Sin(rotationRadians), 0 },
+                { 0, 1, 0, 0},
+                { -Math.Sin(rotationRadians), 0, Math.Cos(rotationRadians), 0 },
+                { 0, 0, 0, 1 }
+            });
+    }
+
+    /// <summary>
+    /// Returns a new 4x4 <see cref="Matrix"/> for rotating tuples <paramref name="rotationRadians"/> around the z axis.
+    /// </summary>
+    public static Matrix RotationZ(double rotationRadians)
+    {
+        return new Matrix(
+            new double[4, 4]
+            {
+                { Math.Cos(rotationRadians), -Math.Sin(rotationRadians), 0, 0 },
+                { Math.Sin(rotationRadians), Math.Cos(rotationRadians), 0, 0 },
+                { 0, 0, 1, 0},
+                { 0, 0, 0, 1 }
+            });
+    }
+    #endregion
+
 
     /// <summary>
     /// Creates a <paramref name="numberOfRows"/> x <paramref name="numberOfColumns"/> matrix data structure with default double values.

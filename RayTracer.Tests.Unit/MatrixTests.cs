@@ -934,6 +934,99 @@ public class MatrixTests
 		Assert.Equal(expected, actual);
 	}
 
+	[Theory]
+	[MemberData(nameof(RotationXData))]
+	public void RotationX_ShouldMovePointCorrectly_WhenMultipliedByPoint(double rotation, Point expected)
+	{
+		// Arrange
+		Point point = new(0, 1, 0);
+		Matrix rotationMatrix = Matrix.RotationX(rotation);
+
+		// Act
+		var actual = rotationMatrix * point;
+
+		// Assert
+		Assert.Equal(expected, actual);
+	}
+	public static IEnumerable<object[]> RotationXData =
+		new List<object[]>
+	{
+		new object[] {
+			Math.PI / 4, new Point(0, Math.Sqrt(2) / 2, Math.Sqrt(2) / 2)
+		},
+		new object[] {
+			Math.PI / 2, new Point(0, 0, 1)
+		}
+	};
+
+	[Fact]
+	public void RotationX_ShouldMovePointInverse_WhenInverseRotationMultipliedByPoint()
+	{
+		// Arrange
+		Point point = new(0, 1, 0);
+		const double rotation = Math.PI / 4;
+		Matrix rotationMatrix = Matrix.RotationX(rotation);
+		Matrix inverse = rotationMatrix.Inverse();
+		Point expected = new(0, Math.Sqrt(2) / 2, -Math.Sqrt(2) / 2);
+
+		// Act
+		var actual = inverse * point;
+
+		// Assert
+		Assert.Equal(expected, actual);
+	}
+
+	[Theory]
+	[MemberData(nameof(RotationYData))]
+	public void RotationY_ShouldMovePointCorrectly_WhenMultipliedByPoint(double rotation, Point expected)
+	{
+		// Arrange
+		Point point = new(0, 0, 1);
+		Matrix rotationMatrix = Matrix.RotationY(rotation);
+
+		// Act
+		var actual = rotationMatrix * point;
+
+		// Assert
+		Assert.Equal(expected, actual);
+	}
+	public static IEnumerable<object[]> RotationYData =
+		new List<object[]>
+	{
+		new object[] {
+			Math.PI / 4, new Point(Math.Sqrt(2) / 2, 0, Math.Sqrt(2) / 2)
+		},
+		new object[] {
+			Math.PI / 2, new Point(1, 0, 0)
+		}
+	};
+
+	[Theory]
+	[MemberData(nameof(RotationZData))]
+	public void RotationZ_ShouldMovePointCorrectly_WhenMultipliedByPoint(double rotation, Point expected)
+	{
+		// Arrange
+		Point point = new(0, 1, 0);
+		Matrix rotationMatrix = Matrix.RotationZ(rotation);
+
+		// Act
+		var actual = rotationMatrix * point;
+
+		// Assert
+		Assert.Equal(expected, actual);
+	}
+	public static IEnumerable<object[]> RotationZData =
+		new List<object[]>
+	{
+		new object[] {
+			Math.PI / 4, new Point(-Math.Sqrt(2) / 2, Math.Sqrt(2) / 2, 0)
+		},
+		new object[] {
+			Math.PI / 2, new Point(-1, 0, 0)
+		}
+	};
+
+
     #region equality
     [Fact]
 	public void HasSameDimensions_ShouldReturnTrue_WhenSameRowAndColumnCount()
