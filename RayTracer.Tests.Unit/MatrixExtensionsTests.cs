@@ -1,0 +1,25 @@
+﻿using RayTracer.Extensions;
+using RayTracer.Models;
+
+namespace RayTracer.Tests.Unit;
+
+public class MatrixExtensionsTests
+{
+    [Fact]
+    public void ChainedTransformations_ShouldWork_WhenMultipliedByPoint()
+    {
+        // Arrange
+        Point point = new(1, 0, 1);
+        Point expected = new(15, 0, 7);
+
+        // Act
+        var transform = Matrix.Identity(4)
+            .Translate(10, 5, 7)
+            .Scale(5, 5, 5)
+            .RotateX(Math.PI / 2);
+        var actual = transform * point;
+
+        // Assert
+        Assert.Equal(actual, expected);
+    }
+}
