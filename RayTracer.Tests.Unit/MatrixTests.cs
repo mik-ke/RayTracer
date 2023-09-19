@@ -1026,6 +1026,133 @@ public class MatrixTests
 		}
 	};
 
+	[Fact]
+	public void Shearing_ShouldMovePointCorrectly_WhenXProportionToYMultipliedByPoint()
+	{
+		// Arrange
+		Matrix transform = Matrix.Shearing(1, 0, 0, 0, 0, 0);
+		Point point = new(2, 3, 4);
+		Point expected = new(5, 3, 4);
+
+		// Act
+		var actual = transform * point;
+
+		// Assert
+		Assert.Equal(expected, actual);
+	}
+
+	[Fact]
+	public void Shearing_ShouldMovePointCorrectly_WhenXProportionToZMultipliedByPoint()
+	{
+		// Arrange
+		Matrix transform = Matrix.Shearing(0, 1, 0, 0, 0, 0);
+		Point point = new(2, 3, 4);
+		Point expected = new(6, 3, 4);
+
+		// Act
+		var actual = transform * point;
+
+		// Assert
+		Assert.Equal(expected, actual);
+	}
+
+	[Fact]
+	public void Shearing_ShouldMovePointCorrectly_WhenYProportionToXMultipliedByPoint()
+	{
+		// Arrange
+		Matrix transform = Matrix.Shearing(0, 0, 1, 0, 0, 0);
+		Point point = new(2, 3, 4);
+		Point expected = new(2, 5, 4);
+
+		// Act
+		var actual = transform * point;
+
+		// Assert
+		Assert.Equal(expected, actual);
+	}
+
+	[Fact]
+	public void Shearing_ShouldMovePointCorrectly_WhenYProportionToZMultipliedByPoint()
+	{
+		// Arrange
+		Matrix transform = Matrix.Shearing(0, 0, 0, 1, 0, 0);
+		Point point = new(2, 3, 4);
+		Point expected = new(2, 7, 4);
+
+		// Act
+		var actual = transform * point;
+
+		// Assert
+		Assert.Equal(expected, actual);
+	}
+
+	[Fact]
+	public void Shearing_ShouldMovePointCorrectly_WhenZProportionToXMultipliedByPoint()
+	{
+		// Arrange
+		Matrix transform = Matrix.Shearing(0, 0, 0, 0, 1, 0);
+		Point point = new(2, 3, 4);
+		Point expected = new(2, 3, 6);
+
+		// Act
+		var actual = transform * point;
+
+		// Assert
+		Assert.Equal(expected, actual);
+	}
+
+	[Fact]
+	public void Shearing_ShouldMovePointCorrectly_WhenZProportionToYMultipliedByPoint()
+	{
+		// Arrange
+		Matrix transform = Matrix.Shearing(0, 0, 0, 0, 0, 1);
+		Point point = new(2, 3, 4);
+		Point expected = new(2, 3, 7);
+
+		// Act
+		var actual = transform * point;
+
+		// Assert
+		Assert.Equal(expected, actual);
+	}
+
+	[Fact]
+	public void IndividualTransformations_ShouldWork_WhenAppliedInSequence()
+	{
+		// Arrange
+		Point point = new(1, 0, 1);
+		Matrix rotation = Matrix.RotationX(Math.PI / 2);
+		Matrix scaling = Matrix.Scaling(5, 5, 5);
+		Matrix translation = Matrix.Translation(10, 5, 7);
+		Point expected = new(15, 0, 7);
+
+		// Act
+		var rotated = rotation * point;
+		var scaled = scaling * rotated;
+		var translated = translation * scaled;
+
+
+		// Assert
+		Assert.Equal(expected, translated);
+	}
+
+	[Fact]
+	public void ChainedTransformations_ShouldWork_WhenAppliedInReverseOrder()
+	{
+		// Arrange
+		Point point = new(1, 0, 1);
+		Matrix rotation = Matrix.RotationX(Math.PI / 2);
+		Matrix scaling = Matrix.Scaling(5, 5, 5);
+		Matrix translation = Matrix.Translation(10, 5, 7);
+		Point expected = new(15, 0, 7);
+
+		// Act
+		var transformed = translation * scaling * rotation * point;
+
+
+		// Assert
+		Assert.Equal(expected, transformed);
+	}
 
     #region equality
     [Fact]

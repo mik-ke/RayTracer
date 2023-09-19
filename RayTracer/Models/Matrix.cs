@@ -17,7 +17,6 @@ public sealed class Matrix
     public int NumberOfColumns { get; init; }
     #endregion
 
-    #region static
     /// <summary>
     /// Returns a new identity <see cref="Matrix"/> of the given <paramref name="size"/>.
     /// </summary>
@@ -31,6 +30,7 @@ public sealed class Matrix
         return identity;
     }
 
+    #region transformations
     /// <summary>
     /// Returns a new 4x4 translation <see cref="Matrix"/> with the given values <paramref name="x"/>, <paramref name="y"/> and <paramref name="z"/>.
     /// </summary>
@@ -58,6 +58,21 @@ public sealed class Matrix
                 { 0, y, 0, 0 },
                 { 0, 0, z, 0 },
                 { 0, 0, 0, 1 },
+            });
+    }
+
+    /// <summary>
+    /// Returns a new 4x4 <see cref="Matrix"/> for shear transformation based on the _ in proportion to _ parameters.
+    /// </summary>
+    public static Matrix Shearing(int xy, int xz, int yx, int yz, int zx, int zy)
+    {
+        return new Matrix(
+            new double[4, 4]
+            {
+                { 1,  xy, xz, 0 },
+                { yx, 1,  yz, 0 },
+                { zx, zy, 1,  0 },
+                { 0,  0,  0,  1}
             });
     }
     #endregion
