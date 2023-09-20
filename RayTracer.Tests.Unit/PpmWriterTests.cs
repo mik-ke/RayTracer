@@ -1,11 +1,12 @@
-﻿using RayTracer.Models;
+﻿using RayTracer.Extensions;
+using RayTracer.Models;
 using RayTracer.Utilities;
 namespace RayTracer.Tests.Unit;
 
 public class PpmWriterTests
 {
 	[Fact]
-	public async Task GetPpmString_ShouldHaveCorrectHeader()
+	public async Task GetAsPpmString_ShouldHaveCorrectHeader()
 	{
 		// Arrange
 		const int width = 5;
@@ -18,7 +19,7 @@ public class PpmWriterTests
 		PpmWriter writer = new();
 
 		// Act
-		string ppm = await writer.GetPpmStringAsync(canvas);
+		string ppm = await canvas.GetAsPpmString(writer);
 		string[] ppmByLine = ppm.Split(Environment.NewLine);
 		string actualHeader = string.Join(Environment.NewLine, ppmByLine[0..3]);
 
@@ -27,7 +28,7 @@ public class PpmWriterTests
 	}
 
 	[Fact]
-	public async Task GetPpmString_ShouldHaveClampedPixelData_WhenColorValueOutsideScaleBounds()
+	public async Task GetAsPpmString_ShouldHaveClampedPixelData_WhenColorValueOutsideScaleBounds()
 	{
 		// Arrange
 		PpmWriter writer = new();
@@ -44,7 +45,7 @@ public class PpmWriterTests
 0 0 0 0 0 0 0 0 0 0 0 0 0 0 255";
 
 		// Act
-		string ppm = await writer.GetPpmStringAsync(canvas);
+		string ppm = await canvas.GetAsPpmString(writer);
 		string[] ppmByLine = ppm.Split(Environment.NewLine);
 		string actualPixelData = string.Join(Environment.NewLine, ppmByLine[3..6]);
 
@@ -53,7 +54,7 @@ public class PpmWriterTests
 	}
 
 	[Fact]
-	public async void GetPpmString_ShouldSplitPixelData_WhenLinesLongerThanMaxLineLength()
+	public async void GetAsPpmString_ShouldSplitPixelData_WhenLinesLongerThanMaxLineLength()
 	{
 		// Arrange
 		PpmWriter writer = new();
@@ -65,7 +66,7 @@ public class PpmWriterTests
 153 255 204 153 255 204 153 255 204 153 255 204 153";
 
 		// Act
-		string ppm = await writer.GetPpmStringAsync(canvas);
+		string ppm = await canvas.GetAsPpmString(writer);
 		string[] ppmByLine = ppm.Split(Environment.NewLine);
 		string actualPixelData = string.Join(Environment.NewLine, ppmByLine[3..7]);
 
@@ -74,14 +75,14 @@ public class PpmWriterTests
 	}
 
 	[Fact]
-	public async void GetPpmString_ShouldTerminateWithNewLineCharacter()
+	public async void GetAsPpmString_ShouldTerminateWithNewLineCharacter()
 	{
 		// Arrange
 		PpmWriter writer = new();
 		Canvas canvas = new(5, 3);
 
 		// Act
-		string ppm = await writer.GetPpmStringAsync(canvas);
+		string ppm = await canvas.GetAsPpmString(writer);
 
 		// Assert
 		Assert.EndsWith(Environment.NewLine, ppm);

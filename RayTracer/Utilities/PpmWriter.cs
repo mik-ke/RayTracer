@@ -88,14 +88,4 @@ public class PpmWriter : IPpmWriter
         if (rgbValue > 1) return 255;
         return Convert.ToByte(rgbValue * 255);
     }
-
-    /// <summary>
-    /// Returns a <see cref="Canvas"/> converted to a string representation of a PPM format image
-    /// </summary>
-    public async Task<string> GetPpmStringAsync(Canvas canvas)
-    {
-        using var stream = new MemoryStream();
-        await WriteAsync(canvas, stream);
-        return Encoding.Default.GetString(stream.ToArray());
-    }
 }
