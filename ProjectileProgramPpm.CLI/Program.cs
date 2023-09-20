@@ -34,7 +34,7 @@ public class Program
         await SaveCanvasToPpmFile(canvas);
     }
 
-    // one tick moves the projectile depending according to the sum of its velocity
+    // one tick moves the projectile according to the sum of its velocity
     // and the environment's gravity and wind
     static Projectile Tick(Environment environment, Projectile projectile)
     {

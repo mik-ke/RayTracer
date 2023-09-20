@@ -15,4 +15,13 @@ public static class CanvasExtensions
         await ppmWriter.WriteAsync(canvas, stream);
         return Encoding.Default.GetString(stream.ToArray());
     }
+
+    /// <summary>
+    /// Saves the <see cref="Canvas"/> as a PPM format image to the given <paramref name="path"/>
+    /// </summary>
+    public static async Task SaveToPpmFileAsync(this Canvas canvas, IPpmWriter ppmWriter, string path)
+    {
+        using var stream = File.Create(path);
+        await ppmWriter.WriteAsync(canvas, stream);
+    }
 }
