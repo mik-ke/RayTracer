@@ -100,5 +100,21 @@ public sealed class Vector : Tuple
             X * other.Y - Y * other.X);
     }
 
+    /// <summary>
+    /// Converts a <see cref="Matrix"/> of size 4x1 to a <see cref="Vector"/>.
+    /// </summary>
+    /// <exception cref="ArgumentNullException"></exception>
+    /// <exception cref="InvalidCastException">Thrown when the matrix is not of size 4x1.</exception>
+    /// <exception cref="InvalidCastException">Thrown when the matrix's [0, 3] value is not 0 (the w component).</exception>
+    public static explicit operator Vector(Matrix matrix)
+    {
+        if (matrix == null) throw new ArgumentNullException(nameof(matrix));
+        if (matrix.NumberOfColumns != 1 || matrix.NumberOfRows != 4)
+            throw new InvalidCastException("Cannot cast Matrix that is not of size 4x1!");
+        if (matrix[3, 0] != 0)
+            throw new InvalidCastException("The W component must be 0!");
+        return new(matrix[0, 0], matrix[1, 0], matrix[2, 0]);
+    }
+
     public override string ToString() => $"Vector({X}, {Y}, {Z})";
 }

@@ -318,4 +318,66 @@ public class VectorTests
             new object[] { new Vector(2, 3, 4), new Vector(1, 2, 3), new Vector(1, -2, 1) }
         };
 
+    #region cast from matrix
+    [Fact]
+    public void ExplicitCastFromMatrix_ShouldWork_WhenValidMatrixUsed()
+    {
+        // Arrange
+        Matrix matrix = new(
+            new double[4, 1]
+            {
+                { 1 },
+                { 2 },
+                { 3 },
+                { 0 },
+            });
+        Vector expected = new(1, 2, 3);
+
+        // Act
+        var actual = (Vector)matrix;
+
+        // Assert
+        Assert.Equal(expected, actual);
+    }
+
+    [Fact]
+    public void ExplicitCastFromMatrix_ShouldThrowNullException_WhenMatrixIsNull()
+    {
+        // Arrange
+        Matrix matrix = null!;
+
+        // Act
+        Exception e = Record.Exception(() => (Vector)matrix);
+
+        // Assert
+        Assert.IsType<ArgumentNullException>(e);
+    }
+
+    [Fact]
+    public void ExplicitCastFromMatrix_ShouldThrowInvalidCastException_WhenMatrixIsWrongSize()
+    {
+        // Arrange
+        Matrix matrix = new(1, 4);
+
+        // Act
+        Exception e = Record.Exception(() => (Vector)matrix);
+
+        // Assert
+        Assert.IsType<InvalidCastException>(e);
+    }
+
+    [Fact]
+    public void ExplicitCastFromMatrix_ShouldThrowInvalidCastException_WhenMatrixHasWrongWComponent()
+    {
+        // Arrange
+        Matrix matrix = new(4, 1);
+        matrix[3, 0] = 1;
+
+        // Act
+        Exception e = Record.Exception(() => (Vector)matrix);
+
+        // Assert
+        Assert.IsType<InvalidCastException>(e);
+    }
+    #endregion
 }

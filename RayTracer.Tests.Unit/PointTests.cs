@@ -127,4 +127,67 @@ public class PointTests
         Assert.Equal(expected, actual);
     }
     #endregion
+
+    #region cast from matrix
+    [Fact]
+    public void ExplicitCastFromMatrix_ShouldWork_WhenValidMatrixUsed()
+    {
+        // Arrange
+        Matrix matrix = new(
+            new double[4, 1]
+            {
+                { 1 },
+                { 2 },
+                { 3 },
+                { 1 },
+            });
+        Point expected = new(1, 2, 3);
+
+        // Act
+        var actual = (Point)matrix;
+
+        // Assert
+        Assert.Equal(expected, actual);
+    }
+
+    [Fact]
+    public void ExplicitCastFromMatrix_ShouldThrowNullException_WhenMatrixIsNull()
+    {
+        // Arrange
+        Matrix matrix = null!;
+
+        // Act
+        Exception e = Record.Exception(() => (Point)matrix);
+
+        // Assert
+        Assert.IsType<ArgumentNullException>(e);
+    }
+
+    [Fact]
+    public void ExplicitCastFromMatrix_ShouldThrowInvalidCastException_WhenMatrixIsWrongSize()
+    {
+        // Arrange
+        Matrix matrix = new(1, 4);
+
+        // Act
+        Exception e = Record.Exception(() => (Point)matrix);
+
+        // Assert
+        Assert.IsType<InvalidCastException>(e);
+    }
+
+    [Fact]
+    public void ExplicitCastFromMatrix_ShouldThrowInvalidCastException_WhenMatrixHasWrongWComponent()
+    {
+        // Arrange
+        Matrix matrix = new(4, 1);
+        matrix[3, 0] = 0;
+
+        // Act
+        Exception e = Record.Exception(() => (Point)matrix);
+
+        // Assert
+        Assert.IsType<InvalidCastException>(e);
+    }
+    #endregion
 }
