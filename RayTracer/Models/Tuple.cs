@@ -5,10 +5,10 @@ namespace RayTracer.Models;
 public abstract class Tuple
 {
     #region properties
-    public double X { get; private set; }
-    public double Y { get; private set; }
-    public double Z { get; private set; }
-    public double W { get; private set; }
+    public double X { get; init; }
+    public double Y { get; init; }
+    public double Z { get; init; }
+    public double W { get; init; }
     #endregion
 
     public Tuple(double x, double y, double z, double w)
