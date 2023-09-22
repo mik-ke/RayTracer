@@ -4,26 +4,38 @@ namespace RayTracer.Tests.Unit;
 
 public class SphereTests
 {
-	[Theory]
-	[MemberData(nameof(IntersectData))]
-	public void Intersect_ShouldReturnCorrectIntersections_WhenCalledWithRay(Ray ray, double expected, double expected2)
+	[Fact]
+	public void Intersect_ShouldReturnCorrectIntersections_WhenRayOriginatesBeforeSphere()
 	{
 		// Arrange
+		Ray ray = new(new Point(0, 0, -5), new Vector(0, 0, 1));
 		Sphere sphere = new();
+		const double expected0 = 4.0;
+		const double expected1 = 6.0;
+
+		// Act
+		var actualIntersections = sphere.Intersect(ray);
+
+		// Assert
+		Assert.Equal(expected0, actualIntersections[0]);
+		Assert.Equal(expected1, actualIntersections[1]);
+	}
+
+	[Fact]
+	public void Intersect_ShouldReturnCorrectIntersectionTwice_WhenRayHitsSphereAtTangent()
+	{
+		// Arrange
+		Ray ray = new(new Point(0, 1, -5), new Vector(0, 0, 1));
+		Sphere sphere = new();
+		const double expected = 5.0;
 
 		// Act
 		var actualIntersections = sphere.Intersect(ray);
 
 		// Assert
 		Assert.Equal(expected, actualIntersections[0]);
-		Assert.Equal(expected2, actualIntersections[1]);
+		Assert.Equal(expected, actualIntersections[1]);
 	}
-	public static IEnumerable<object[]> IntersectData =
-		new List<object[]>
-		{
-			new object[] { new Ray(new Point(0, 0, -5), new Vector(0, 0, 1)), 4.0, 6.0 },
-			new object[] { new Ray(new Point(0, 1, -5), new Vector(0, 0, 1)), 5.0, 5.0 },
-		};
 
 	[Fact]
 	public void Intersect_ShouldReturnEmptyCollection_WhenCalledWithRayThatDoesntIntersect()
@@ -37,5 +49,39 @@ public class SphereTests
 
 		// Assert
 		Assert.Empty(intersections);
+	}
+
+	[Fact]
+	public void Intersect_ShouldReturnBothPoints_WhenRayOriginatesInsideSphere()
+	{
+		// Arrange
+		Ray ray = new(new Point(0, 0, 0), new Vector(0, 0, 1));
+		Sphere sphere = new();
+		const double expected0 = -1.0;
+		const double expected1 = 1.0;
+
+		// Act
+		var intersections = sphere.Intersect(ray);
+
+		// Assert
+		Assert.Equal(expected0, intersections[0]);
+		Assert.Equal(expected1, intersections[1]);
+	}
+
+	[Fact]
+	public void Intersect_ShouldReturnBothPoints_WhenRayOriginatesAfterSphere()
+	{
+		// Arrange
+		Ray ray = new(new Point(0, 0, 5), new Vector(0, 0, 1));
+		Sphere sphere = new();
+		const double expected0 = -6.0;
+		const double expected1 = -4.0;
+
+		// Act
+		var intersections = sphere.Intersect(ray);
+
+		// Assert
+		Assert.Equal(expected0, intersections[0]);
+		Assert.Equal(expected1, intersections[1]);
 	}
 }
