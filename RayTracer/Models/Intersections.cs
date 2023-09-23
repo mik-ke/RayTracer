@@ -1,25 +1,43 @@
-﻿using System.Collections;
+﻿using RayTracer.Comparers;
+using System.Collections;
 
 namespace RayTracer.Models;
 
-public class Intersections : IEnumerable<Intersection>
+/// <summary>
+/// A collection type that contains <see cref="Intersection"/> objects.
+/// </summary>
+public sealed class Intersections : IEnumerable<Intersection>
 {
-    private Intersection[] _intersections;
+    private readonly Intersection[] _intersections;
 
     /// <summary>
-    /// Returns a new Intersections collection with an empty underlying array
+    /// Returns an empty Intersections collection.
     /// </summary>
     public static Intersections Empty => new Intersections(Array.Empty<Intersection>());
 
     public Intersections(params Intersection[] intersections)
     {
         _intersections = intersections;
+        if (intersections.Length > 1)
+            Array.Sort(intersections, new IntersectionComparer());
     }
 
     public Intersection this[int index] { get => _intersections[index]; }
 
-    public int Count => _intersections.Length;
+    public int Length => _intersections.Length;
 
+    /// <summary>
+    /// Returns the "hit"; the <see cref="Intersection"/> with the lowest non-negative t value.
+    /// </summary>
+    public Intersection? Hit()
+    {
+        foreach (var intersection in _intersections)
+            if (intersection.T >= 0) return intersection;
+
+        return null;
+    }
+
+    #region IEnumerable
     public IEnumerator<Intersection> GetEnumerator()
     {
         foreach (var intersection in _intersections)
@@ -27,4 +45,5 @@ public class Intersections : IEnumerable<Intersection>
     }
 
     IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+    #endregion
 }
