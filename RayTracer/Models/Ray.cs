@@ -19,4 +19,18 @@ public sealed class Ray
     {
         return Origin + Direction * t;
     }
+
+    /// <summary>
+    /// Returns a new <see cref="Ray"/> with the given <paramref name="transformationMatrix"/> applied
+    /// to <see cref="Origin"/>.
+    /// </summary>
+    /// <param name="transformationMatrix"></param>
+    /// <returns></returns>
+    public Ray Transform(Matrix transformationMatrix)
+    {
+        var transformedOrigin = (Point)(transformationMatrix * Origin);
+        var transformedDirection = (Vector)(transformationMatrix * Direction);
+
+        return new(transformedOrigin, transformedDirection);
+    }
 }

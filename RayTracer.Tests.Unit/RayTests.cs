@@ -43,4 +43,38 @@ public class RayTests
 			new object[] { -1, new Point(1, 3, 4) },
 			new object[] { 2.5, new Point(4.5, 3, 4) },
 		};
+
+	[Fact]
+	public void Transform_ShouldWork_WhenApplyingTranslationMatrix()
+	{
+		// Arrange
+		Ray ray = new(new Point(1, 2, 3), new Vector(0, 1, 0));
+		Matrix translation = Matrix.Translation(3, 4, 5);
+		Point expectedOrigin = new Point(4, 6, 8);
+		Vector expectedDirection = new Vector(0, 1, 0);
+
+		// Act
+		var result = ray.Transform(translation);
+
+		// Assert
+		Assert.Equal(expectedOrigin, result.Origin);
+		Assert.Equal(expectedDirection, result.Direction);
+	}
+
+	[Fact]
+	public void Transform_ShouldWork_WhenApplyingScalingMatrix()
+	{
+		// Arrange
+		Ray ray = new(new Point(1, 2, 3), new Vector(0, 1, 0));
+		Matrix scaling = Matrix.Scaling(2, 3, 4);
+		Point expectedOrigin = new Point(2, 6, 12);
+		Vector expectedDirection = new Vector(0, 3, 0);
+
+		// Act
+		var result = ray.Transform(scaling);
+
+		// Assert
+		Assert.Equal(expectedOrigin, result.Origin);
+		Assert.Equal(expectedDirection, result.Direction);
+	}
 }

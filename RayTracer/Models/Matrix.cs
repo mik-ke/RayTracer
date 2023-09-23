@@ -440,7 +440,7 @@ public sealed class Matrix
             for (int column = 0; column < NumberOfColumns; column++)
             {
                 stringBuilder.Append(this[row, column]);
-                if (column != NumberOfColumns - 1) stringBuilder.Append(' ');
+                if (column != NumberOfColumns - 1) stringBuilder.Append(" ");
             }
             if (row != NumberOfRows - 1) stringBuilder.AppendLine();
         }
