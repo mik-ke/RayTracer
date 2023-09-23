@@ -17,8 +17,8 @@ public class SphereTests
 		var actualIntersections = sphere.Intersect(ray);
 
 		// Assert
-		Assert.Equal(expected0, actualIntersections[0]);
-		Assert.Equal(expected1, actualIntersections[1]);
+		Assert.Equal(expected0, actualIntersections[0].T);
+		Assert.Equal(expected1, actualIntersections[1].T);
 	}
 
 	[Fact]
@@ -33,8 +33,8 @@ public class SphereTests
 		var actualIntersections = sphere.Intersect(ray);
 
 		// Assert
-		Assert.Equal(expected, actualIntersections[0]);
-		Assert.Equal(expected, actualIntersections[1]);
+		Assert.Equal(expected, actualIntersections[0].T);
+		Assert.Equal(expected, actualIntersections[1].T);
 	}
 
 	[Fact]
@@ -64,8 +64,8 @@ public class SphereTests
 		var intersections = sphere.Intersect(ray);
 
 		// Assert
-		Assert.Equal(expected0, intersections[0]);
-		Assert.Equal(expected1, intersections[1]);
+		Assert.Equal(expected0, intersections[0].T);
+		Assert.Equal(expected1, intersections[1].T);
 	}
 
 	[Fact]
@@ -81,7 +81,22 @@ public class SphereTests
 		var intersections = sphere.Intersect(ray);
 
 		// Assert
-		Assert.Equal(expected0, intersections[0]);
-		Assert.Equal(expected1, intersections[1]);
+		Assert.Equal(expected0, intersections[0].T);
+		Assert.Equal(expected1, intersections[1].T);
+	}
+
+	[Fact]
+	public void Intersect_ShouldSetCorrectObjectOnIntersection()
+	{
+		// Arrange
+		Ray ray = new(new Point(0, 0, -5), new Vector(0, 0, 1));
+		Sphere sphere = new();
+
+		// Act
+		var intersections = sphere.Intersect(ray);
+
+		// Assert
+		Assert.Equal(sphere, intersections[0].Object);
+		Assert.Equal(sphere, intersections[1].Object);
 	}
 }

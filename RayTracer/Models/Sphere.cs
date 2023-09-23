@@ -18,7 +18,7 @@ public sealed class Sphere
     /// <summary>
     /// Returns a collection of t values where the given <paramref name="ray"/> intersects the <see cref="Sphere"/>.
     /// </summary>
-    public double[] Intersect(Ray ray)
+    public Intersections Intersect(Ray ray)
     {
         Vector sphereToRay = ray.Origin - new Point(0, 0, 0);
 
@@ -27,12 +27,15 @@ public sealed class Sphere
         double c = sphereToRay.Dot(sphereToRay) - 1;
 
         double discriminant = Math.Pow(b, 2) - 4 * a * c;
-        if (discriminant < 0) return Array.Empty<double>();
+        if (discriminant < 0) return Intersections.Empty;
 
         double t1 = (-b - Math.Sqrt(discriminant)) / (2 * a);
         double t2 = (-b + Math.Sqrt(discriminant)) / (2 * a);
 
-        return new double[2] { t1, t2 };
+        Intersection intersection1 = new(t1, this);
+        Intersection intersection2 = new(t2, this);
+
+        return new Intersections(intersection1, intersection2);
     }
 
 

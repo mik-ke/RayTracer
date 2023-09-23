@@ -6,6 +6,11 @@ public class Intersections : IEnumerable<Intersection>
 {
     private Intersection[] _intersections;
 
+    /// <summary>
+    /// Returns a new Intersections collection with an empty underlying array
+    /// </summary>
+    public static Intersections Empty => new Intersections(Array.Empty<Intersection>());
+
     public Intersections(params Intersection[] intersections)
     {
         _intersections = intersections;
