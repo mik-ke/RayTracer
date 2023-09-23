@@ -10,6 +10,12 @@ public sealed class Sphere
 
     public int ID { get; init; }
 
+    /// <summary>
+    /// The transform of the sphere. I.e. the conversion from object space (unit sphere) to world space.
+    /// 4x4 Identity matrix by default.
+    /// </summary>
+    public Matrix Transform { get; set; } = Matrix.Identity(4);
+
     public Sphere()
     {
         ID = _currentIDCounter++;
@@ -20,10 +26,12 @@ public sealed class Sphere
     /// </summary>
     public Intersections Intersect(Ray ray)
     {
-        Vector sphereToRay = ray.Origin - new Point(0, 0, 0);
+        Ray transformedRay = ray.Transform(Transform.Inverse());
 
-        double a = ray.Direction.Dot(ray.Direction);
-        double b = 2 * ray.Direction.Dot(sphereToRay);
+        Vector sphereToRay = transformedRay.Origin - new Point(0, 0, 0);
+
+        double a = transformedRay.Direction.Dot(transformedRay.Direction);
+        double b = 2 * transformedRay.Direction.Dot(sphereToRay);
         double c = sphereToRay.Dot(sphereToRay) - 1;
 
         double discriminant = Math.Pow(b, 2) - 4 * a * c;
@@ -37,7 +45,6 @@ public sealed class Sphere
 
         return new Intersections(intersection1, intersection2);
     }
-
 
     #region equality
     public override bool Equals(object? obj) => Equals(obj as Sphere);
