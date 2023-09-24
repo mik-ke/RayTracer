@@ -6,7 +6,7 @@ namespace RayTracer.Models;
 /// Encapsulates the surface color and the four attributes of the Phong reflection model;
 /// ambient, diffuse, specular and shininess.
 /// </summary>
-public class Material
+public sealed class Material
 {
     public Color Color { get; set; }
     public double Ambient { get; set; }

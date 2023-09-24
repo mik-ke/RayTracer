@@ -51,7 +51,6 @@ public sealed class Color
     /// <summary>
     /// Multiplies the <see cref="Color"/> by another color.
     /// </summary>
-    /// <param name="other"></param>
     /// <returns>The <see cref="Color"/> multiplied by <paramref name="other"/>.</returns>
     public Color Multiply(Color other)
     {

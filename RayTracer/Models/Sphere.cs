@@ -1,7 +1,7 @@
 ﻿namespace RayTracer.Models;
 
 /// <summary>
-/// A Sphere shape. Assumed to originate in the world origin (0, 0, 0).
+/// A Sphere shape. Assumed to originate in the object origin (0, 0, 0).
 /// Also assumed to be a unit sphere with a radius of one.
 /// </summary>
 public sealed class Sphere
