@@ -33,6 +33,33 @@ public class SphereTests
 	}
 
 	[Fact]
+	public void Material_ShouldBeDefaultMaterial_WhenInitialized()
+	{
+		// Arrange
+		Material defaultMaterial = new();
+
+		// Act
+		Sphere sphere = new();
+
+		// Assert
+		Assert.Equal(defaultMaterial, sphere.Material);
+	}
+
+	[Fact]
+	public void Material_ShouldBeSet()
+	{
+		// Arrange
+		Sphere sphere = new();
+		Material material = new() { Ambient = 1.0 };
+
+		// Act
+		sphere.Material = material;
+
+		// Assert
+		Assert.Equal(material, sphere.Material);
+	}
+
+	[Fact]
 	public void Intersect_ShouldReturnCorrectIntersections_WhenRayOriginatesBeforeSphere()
 	{
 		// Arrange

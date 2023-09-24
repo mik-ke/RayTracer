@@ -18,6 +18,11 @@ public sealed class Sphere
     /// </summary>
     public Matrix Transform { get; set; } = Matrix.Identity(4);
 
+    /// <summary>
+    /// The material of the sphere.
+    /// </summary>
+    public Material Material { get; set; } = new Material();
+
     public Sphere()
     {
         ID = _currentIDCounter++;
