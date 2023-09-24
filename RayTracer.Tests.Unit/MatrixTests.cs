@@ -1131,7 +1131,6 @@ public class MatrixTests
 		var scaled = scaling * rotated;
 		var translated = translation * scaled;
 
-
 		// Assert
 		Assert.Equal(expected, translated);
 	}
@@ -1148,7 +1147,6 @@ public class MatrixTests
 
 		// Act
 		var transformed = translation * scaling * rotation * point;
-
 
 		// Assert
 		Assert.Equal(expected, transformed);

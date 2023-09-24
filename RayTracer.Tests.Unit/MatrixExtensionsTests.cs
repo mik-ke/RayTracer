@@ -13,11 +13,10 @@ public class MatrixExtensionsTests
         Point expected = new(15, 0, 7);
 
         // Act
-        var transform = Matrix.Identity(4)
-            .Translate(10, 5, 7)
+        var actual = ((Matrix)point)
+            .RotateX(Math.PI / 2)
             .Scale(5, 5, 5)
-            .RotateX(Math.PI / 2);
-        var actual = transform * point;
+            .Translate(10, 5, 7);
 
         // Assert
         Assert.Equal(actual, expected);
