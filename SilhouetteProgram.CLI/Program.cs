@@ -38,7 +38,6 @@ internal class Program
 
                 Ray ray = new(_rayOrigin, (position - _rayOrigin).Normalize());
                 var intersections = sphere.Intersect(ray);
-
                 if (intersections.Hit() != null)
                 {
                     canvas[x, y] = _red;
