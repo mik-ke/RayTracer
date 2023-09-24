@@ -6,7 +6,7 @@ public sealed class Vector : Tuple
     /// <summary>
     /// The zero vector (x = y = z = 0). Used for negating.
     /// </summary>
-    public static Vector Zero => new Vector(0, 0, 0);
+    public static Vector Zero => new(0, 0, 0);
     #endregion
 
     public Vector(double x, double y, double z) : base(x, y, z, 0)
@@ -98,6 +98,14 @@ public sealed class Vector : Tuple
             Y * other.Z - Z * other.Y,
             Z * other.X - X * other.Z,
             X * other.Y - Y * other.X);
+    }
+
+    /// <summary>
+    /// Returns the reflection of the <see cref="Vector"/> given the surface <paramref name="normal"/>.
+    /// </summary>
+    public Vector Reflect(Vector normal)
+    {
+        return this - normal * 2 * this.Dot(normal);
     }
 
     /// <summary>

@@ -1,5 +1,4 @@
 ﻿using RayTracer.Models;
-using Xunit;
 namespace RayTracer.Tests.Unit;
 
 public class CanvasTests

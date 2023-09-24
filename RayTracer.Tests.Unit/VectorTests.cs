@@ -316,6 +316,36 @@ public class VectorTests
             new object[] { new Vector(2, 3, 4), new Vector(1, 2, 3), new Vector(1, -2, 1) }
         };
 
+	[Fact]
+	public void Reflect_ShouldWork_WhenApproachingAt45Degrees()
+	{
+		// Arrange
+		Vector vector = new(1, -1, 0);
+		Vector normal = new(0, 1, 0);
+		Vector expected = new(1, 1, 0);
+
+        // Act
+        var actual = vector.Reflect(normal);
+
+        // Assert
+        Assert.Equal(expected, actual);
+	}
+
+	[Fact]
+	public void Reflect_ShouldWork_WhenUsingSlantedSurface()
+	{
+		// Arrange
+		Vector vector = new(0, -1, 0);
+		Vector normal = new(Math.Sqrt(2) / 2, Math.Sqrt(2) / 2, 0);
+		Vector expected = new(1, 0, 0);
+
+        // Act
+        var actual = vector.Reflect(normal);
+
+        // Assert
+        Assert.Equal(expected, actual);
+	}
+
     #region cast from matrix
     [Fact]
     public void ExplicitCastFromMatrix_ShouldWork_WhenValidMatrixUsed()

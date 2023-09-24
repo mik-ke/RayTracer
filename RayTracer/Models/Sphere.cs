@@ -10,7 +10,7 @@ public sealed class Sphere
 
     public int ID { get; init; }
 
-    public static Point Origin = new(0, 0, 0);
+    public static readonly Point Origin = new(0, 0, 0);
 
     /// <summary>
     /// The transform of the sphere. I.e. the conversion from object space (unit sphere) to world space.
