@@ -24,6 +24,11 @@ internal class Program
     {
         Canvas canvas = new(_canvasPixels, _canvasPixels);
         Sphere sphere = new();
+        // transform testing
+        //sphere.Transform = Matrix.Scaling(1, 0.5, 1);
+        //sphere.Transform = Matrix.Scaling(0.5, 1, 1);
+        //sphere.Transform = Matrix.Scaling(0.5, 1, 1).RotateZ(Math.PI / 4);
+        //sphere.Transform = Matrix.Scaling(0.5, 1, 1).Shear(1, 0, 0, 0, 0, 0);
 
         for (int y = 0; y < _canvasPixels; y++)
         {

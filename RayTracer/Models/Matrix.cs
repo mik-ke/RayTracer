@@ -34,7 +34,7 @@ public sealed class Matrix
     /// <summary>
     /// Returns a new 4x4 translation <see cref="Matrix"/> with the given values <paramref name="x"/>, <paramref name="y"/> and <paramref name="z"/>.
     /// </summary>
-    public static Matrix Translation(int x, int y, int z)
+    public static Matrix Translation(double x, double y, double z)
     {
         return new Matrix(
             new double[4, 4]
@@ -49,7 +49,7 @@ public sealed class Matrix
     /// <summary>
     /// Returns a new 4x4 scaling <see cref="Matrix"/> with the given values <paramref name="x"/>, <paramref name="y"/> and <paramref name="z"/>.
     /// </summary>
-    public static Matrix Scaling(int x, int y, int z)
+    public static Matrix Scaling(double x, double y, double z)
     {
         return new Matrix(
             new double[4, 4]
@@ -64,7 +64,7 @@ public sealed class Matrix
     /// <summary>
     /// Returns a new 4x4 <see cref="Matrix"/> for shear transformation based on the _ in proportion to _ parameters.
     /// </summary>
-    public static Matrix Shearing(int xy, int xz, int yx, int yz, int zx, int zy)
+    public static Matrix Shearing(double xy, double xz, double yx, double yz, double zx, double zy)
     {
         return new Matrix(
             new double[4, 4]
