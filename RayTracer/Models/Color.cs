@@ -4,7 +4,7 @@ namespace RayTracer.Models;
 
 public sealed class Color
 {
-    public static Color Black = new Color(0, 0, 0);
+    public static readonly Color Black = new(0, 0, 0);
 
     #region properties
     public double R { get; private set; }

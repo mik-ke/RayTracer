@@ -8,7 +8,7 @@ namespace RayTracer.Models;
 public sealed class Canvas : IEnumerable<Color>
 {
     #region fields
-    Color[,] _canvas;
+    readonly Color[,] _canvas;
     #endregion
 
     #region properties

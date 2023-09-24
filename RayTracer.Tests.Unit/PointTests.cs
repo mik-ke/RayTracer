@@ -102,7 +102,7 @@ public class PointTests
         // Arrange
         Point point = new(3, 2, 1);
         Vector vector = new(5, 6, 7);
-        Point expected = new Point(-2, -4, -6);
+        Point expected = new(-2, -4, -6);
 
         // Act
         Point actual = point.Subtract(vector);

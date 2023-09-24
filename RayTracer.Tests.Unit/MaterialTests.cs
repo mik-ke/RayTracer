@@ -8,7 +8,7 @@ public class MaterialTests
 	public void Constructor_ShouldInitializeCorrectly_WhenDefaultCtorCalled()
 	{
 		// Arrange
-		Color expectedColor = new Color(1, 1, 1);
+		Color expectedColor = new(1, 1, 1);
 		const double expectedAmbient = 0.1;
 		const double expectedDiffuse = 0.9;
 		const double expectedSpecular = 0.9;

@@ -6,8 +6,6 @@ public class IntersectionsTests
 	[Fact]
 	public void Constructor_ShouldInitializeCorrectly()
 	{
-		Intersections i = new Intersections();
-
 		// Arrange
 		Sphere sphere = new();
 		const double t1 = 1.0;
