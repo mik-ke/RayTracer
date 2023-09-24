@@ -13,9 +13,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TestPrograms", "TestProgram
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProjectileProgramPpm.CLI", "ProjectileProgramPpm.CLI\ProjectileProgramPpm.CLI.csproj", "{C1377A36-5609-4647-A7C6-3D74FED1999A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RayTracer.Common.Library", "RayTracer.Common.Library\RayTracer.Common.Library.csproj", "{74E9976A-13FD-47A2-81AA-7C7C4DD27F79}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RayTracer.Common.Library", "RayTracer.Common.Library\RayTracer.Common.Library.csproj", "{74E9976A-13FD-47A2-81AA-7C7C4DD27F79}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClockProgram.CLI", "ClockProgram.CLI\ClockProgram.CLI.csproj", "{226F288B-8F5A-4AA5-B9EC-54B92F3E9CE4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClockProgram.CLI", "ClockProgram.CLI\ClockProgram.CLI.csproj", "{226F288B-8F5A-4AA5-B9EC-54B92F3E9CE4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SilhouetteProgram.CLI", "SilhouetteProgram.CLI\SilhouetteProgram.CLI.csproj", "{DCD6CBEE-CA42-46DF-A918-AFC2C9D40F1D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -47,6 +49,10 @@ Global
 		{226F288B-8F5A-4AA5-B9EC-54B92F3E9CE4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{226F288B-8F5A-4AA5-B9EC-54B92F3E9CE4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{226F288B-8F5A-4AA5-B9EC-54B92F3E9CE4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DCD6CBEE-CA42-46DF-A918-AFC2C9D40F1D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DCD6CBEE-CA42-46DF-A918-AFC2C9D40F1D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DCD6CBEE-CA42-46DF-A918-AFC2C9D40F1D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DCD6CBEE-CA42-46DF-A918-AFC2C9D40F1D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -55,6 +61,7 @@ Global
 		{4BF77BAA-6222-4CB3-A394-713D61F789FD} = {5EF8F723-0F78-4549-A0A5-14B27B45727F}
 		{C1377A36-5609-4647-A7C6-3D74FED1999A} = {5EF8F723-0F78-4549-A0A5-14B27B45727F}
 		{226F288B-8F5A-4AA5-B9EC-54B92F3E9CE4} = {5EF8F723-0F78-4549-A0A5-14B27B45727F}
+		{DCD6CBEE-CA42-46DF-A918-AFC2C9D40F1D} = {5EF8F723-0F78-4549-A0A5-14B27B45727F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3EF37C13-6F1C-48E0-81FB-6B33FCD2D8DE}
