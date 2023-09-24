@@ -1,4 +1,5 @@
-﻿using RayTracer.Models;
+﻿using RayTracer.Extensions;
+using RayTracer.Models;
 using Xunit;
 
 namespace RayTracer.Tests.Unit;
@@ -11,8 +12,8 @@ public class SphereTests
 		// Arrange
 		Matrix expected = Matrix.Identity(4);
 
-		// Act
-		Sphere sphere = new();
+        // Act
+        Sphere sphere = new();
 
 		// Assert
 		Assert.Equal(expected, sphere.Transform);
@@ -161,5 +162,73 @@ public class SphereTests
 
 		// Assert
 		Assert.Empty(intersections);
+	}
+
+	[Theory]
+	[MemberData(nameof(NormalData))]
+	public void Normal_ShouldWork_WhenPointGiven(Point point, Vector expected)
+	{
+		// Arrange
+		Sphere sphere = new();
+
+		// Act
+		var actual = sphere.Normal(point);
+
+		// Assert
+		Assert.Equal(expected, actual);
+	}
+	public static IEnumerable<object[]> NormalData =>
+		new List<object[]>
+		{
+			new object[] { new Point(1, 0, 0), new Vector(1, 0, 0) },
+			new object[] { new Point(0, 1, 0), new Vector(0, 1, 0) },
+			new object[] { new Point(0, 0, 1), new Vector(0, 0, 1) },
+			new object[] { new Point(Math.Sqrt(3) / 3, Math.Sqrt(3) / 3, Math.Sqrt(3) / 3), new Vector(Math.Sqrt(3) / 3, Math.Sqrt(3) / 3, Math.Sqrt(3) / 3) }
+		};
+
+	[Fact]
+	public void Normal_ShouldBeNormalizedVector()
+	{
+		// Arrange
+		Sphere sphere = new();
+		Point point = new(Math.Sqrt(3) / 3, Math.Sqrt(3) / 3, Math.Sqrt(3) / 3);
+		Vector normal = sphere.Normal(point);
+
+		// Act
+		var normalized = normal.Normalize();
+
+		// Assert
+		Assert.Equal(normal, normalized);
+	}
+
+	[Fact]
+	public void Normal_ShouldWork_WhenSphereTranslated()
+	{
+        // Arrange
+        Sphere sphere = new() { Transform = Matrix.Translation(0, 1, 0) };
+		Point point = new(0, 1.70711, -0.70711);
+		Vector expected = new(0, 0.70711, -0.70711);
+
+		// Act
+		var actual = sphere.Normal(point);
+
+		// Assert
+		Assert.Equal(expected, actual);
+    }
+
+	[Fact]
+	public void Normal_ShouldWork_WhenSphereTransformed()
+	{
+		// Arrange
+		Sphere sphere = new();
+		sphere.Transform = Matrix.Identity(4).RotateZ(Math.PI / 5).Scale(1, 0.5, 1);
+		Point point = new(0, Math.Sqrt(2) / 2, -Math.Sqrt(2) / 2);
+		Vector expected = new(0, 0.97014, -0.24254);
+
+		// Act
+		var actual = sphere.Normal(point);
+
+		// Assert
+		Assert.Equal(expected, actual);
 	}
 }

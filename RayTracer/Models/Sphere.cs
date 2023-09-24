@@ -10,6 +10,8 @@ public sealed class Sphere
 
     public int ID { get; init; }
 
+    public static Point Origin = new(0, 0, 0);
+
     /// <summary>
     /// The transform of the sphere. I.e. the conversion from object space (unit sphere) to world space.
     /// 4x4 Identity matrix by default.
@@ -44,6 +46,24 @@ public sealed class Sphere
         Intersection intersection2 = new(t2, this);
 
         return new Intersections(intersection1, intersection2);
+    }
+
+    /// <summary>
+    /// Returns the (surface) normal of the <see cref="Sphere"/> at the given <paramref name="worldPoint"/>.
+    /// </summary>
+    /// <returns>A new <see cref="Vector"/>.</returns>
+    public Vector Normal(Point worldPoint)
+    {
+        var objectPoint = (Point)(Transform.Inverse() * worldPoint);
+        var objectNormal = objectPoint - Origin;
+        // Technically we should be getting Transform.Submatrix(3, 3) as
+        // any translations will screw the W value of a vector.
+        // We can avoid that by simply using the normal 4x4 functionality
+        // then setting the W to 0 afterwards.
+        var worldNormal = Transform.Inverse().Transpose() * objectNormal;
+        worldNormal[3, 0] = 0;
+
+        return ((Vector)worldNormal).Normalize();
     }
 
     #region equality
