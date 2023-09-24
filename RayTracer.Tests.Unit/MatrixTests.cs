@@ -1,5 +1,5 @@
 ﻿using RayTracer.Models;
-using Xunit;
+
 namespace RayTracer.Tests.Unit;
 
 public class MatrixTests
@@ -948,16 +948,16 @@ public class MatrixTests
 		// Assert
 		Assert.Equal(expected, actual);
 	}
-	public static IEnumerable<object[]> RotationXData =
+	public static IEnumerable<object[]> RotationXData =>
 		new List<object[]>
-	{
-		new object[] {
-			Math.PI / 4, new Point(0, Math.Sqrt(2) / 2, Math.Sqrt(2) / 2)
-		},
-		new object[] {
-			Math.PI / 2, new Point(0, 0, 1)
-		}
-	};
+        {
+            new object[] {
+                Math.PI / 4, new Point(0, Math.Sqrt(2) / 2, Math.Sqrt(2) / 2)
+            },
+            new object[] {
+                Math.PI / 2, new Point(0, 0, 1)
+            }
+        };
 
 	[Fact]
 	public void RotationX_ShouldMovePointInverse_WhenInverseRotationMultipliedByPoint()
@@ -990,16 +990,16 @@ public class MatrixTests
 		// Assert
 		Assert.Equal(expected, actual);
 	}
-	public static IEnumerable<object[]> RotationYData =
+    public static IEnumerable<object[]> RotationYData =>
 		new List<object[]>
-	{
-		new object[] {
-			Math.PI / 4, new Point(Math.Sqrt(2) / 2, 0, Math.Sqrt(2) / 2)
-		},
-		new object[] {
-			Math.PI / 2, new Point(1, 0, 0)
-		}
-	};
+        {
+            new object[] {
+                Math.PI / 4, new Point(Math.Sqrt(2) / 2, 0, Math.Sqrt(2) / 2)
+            },
+            new object[] {
+                Math.PI / 2, new Point(1, 0, 0)
+            }
+        };
 
 	[Theory]
 	[MemberData(nameof(RotationZData))]
@@ -1015,16 +1015,16 @@ public class MatrixTests
 		// Assert
 		Assert.Equal(expected, actual);
 	}
-	public static IEnumerable<object[]> RotationZData =
+	public static IEnumerable<object[]> RotationZData =>
 		new List<object[]>
-	{
-		new object[] {
-			Math.PI / 4, new Point(-Math.Sqrt(2) / 2, Math.Sqrt(2) / 2, 0)
-		},
-		new object[] {
-			Math.PI / 2, new Point(-1, 0, 0)
-		}
-	};
+        {
+            new object[] {
+                Math.PI / 4, new Point(-Math.Sqrt(2) / 2, Math.Sqrt(2) / 2, 0)
+            },
+            new object[] {
+                Math.PI / 2, new Point(-1, 0, 0)
+            }
+        };
 
 	[Fact]
 	public void Shearing_ShouldMovePointCorrectly_WhenXProportionToYMultipliedByPoint()

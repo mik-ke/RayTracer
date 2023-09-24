@@ -11,16 +11,16 @@ namespace SilhouetteProgram.CLI;
 internal class Program
 {
     #region fields
-    static readonly Point _rayOrigin = new Point(0, 0, -5);
+    static readonly Point _rayOrigin = new(0, 0, -5);
     static readonly double _wallZ = 10;
     static readonly double _wallSize = 7;
     static readonly double _wallHalf = _wallSize / 2;
     static readonly int _canvasPixels = 100;
     static readonly double _pixelSize = _wallSize / _canvasPixels;
-    static readonly Color _red = new Color(1, 0, 0);
+    static readonly Color _red = new(1, 0, 0);
     #endregion
 
-    static async Task Main(string[] args)
+    static async Task Main()
     {
         Canvas canvas = new(_canvasPixels, _canvasPixels);
         Sphere sphere = new();

@@ -9,7 +9,7 @@ namespace RayTracer.Models;
 public sealed class Matrix
 {
     #region fields
-    double[,] _matrix;
+    readonly double[,] _matrix;
     #endregion
 
     #region properties
@@ -22,7 +22,7 @@ public sealed class Matrix
     /// </summary>
     public static Matrix Identity(int size)
     {
-        Matrix identity = new Matrix(size, size);
+        Matrix identity = new(size, size);
         for (int i = 0; i < size; i++)
         {
             identity[i, i] = 1;
@@ -440,7 +440,7 @@ public sealed class Matrix
             for (int column = 0; column < NumberOfColumns; column++)
             {
                 stringBuilder.Append(this[row, column]);
-                if (column != NumberOfColumns - 1) stringBuilder.Append(" ");
+                if (column != NumberOfColumns - 1) stringBuilder.Append(' ');
             }
             if (row != NumberOfRows - 1) stringBuilder.AppendLine();
         }

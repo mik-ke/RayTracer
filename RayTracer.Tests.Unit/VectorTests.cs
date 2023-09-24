@@ -1,6 +1,4 @@
 ﻿using RayTracer.Models;
-using Xunit;
-using Xunit.Sdk;
 
 namespace RayTracer.Tests.Unit;
 

@@ -35,7 +35,7 @@ public class RayTests
 		// Assert
 		Assert.Equal(expected, actual);
 	}
-	public static IEnumerable<object[]> PositionData =
+	public static IEnumerable<object[]> PositionData =>
 		new List<object[]>
 		{
 			new object[] { 0, new Point(2, 3, 4) },
@@ -50,8 +50,8 @@ public class RayTests
 		// Arrange
 		Ray ray = new(new Point(1, 2, 3), new Vector(0, 1, 0));
 		Matrix translation = Matrix.Translation(3, 4, 5);
-		Point expectedOrigin = new Point(4, 6, 8);
-		Vector expectedDirection = new Vector(0, 1, 0);
+        Point expectedOrigin = new(4, 6, 8);
+        Vector expectedDirection = new(0, 1, 0);
 
 		// Act
 		var result = ray.Transform(translation);
@@ -67,8 +67,8 @@ public class RayTests
 		// Arrange
 		Ray ray = new(new Point(1, 2, 3), new Vector(0, 1, 0));
 		Matrix scaling = Matrix.Scaling(2, 3, 4);
-		Point expectedOrigin = new Point(2, 6, 12);
-		Vector expectedDirection = new Vector(0, 3, 0);
+		Point expectedOrigin = new(2, 6, 12);
+		Vector expectedDirection = new(0, 3, 0);
 
 		// Act
 		var result = ray.Transform(scaling);

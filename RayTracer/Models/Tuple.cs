@@ -23,7 +23,7 @@ public abstract class Tuple
     /// <see cref="Tuple"/> converted to a 4 x 1 <see cref="Matrix"/>.
     /// </summary>
     /// <param name="tuple"></param>
-    public static implicit operator Matrix(Tuple tuple) => new Matrix(
+    public static implicit operator Matrix(Tuple tuple) => new(
         new double[4, 1]
         {
             { tuple.X },

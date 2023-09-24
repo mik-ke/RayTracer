@@ -20,7 +20,7 @@ public class PpmWriter : IPpmWriter
     /// <summary>
     /// Writes the PPM header to the stream.
     /// </summary>
-    private async Task WriteHeaderAsync(Canvas canvas, StreamWriter streamWriter)
+    private static async Task WriteHeaderAsync(Canvas canvas, StreamWriter streamWriter)
     {
         await streamWriter.WriteLineAsync(MAGICNUMBER);
         await streamWriter.WriteLineAsync($"{canvas.Width} {canvas.Height}");
@@ -30,7 +30,7 @@ public class PpmWriter : IPpmWriter
     /// <summary>
     /// Writes the PPM pixel data to the stream.
     /// </summary>
-    private async Task WritePixelDataAsync(Canvas canvas, StreamWriter streamWriter)
+    private static async Task WritePixelDataAsync(Canvas canvas, StreamWriter streamWriter)
     {
         for (int y = 0; y < canvas.Height; y++)
         {
@@ -54,7 +54,7 @@ public class PpmWriter : IPpmWriter
     /// writes the component to a new line, otherwise to the current line.
     /// Returns the line length after writing the color component.
     /// </summary>
-    private async Task<int> WriteColorComponentAsync(string colorComponent, StreamWriter streamWriter, int currentLineLength, bool isFirstR)
+    private static async Task<int> WriteColorComponentAsync(string colorComponent, StreamWriter streamWriter, int currentLineLength, bool isFirstR)
     {
         int spaceNeeded = colorComponent.Length + (isFirstR ? 0 : 1);
         if (currentLineLength + spaceNeeded > MAXLINELENGTH)
@@ -82,7 +82,7 @@ public class PpmWriter : IPpmWriter
     /// A scaled value greater than 255 is clamped to 255.
     /// A scaled value less than 0 is clamped to 0.
     /// </summary>
-    private byte GetScaledRGBValue(double rgbValue)
+    private static byte GetScaledRGBValue(double rgbValue)
     {
         if (rgbValue < 0) return 0;
         if (rgbValue > 1) return 255;
