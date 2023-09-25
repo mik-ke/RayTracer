@@ -6,12 +6,12 @@
 /// </summary>
 public sealed class PointLight
 {
-    public Color Intensity { get; init; }
     public Point Position { get; init; }
+    public Color Intensity { get; init; }
 
-    public PointLight(Color intensity, Point position)
+    public PointLight(Point position, Color intensity)
     {
-        Intensity = intensity;
         Position = position;
+        Intensity = intensity;
     }
 }

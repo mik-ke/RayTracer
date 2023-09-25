@@ -23,6 +23,16 @@ public sealed class Material
         Shininess = 200.0;
     }
 
+    /// <summary>
+    /// Defines what <see cref="Models.Color"/> shades an object so they appear three-dimensional
+    /// </summary>
+    /// <returns>A new <see cref="Models.Color"/></returns>
+    public Color Lighting(PointLight light, Point position, Vector eye, Vector normal)
+    {
+        // todo
+        return null!;
+    }
+
     #region equality
     public override bool Equals(object? obj) => Equals(obj as Material);
 

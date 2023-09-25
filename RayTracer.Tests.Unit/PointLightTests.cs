@@ -8,11 +8,11 @@ public class PointLightTests
 	public void Constructor_ShouldInitializeCorrectly()
 	{
 		// Arrange
-		Color intensity = new(1, 1, 1);
 		Point position = new(0, 0, 0);
+		Color intensity = new(1, 1, 1);
 
 		// Act
-		var light = new PointLight(intensity, position);
+		var light = new PointLight(position, intensity);
 
 		// Assert
 		Assert.Equal(intensity, light.Intensity);

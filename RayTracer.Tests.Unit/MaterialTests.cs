@@ -1,4 +1,5 @@
 ﻿using RayTracer.Models;
+using Xunit;
 
 namespace RayTracer.Tests.Unit;
 
@@ -23,6 +24,96 @@ public class MaterialTests
 		Assert.Equal(expectedDiffuse, material.Diffuse);
 		Assert.Equal(expectedSpecular, material.Specular);
 		Assert.Equal(expectedShininess, material.Shininess);
+	}
+
+	[Fact]
+	public void Lighting_ShouldWork_WhenEyeBetweenLightAndSurface()
+	{
+		// Arrange
+		Material material = new();
+		Point position = new(0, 0, 0);
+		Vector eye = new(0, 0, -1);
+		Vector normal = new(0, 0, -1);
+		PointLight light = new(new Point(0, 0, -10), new Color(1, 1, 1));
+		Color expected = new(1.9, 1.9, 1.9);
+
+		// Act
+		var result = material.Lighting(light, position, eye, normal);
+
+		// Assert
+		Assert.Equal(expected, result);
+	}
+
+	[Fact]
+	public void Lighting_ShouldWork_WhenEyeBetweenLightAndSurfaceAndOffset45Degrees()
+	{
+		// Arrange
+		Material material = new();
+		Point position = new(0, 0, 0);
+		Vector eye = new(0, Math.Sqrt(2) / 2, -Math.Sqrt(2) / 2);
+		Vector normal = new(0, 0, -1);
+		PointLight light = new(new Point(0, 0, -10), new Color(1, 1, 1));
+		Color expected = new(1.0, 1.0, 1.0);
+
+		// Act
+		var result = material.Lighting(light, position, eye, normal);
+
+		// Assert
+		Assert.Equal(expected, result);
+	}
+
+	[Fact]
+	public void Lighting_ShouldWork_WhenEyeOppositeSurfaceAndLightOffset45Degrees()
+	{
+		// Arrange
+		Material material = new();
+		Point position = new(0, 0, 0);
+		Vector eye = new(0, 0, -1);
+		Vector normal = new(0, 0, -1);
+		PointLight light = new(new Point(0, 10, -10), new Color(1, 1, 1));
+		Color expected = new(0.7364, 0.7364, 0.7364);
+
+		// Act
+		var result = material.Lighting(light, position, eye, normal);
+
+		// Assert
+		Assert.Equal(expected, result);
+	}
+
+	[Fact]
+	public void Lighting_ShouldWork_WhenEyeInReflectionVectorPath()
+	{
+		// Arrange
+		Material material = new();
+		Point position = new(0, 0, 0);
+		Vector eye = new(0, -Math.Sqrt(2) / 2, -Math.Sqrt(2) / 2);
+		Vector normal = new(0, 0, -1);
+		PointLight light = new(new Point(0, 10, -10), new Color(1, 1, 1));
+		Color expected = new(1.6364, 1.6364, 1.6364);
+
+		// Act
+		var result = material.Lighting(light, position, eye, normal);
+
+		// Assert
+		Assert.Equal(expected, result);
+	}
+
+	[Fact]
+	public void Lighting_ShouldBeAmbient_WhenLightBehindSurface()
+	{
+		// Arrange
+		Material material = new();
+		Point position = new(0, 0, 0);
+		Vector eye = new(0, 0, -1);
+		Vector normal = new(0, 0, -1);
+		PointLight light = new(new Point(0, 0, 10), new Color(1, 1, 1));
+		Color expected = new(material.Ambient, material.Ambient, material.Ambient);
+
+		// Act
+		var result = material.Lighting(light, position, eye, normal);
+
+		// Assert
+		Assert.Equal(expected, result);
 	}
 
     #region equality
