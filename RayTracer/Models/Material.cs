@@ -24,13 +24,34 @@ public sealed class Material
     }
 
     /// <summary>
-    /// Defines what <see cref="Models.Color"/> shades an object so they appear three-dimensional
+    /// Defines what <see cref="Models.Color"/> shades an object so it appears three-dimensional.
+    /// Calculated by combining the ambient, diffuse and specular contributions.
     /// </summary>
     /// <returns>A new <see cref="Models.Color"/></returns>
     public Color Lighting(PointLight light, Point position, Vector eye, Vector normal)
     {
-        // todo
-        return null!;
+        Color effective = Color * light.Intensity;
+        Vector lightDirection = (light.Position - position).Normalize();
+        Color ambient = effective * Ambient;
+
+        // light dot normal is the cosine of the angle between the light vector and surface normal vector
+        // negative number means the light is on the other side of the surface
+        double lightDotNormal = lightDirection.Dot(normal);
+        if (lightDotNormal < 0)
+            return ambient + Color.Black + Color.Black;
+
+        Color diffuse = effective * Diffuse * lightDotNormal;
+        // reflect dot eye represents the cosine of the angel between the reflection vector and eye vector
+        // negative number means the light reflects away from the eye
+        Vector reflect = -lightDirection.Reflect(normal);
+        double reflectDotEye = reflect.Dot(eye);
+        if (reflectDotEye <= 0)
+            return ambient + diffuse + Color.Black;
+
+        var factor = Math.Pow(reflectDotEye, Shininess);
+        Color specular = light.Intensity * Specular * factor;
+
+        return ambient + diffuse + specular;
     }
 
     #region equality
