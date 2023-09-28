@@ -20,7 +20,8 @@ public class WorldTests
         Sphere sphere2 = new();
         sphere2.Transform = Matrix.Scaling(0.5, 0.5, 0.5);
 
-        World world = new() { LightSource = light };
+        World world = new(); //{ LightSource = light };
+        world.LightSources.Add(light);
         world.Objects.Add(sphere1);
         world.Objects.Add(sphere2);
 
@@ -36,7 +37,7 @@ public class WorldTests
 
         // Assert
         Assert.Empty(world.Objects);
-        Assert.Null(world.LightSource);
+        Assert.Empty(world.LightSources);
 	}
 
     [Fact]
@@ -85,7 +86,8 @@ public class WorldTests
     {
         // Arrange
         World world = DefaultTestWorld();
-        world.LightSource = new PointLight(new Point(0, 0.25, 0), new Color(1, 1, 1));
+        world.LightSources.Clear();
+        world.LightSources.Add(new PointLight(new Point(0, 0.25, 0), new Color(1, 1, 1)));
         Ray ray = new(new Point(0, 0, 0), new Vector(0, 0, 1));
         Sphere shape = world.Objects[1];
         Intersection intersection = new(0.5, shape);

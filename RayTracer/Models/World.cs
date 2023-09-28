@@ -3,7 +3,7 @@
 public sealed class World
 {
     #region properties
-    public PointLight? LightSource { get; set; } 
+    public List<PointLight> LightSources { get; } = new List<PointLight>();
     public List<Sphere> Objects { get; } = new List<Sphere>();
     #endregion
 
@@ -29,12 +29,17 @@ public sealed class World
     /// </summary>
     public Color ShadeHit(Computations computations)
     {
-        if (LightSource == null) return Color.Black;
+        Color finalColor = Color.Black;
 
-        return computations.Object.Material.Lighting(
-            LightSource,
-            computations.Point,
-            computations.EyeVector,
-            computations.NormalVector);
+        foreach (var light in LightSources)
+        {
+            finalColor += computations.Object.Material.Lighting(
+                light,
+                computations.Point,
+                computations.EyeVector,
+                computations.NormalVector);
+        }
+
+        return finalColor;
     }
 }
