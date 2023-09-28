@@ -13,7 +13,7 @@ public sealed class Intersections : IEnumerable<Intersection>
     /// <summary>
     /// Returns an empty Intersections collection.
     /// </summary>
-    public static Intersections Empty => new Intersections(Array.Empty<Intersection>());
+    public static Intersections Empty => new(Array.Empty<Intersection>());
 
     public Intersections(params Intersection[] intersections)
     {

@@ -1,4 +1,5 @@
 ﻿using RayTracer.Models;
+using Xunit;
 
 namespace RayTracer.Tests.Unit;
 
@@ -17,8 +18,10 @@ public class WorldTests
         sphere1.Material.Color = new(0.8, 1.0, 0.6);
         sphere1.Material.Diffuse = 0.7;
         sphere1.Material.Specular = 0.2;
-        Sphere sphere2 = new();
-        sphere2.Transform = Matrix.Scaling(0.5, 0.5, 0.5);
+        Sphere sphere2 = new()
+        {
+            Transform = Matrix.Scaling(0.5, 0.5, 0.5)
+        };
 
         World world = new(); //{ LightSource = light };
         world.LightSources.Add(light);
@@ -96,6 +99,55 @@ public class WorldTests
 
         // Act
         var actual = world.ShadeHit(computations);
+
+        // Assert
+        Assert.Equal(expected, actual);
+    }
+
+    [Fact]
+    public void ColorAt_ShouldBeBlack_WhenRayMisses()
+    {
+        // Arrange
+        World world = DefaultTestWorld();
+        Ray ray = new(new Point(0, 0, -5), new Vector(0, 1, 0));
+        Color expected = Color.Black;
+
+        // Act
+        var actual = world.ColorAt(ray);
+
+        // Assert
+        Assert.Equal(expected, actual);
+    }
+
+    [Fact]
+    public void ColorAt_ShouldBeCorrect_WhenRayHits()
+    {
+        // Arrange
+        World world = DefaultTestWorld();
+        Ray ray = new(new Point(0, 0, -5), new Vector(0, 0, 1));
+        Color expected = new(0.38066, 0.47583, 0.2855);
+
+        // Act
+        var actual = world.ColorAt(ray);
+
+        // Assert
+        Assert.Equal(expected, actual);
+    }
+
+    [Fact]
+    public void ColorAt_ShouldBeCorrect_WhenRayBetweenOuterAndInnerSpheres()
+    {
+        // Arrange
+        World world = DefaultTestWorld();
+        Sphere outer = world.Objects[0];
+        Sphere inner = world.Objects[1];
+        outer.Material.Ambient = 1;
+        inner.Material.Ambient = 1;
+        Ray ray = new(new Point(0, 0, 0.75), new Vector(0, 0, -1));
+        Color expected = inner.Material.Color;
+
+        // Act
+        var actual = world.ColorAt(ray);
 
         // Assert
         Assert.Equal(expected, actual);

@@ -8,6 +8,20 @@ public sealed class World
     #endregion
 
     /// <summary>
+    /// Intersects the given <paramref name="ray"/> with the <see cref="World"/>
+    /// and returns the color at the resulting intersection.
+    /// </summary>
+    public Color ColorAt(Ray ray)
+    {
+        var intersections = Intersect(ray);
+        var hit = intersections.Hit();
+        if (hit == null) return Color.Black;
+
+        Computations computations = new(hit, ray);
+        return ShadeHit(computations);
+    }
+
+    /// <summary>
     /// Returns a collection of t values where the given <paramref name="ray"/> intersects
     /// with the <see cref="Objects"/>
     /// </summary>

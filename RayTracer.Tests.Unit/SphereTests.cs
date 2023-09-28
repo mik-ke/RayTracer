@@ -160,9 +160,11 @@ public class SphereTests
 	{
 		// Arrange
 		Ray ray = new(new Point(0, 0, -5), new Vector(0, 0, 1));
-		Sphere sphere = new();
-		sphere.Transform = Matrix.Scaling(2, 2, 2);
-		const int expectedLength = 2;
+        Sphere sphere = new()
+        {
+            Transform = Matrix.Scaling(2, 2, 2)
+        };
+        const int expectedLength = 2;
 		const double expected0 = 3.0;
 		const double expected1 = 7.0;
 
@@ -180,11 +182,13 @@ public class SphereTests
 	{
 		// Arrange
 		Ray ray = new(new Point(0, 0, -5), new Vector(0, 0, 1));
-		Sphere sphere = new();
-		sphere.Transform = Matrix.Translation(5, 0, 0);
+        Sphere sphere = new()
+        {
+            Transform = Matrix.Translation(5, 0, 0)
+        };
 
-		// Act
-		var intersections = sphere.Intersect(ray);
+        // Act
+        var intersections = sphere.Intersect(ray);
 
 		// Assert
 		Assert.Empty(intersections);
@@ -245,10 +249,12 @@ public class SphereTests
 	[Fact]
 	public void Normal_ShouldWork_WhenSphereTransformed()
 	{
-		// Arrange
-		Sphere sphere = new();
-		sphere.Transform = Matrix.Identity(4).RotateZ(Math.PI / 5).Scale(1, 0.5, 1);
-		Point point = new(0, Math.Sqrt(2) / 2, -Math.Sqrt(2) / 2);
+        // Arrange
+        Sphere sphere = new()
+        {
+            Transform = Matrix.Identity(4).RotateZ(Math.PI / 5).Scale(1, 0.5, 1)
+        };
+        Point point = new(0, Math.Sqrt(2) / 2, -Math.Sqrt(2) / 2);
 		Vector expected = new(0, 0.97014, -0.24254);
 
 		// Act
