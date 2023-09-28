@@ -3,7 +3,7 @@
 public sealed class World
 {
     #region properties
-    public PointLight? LightSource { get; init; } 
+    public PointLight? LightSource { get; set; } 
     public List<Sphere> Objects { get; } = new List<Sphere>();
     #endregion
 
@@ -22,5 +22,19 @@ public sealed class World
         foreach (var obj in Objects)
             foreach (var intersection in obj.Intersect(ray))
                 yield return intersection;
+    }
+
+    /// <summary>
+    /// Computes and returns the shading of the given intersection's <paramref name="computations"/>.
+    /// </summary>
+    public Color ShadeHit(Computations computations)
+    {
+        if (LightSource == null) return Color.Black;
+
+        return computations.Object.Material.Lighting(
+            LightSource,
+            computations.Point,
+            computations.EyeVector,
+            computations.NormalVector);
     }
 }

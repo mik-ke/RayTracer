@@ -61,4 +61,41 @@ public class WorldTests
         Assert.Equal(t3, result[2].T);
         Assert.Equal(t4, result[3].T);
     }
+
+    [Fact]
+    public void ShadeHit_ShouldBeCorrectColor_WhenComputationsGiven()
+    {
+        // Arrange
+        World world = DefaultTestWorld();
+        Ray ray = new(new Point(0, 0, -5), new Vector(0, 0, 1));
+        Sphere shape = world.Objects[0];
+        Intersection intersection = new(4, shape);
+        Computations computations = new(intersection, ray);
+        Color expected = new(0.38066, 0.47583, 0.2855);
+
+        // Act
+        var actual = world.ShadeHit(computations);
+
+        // Assert
+        Assert.Equal(expected, actual);
+    }
+
+    [Fact]
+    public void ShadeHit_ShouldBeCorrectColor_WhenIntersectionInsideObject()
+    {
+        // Arrange
+        World world = DefaultTestWorld();
+        world.LightSource = new PointLight(new Point(0, 0.25, 0), new Color(1, 1, 1));
+        Ray ray = new(new Point(0, 0, 0), new Vector(0, 0, 1));
+        Sphere shape = world.Objects[1];
+        Intersection intersection = new(0.5, shape);
+        Computations computations = new(intersection, ray);
+        Color expected = new(0.90498, 0.90498, 0.90498);
+
+        // Act
+        var actual = world.ShadeHit(computations);
+
+        // Assert
+        Assert.Equal(expected, actual);
+    }
 }

@@ -35,7 +35,7 @@ public sealed record Computations
     /// </summary>
     public bool IsInside { get; init; }
 
-    public Computations(Ray ray, Intersection intersection)
+    public Computations(Intersection intersection, Ray ray)
     {
         T = intersection.T;
         Object = intersection.Object;

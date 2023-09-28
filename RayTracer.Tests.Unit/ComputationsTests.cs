@@ -17,7 +17,7 @@ public class ComputationsTests
 		Vector expectedNormal = new(0, 0, -1);
 
 		// Act
-		Computations result = new(ray, intersection);
+		Computations result = new(intersection, ray);
 
 		// Assert
 		Assert.Equal(intersection.T, result.T);
@@ -36,7 +36,7 @@ public class ComputationsTests
 		Intersection intersection = new(4, shape);
 
 		// Act
-		Computations result = new(ray, intersection);
+		Computations result = new(intersection, ray);
 
 		// Assert
 		Assert.False(result.IsInside);
@@ -51,7 +51,7 @@ public class ComputationsTests
 		Intersection intersection = new(1, shape);
 
 		// Act
-		Computations result = new(ray, intersection);
+		Computations result = new(intersection, ray);
 
 		// Assert
 		Assert.True(result.IsInside);
