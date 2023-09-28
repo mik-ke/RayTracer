@@ -75,6 +75,31 @@ public sealed class Matrix
                 { 0,  0,  0,  1}
             });
     }
+
+    /// <summary>
+    /// Orients the world relative to the eye.
+    /// </summary>
+    /// <param name="from">Specifies where the eye will be in the scene.</param>
+    /// <param name="to">Specifies the point in the scene the eye will look at.</param>
+    /// <param name="up">Specifies which direction is up</param>
+    /// <returns>A view transformation matrix</returns>
+    public static Matrix View(Point from, Point to, Vector up)
+    {
+        Vector forward = (to - from).Normalize();
+        Vector left = forward.Cross(up.Normalize());
+        Vector trueUp = left.Cross(forward);
+
+        Matrix orientation = new(
+            new double[4, 4]
+            {
+                {  left.X,     left.Y,     left.Z,    0 },
+                {  trueUp.X,   trueUp.Y,   trueUp.Z,  0 },
+                { -forward.X, -forward.Y, -forward.Z, 0 },
+                {  0,          0,          0,         1 }
+            });
+
+        return orientation * Translation(-from.X, -from.Y, -from.Z);
+    }
     #endregion
 
     #region rotation

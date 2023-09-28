@@ -1,4 +1,5 @@
 ﻿using RayTracer.Models;
+using Xunit;
 
 namespace RayTracer.Tests.Unit;
 
@@ -1150,6 +1151,77 @@ public class MatrixTests
 
 		// Assert
 		Assert.Equal(expected, transformed);
+	}
+
+	[Fact]
+	public void View_ShouldReturnIdentityMatrix_WhenDefaultOrientationGiven()
+	{
+		// Arrange
+		Point from = new(0, 0, 0);
+		Point to = new(0, 0, -1);
+		Vector up = new(0, 1, 0);
+		Matrix expected = Matrix.Identity(4);
+
+		// Act
+		var actual = Matrix.View(from, to, up);
+
+		// Assert
+		Assert.Equal(expected, actual);
+	}
+
+	[Fact]
+	public void View_ShouldBeEqualToNegativelyScaledMatrix_WhenLookingInPositiveZDirection()
+	{
+		// Arrange
+		Point from = new(0, 0, 0);
+		Point to = new(0, 0, 1);
+		Vector up = new(0, 1, 0);
+		Matrix expected = Matrix.Scaling(-1, 1, -1);
+
+		// Act
+		var actual = Matrix.View(from, to, up);
+
+		// Assert
+		Assert.Equal(expected, actual);
+	}
+
+	[Fact]
+	public void View_ShouldMoveWorld()
+	{
+		// Arrange
+		Point from = new(0, 0, 8);
+		Point to = new(0, 0, 0);
+		Vector up = new(0, 1, 0);
+		Matrix expected = Matrix.Translation(0, 0, -8);
+
+		// Act
+		var actual = Matrix.View(from, to, up);
+
+		// Assert
+		Assert.Equal(expected, actual);
+	}
+
+	[Fact]
+	public void View_ShouldBeCorrect_WhenCalled()
+	{
+		// Arrange
+		Point from = new(1, 3, 2);
+		Point to = new(4, -2, 8);
+		Vector up = new(1, 1, 0);
+		Matrix expected = new(
+			new double[4, 4]
+			{
+				{ -0.50709, 0.50709, 0.67612, -2.36643 },
+				{ 0.76772, 0.60609, 0.12122, -2.82843 },
+				{ -0.35857, 0.59761, -0.71714, 0.00000 },
+				{ 0.00000, 0.00000, 0.00000, 1.00000 }
+			});
+
+		// Act
+		var actual = Matrix.View(from, to, up);
+
+		// Assert
+		Assert.Equal(expected, actual);
 	}
 
     #region equality
