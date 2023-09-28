@@ -1,6 +1,4 @@
 ﻿using RayTracer.Models;
-using Xunit;
-using Xunit.Sdk;
 
 namespace RayTracer.Tests.Unit;
 
@@ -12,7 +10,7 @@ public class WorldTests
     /// and two concentric spheres where the outermost is a unit sphere
     /// and the innnermost has a radius of 0.5. Both lie at the origin.
     /// </summary>
-	public static World DefaultWorld()
+	public static World DefaultTestWorld()
 	{
         PointLight light = new(new Point(-10, 10, -10), new Color(1, 1, 1));
         Sphere sphere1 = new();
@@ -45,7 +43,7 @@ public class WorldTests
     public void Intersect_ShouldReturnCorrectTValues_WhenCalledWithDefaultWorld()
     {
         // Arrange
-        World world = DefaultWorld();
+        World world = DefaultTestWorld();
         Ray ray = new(new Point(0, 0, -5), new Vector(0, 0, 1));
         const int expectedLength = 4;
         const double t1 = 4;
