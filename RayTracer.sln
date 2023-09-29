@@ -21,6 +21,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SilhouetteProgram.CLI", "Si
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sphere3DRender.CLI", "Sphere3DRender.CLI\Sphere3DRender.CLI.csproj", "{38A3D59B-0D68-4CEE-894B-0486D555D48A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorldRender.CLI", "WorldRender.CLI\WorldRender.CLI.csproj", "{7AD57F82-5B5C-4A0F-902A-0647BCCF00AA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -59,6 +61,10 @@ Global
 		{38A3D59B-0D68-4CEE-894B-0486D555D48A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{38A3D59B-0D68-4CEE-894B-0486D555D48A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{38A3D59B-0D68-4CEE-894B-0486D555D48A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7AD57F82-5B5C-4A0F-902A-0647BCCF00AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7AD57F82-5B5C-4A0F-902A-0647BCCF00AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7AD57F82-5B5C-4A0F-902A-0647BCCF00AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7AD57F82-5B5C-4A0F-902A-0647BCCF00AA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -69,6 +75,7 @@ Global
 		{226F288B-8F5A-4AA5-B9EC-54B92F3E9CE4} = {5EF8F723-0F78-4549-A0A5-14B27B45727F}
 		{DCD6CBEE-CA42-46DF-A918-AFC2C9D40F1D} = {5EF8F723-0F78-4549-A0A5-14B27B45727F}
 		{38A3D59B-0D68-4CEE-894B-0486D555D48A} = {5EF8F723-0F78-4549-A0A5-14B27B45727F}
+		{7AD57F82-5B5C-4A0F-902A-0647BCCF00AA} = {5EF8F723-0F78-4549-A0A5-14B27B45727F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3EF37C13-6F1C-48E0-81FB-6B33FCD2D8DE}
