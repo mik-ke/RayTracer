@@ -1,6 +1,6 @@
 ﻿using RayTracer.Models;
 
-namespace RayTracer.Extensions.Shapes;
+namespace RayTracer.Shapes;
 
 public abstract class Shape
 {

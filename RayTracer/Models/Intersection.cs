@@ -1,4 +1,6 @@
-﻿namespace RayTracer.Models;
+﻿using RayTracer.Shapes;
+
+namespace RayTracer.Models;
 
 public sealed class Intersection
 {

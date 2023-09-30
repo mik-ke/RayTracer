@@ -1,4 +1,4 @@
-﻿using RayTracer.Extensions.Shapes;
+﻿using RayTracer.Shapes;
 using RayTracer.Models;
 
 namespace RayTracer.Tests.Unit;

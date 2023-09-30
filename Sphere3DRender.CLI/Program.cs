@@ -1,6 +1,7 @@
 ﻿using RayTracer.Models;
 using RayTracer.Utilities;
 using RayTracer.Extensions;
+using RayTracer.Shapes;
 
 namespace Sphere3DRender.CLI;
 

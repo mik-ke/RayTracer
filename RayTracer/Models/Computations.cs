@@ -1,4 +1,5 @@
 ﻿using RayTracer.Extensions;
+using RayTracer.Shapes;
 
 namespace RayTracer.Models;
 

@@ -1,4 +1,4 @@
-﻿using RayTracer.Extensions.Shapes;
+﻿using RayTracer.Shapes;
 using RayTracer.Models;
 
 namespace RayTracer.Tests.Unit;
@@ -23,5 +23,5 @@ public sealed class TestShape : Shape
     }
 
     protected override Vector LocalNormal(Point localPoint) =>
-        new Vector(localPoint.X, localPoint.Y, localPoint.Z);
+        new(localPoint.X, localPoint.Y, localPoint.Z);
 }

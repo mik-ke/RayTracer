@@ -1,5 +1,7 @@
 ﻿using RayTracer.Comparers;
 using RayTracer.Models;
+using RayTracer.Shapes;
+
 namespace RayTracer.Tests.Unit;
 
 public class IntersectionComparerTests

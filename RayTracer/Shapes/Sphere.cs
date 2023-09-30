@@ -1,7 +1,6 @@
-﻿using RayTracer.Extensions.Shapes;
-using System.Dynamic;
+﻿using RayTracer.Models;
 
-namespace RayTracer.Models;
+namespace RayTracer.Shapes;
 
 /// <summary>
 /// A Sphere shape. Assumed to originate in the object origin (0, 0, 0).

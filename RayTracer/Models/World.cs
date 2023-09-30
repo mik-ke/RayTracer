@@ -1,4 +1,5 @@
 ﻿using System.Runtime.CompilerServices;
+using RayTracer.Shapes;
 
 namespace RayTracer.Models;
 

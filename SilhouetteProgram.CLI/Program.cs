@@ -1,5 +1,6 @@
 ﻿using RayTracer.Extensions;
 using RayTracer.Models;
+using RayTracer.Shapes;
 using RayTracer.Utilities;
 
 namespace SilhouetteProgram.CLI;
