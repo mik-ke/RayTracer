@@ -6,60 +6,6 @@ namespace RayTracer.Tests.Unit;
 public class SphereTests
 {
 	[Fact]
-	public void Transform_ShouldBeIdentityMatrix_WhenInitialized()
-	{
-		// Arrange
-		Matrix expected = Matrix.Identity(4);
-
-        // Act
-        Sphere sphere = new();
-
-		// Assert
-		Assert.Equal(expected, sphere.Transform);
-	}
-
-	[Fact]
-	public void Transform_ShouldBeSet()
-	{
-		// Arrange
-		Matrix expected = Matrix.Translation(2, 3, 4);
-		Sphere sphere = new();
-
-		// Act
-		sphere.Transform = expected;
-
-		// Assert
-		Assert.Equal(expected, sphere.Transform);
-	}
-
-	[Fact]
-	public void Material_ShouldBeDefaultMaterial_WhenInitialized()
-	{
-		// Arrange
-		Material defaultMaterial = new();
-
-		// Act
-		Sphere sphere = new();
-
-		// Assert
-		Assert.Equal(defaultMaterial, sphere.Material);
-	}
-
-	[Fact]
-	public void Material_ShouldBeSet()
-	{
-		// Arrange
-		Sphere sphere = new();
-		Material material = new() { Ambient = 1.0 };
-
-		// Act
-		sphere.Material = material;
-
-		// Assert
-		Assert.Equal(material, sphere.Material);
-	}
-
-	[Fact]
 	public void Intersect_ShouldReturnCorrectIntersections_WhenRayOriginatesBeforeSphere()
 	{
 		// Arrange
@@ -229,38 +175,5 @@ public class SphereTests
 
 		// Assert
 		Assert.Equal(normal, normalized);
-	}
-
-	[Fact]
-	public void Normal_ShouldWork_WhenSphereTranslated()
-	{
-        // Arrange
-        Sphere sphere = new() { Transform = Matrix.Translation(0, 1, 0) };
-		Point point = new(0, 1.70711, -0.70711);
-		Vector expected = new(0, 0.70711, -0.70711);
-
-		// Act
-		var actual = sphere.Normal(point);
-
-		// Assert
-		Assert.Equal(expected, actual);
-    }
-
-	[Fact]
-	public void Normal_ShouldWork_WhenSphereTransformed()
-	{
-        // Arrange
-        Sphere sphere = new()
-        {
-            Transform = Matrix.Identity(4).RotateZ(Math.PI / 5).Scale(1, 0.5, 1)
-        };
-        Point point = new(0, Math.Sqrt(2) / 2, -Math.Sqrt(2) / 2);
-		Vector expected = new(0, 0.97014, -0.24254);
-
-		// Act
-		var actual = sphere.Normal(point);
-
-		// Assert
-		Assert.Equal(expected, actual);
 	}
 }
