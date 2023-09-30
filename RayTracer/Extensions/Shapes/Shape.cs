@@ -15,13 +15,12 @@ public abstract class Shape
     /// </summary>
     public Material Material { get; set; } = new Material();
 
-    public Shape(Matrix transform)
+    public Shape(Matrix? transform)
     {
-        Transform = transform;
+        Transform = transform ?? Matrix.Identity(4);
     }
-    public Shape()
+    public Shape() : this(null)
     {
-        Transform = Matrix.Identity(4);
     }
 
     /// <summary>

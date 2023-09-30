@@ -1,10 +1,21 @@
-﻿using RayTracer.Extensions;
+﻿using RayTracer.Extensions.Shapes;
 using RayTracer.Models;
 
 namespace RayTracer.Tests.Unit;
 
 public class SphereTests
 {
+	[Fact]
+	public void Sphere_ShouldBeShape()
+	{
+		// Arrange
+		// Act
+		Sphere sphere = new();
+
+		// Assert
+		Assert.IsAssignableFrom<Shape>(sphere);
+	}
+
 	[Fact]
 	public void Intersect_ShouldReturnCorrectIntersections_WhenRayOriginatesBeforeSphere()
 	{

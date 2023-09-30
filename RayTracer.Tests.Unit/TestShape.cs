@@ -8,10 +8,10 @@ namespace RayTracer.Tests.Unit;
 /// </summary>
 public sealed class TestShape : Shape
 {
-    public TestShape()
+    public TestShape() : this(null)
     {
     }
-    public TestShape(Matrix transform) : base(transform)
+    public TestShape(Matrix? transform) : base(transform)
     {
     }
 

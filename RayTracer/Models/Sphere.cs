@@ -1,10 +1,13 @@
-﻿namespace RayTracer.Models;
+﻿using RayTracer.Extensions.Shapes;
+using System.Dynamic;
+
+namespace RayTracer.Models;
 
 /// <summary>
 /// A Sphere shape. Assumed to originate in the object origin (0, 0, 0).
 /// Also assumed to be a unit sphere with a radius of one.
 /// </summary>
-public sealed class Sphere
+public sealed class Sphere : Shape
 {
     private static int _currentIDCounter = 0;
 
@@ -12,33 +15,21 @@ public sealed class Sphere
 
     public static readonly Point Origin = new(0, 0, 0);
 
-    /// <summary>
-    /// The transform of the sphere. I.e. the conversion from object space (unit sphere) to world space.
-    /// 4x4 Identity matrix by default.
-    /// </summary>
-    public Matrix Transform { get; set; } = Matrix.Identity(4);
+    public Sphere() : this(null)
+    {
+    }
 
-    /// <summary>
-    /// The material of the sphere.
-    /// </summary>
-    public Material Material { get; set; } = new Material();
-
-    public Sphere()
+    public Sphere(Matrix? transform) : base(transform)
     {
         ID = _currentIDCounter++;
     }
 
-    /// <summary>
-    /// Returns a collection of t values where the given <paramref name="ray"/> intersects the <see cref="Sphere"/>.
-    /// </summary>
-    public Intersections Intersect(Ray ray)
+    protected override Intersections LocalIntersect(Ray localRay)
     {
-        Ray transformedRay = ray.Transform(Transform.Inverse());
+        Vector sphereToRay = localRay.Origin - new Point(0, 0, 0);
 
-        Vector sphereToRay = transformedRay.Origin - new Point(0, 0, 0);
-
-        double a = transformedRay.Direction.Dot(transformedRay.Direction);
-        double b = 2 * transformedRay.Direction.Dot(sphereToRay);
+        double a = localRay.Direction.Dot(localRay.Direction);
+        double b = 2 * localRay.Direction.Dot(sphereToRay);
         double c = sphereToRay.Dot(sphereToRay) - 1;
 
         double discriminant = Math.Pow(b, 2) - 4 * a * c;
@@ -53,22 +44,9 @@ public sealed class Sphere
         return new Intersections(intersection1, intersection2);
     }
 
-    /// <summary>
-    /// Returns the (surface) normal of the <see cref="Sphere"/> at the given <paramref name="worldPoint"/>.
-    /// </summary>
-    /// <returns>A new <see cref="Vector"/>.</returns>
-    public Vector Normal(Point worldPoint)
+    protected override Vector LocalNormal(Point localPoint)
     {
-        var objectPoint = (Point)(Transform.Inverse() * worldPoint);
-        var objectNormal = objectPoint - Origin;
-        // Technically we should be getting Transform.Submatrix(3, 3) as
-        // any translations will screw the W value of a vector.
-        // We can avoid that by simply using the normal 4x4 functionality
-        // then setting the W to 0 afterwards.
-        var worldNormal = Transform.Inverse().Transpose() * objectNormal;
-        worldNormal[3, 0] = 0;
-
-        return ((Vector)worldNormal).Normalize();
+        return localPoint - Origin;
     }
 
     #region equality
