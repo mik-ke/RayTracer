@@ -37,12 +37,14 @@ internal class Program
 
     static Sphere CreateFloor()
     {
-        Sphere floor = new();
-        floor.Transform = Matrix.Scaling(10, 0.01, 10);
-        floor.Material = new()
+        Sphere floor = new()
         {
-            Color = new(1, 0.9, 0.9),
-            Specular = 0
+            Transform = Matrix.Scaling(10, 0.01, 10),
+            Material = new()
+            {
+                Color = new(1, 0.9, 0.9),
+                Specular = 0
+            }
         };
 
         return floor;
@@ -62,12 +64,14 @@ internal class Program
 
     static Sphere CreateWall(Matrix rotationY, Sphere floor)
     {
-        Sphere wall = new();
-        wall.Transform = Matrix.Translation(0, 0, 5)
-            * rotationY
-            * Matrix.RotationX(Math.PI / 2)
-            * Matrix.Scaling(10, 0.01, 10);
-        wall.Material = floor.Material;
+        Sphere wall = new()
+        {
+            Transform = Matrix.Translation(0, 0, 5)
+                * rotationY
+                * Matrix.RotationX(Math.PI / 2)
+                * Matrix.Scaling(10, 0.01, 10),
+            Material = floor.Material
+        };
 
         return wall;
     }

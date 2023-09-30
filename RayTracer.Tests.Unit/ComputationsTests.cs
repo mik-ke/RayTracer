@@ -1,4 +1,5 @@
-﻿using RayTracer.Models;
+﻿using RayTracer.Extensions;
+using RayTracer.Models;
 
 namespace RayTracer.Tests.Unit;
 
@@ -54,5 +55,24 @@ public class ComputationsTests
 
 		// Assert
 		Assert.True(result.IsInside);
+	}
+
+	[Fact]
+	public void OverPoint_ShouldBeInitializedCorrectly()
+	{
+		// Arrange
+		Ray ray = new(new Point(0, 0, -5), new Vector(0, 0, 1));
+		Sphere shape = new()
+		{
+			Transform = Matrix.Translation(0, 0, 1)
+        };
+		Intersection intersection = new(5, shape);
+
+		// Act
+		Computations computations = new(intersection, ray);
+
+		// Assert
+		Assert.True(computations.OverPoint.Z < -DoubleExtensions.EPSILON / 2);
+		Assert.True(computations.Point.Z > computations.OverPoint.Z);
 	}
 }

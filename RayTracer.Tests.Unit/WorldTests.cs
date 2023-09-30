@@ -1,4 +1,5 @@
 ﻿using RayTracer.Models;
+using Xunit;
 
 namespace RayTracer.Tests.Unit;
 
@@ -22,7 +23,7 @@ public class WorldTests
             Transform = Matrix.Scaling(0.5, 0.5, 0.5)
         };
 
-        World world = new(); //{ LightSource = light };
+        World world = new();
         world.LightSources.Add(light);
         world.Objects.Add(sphere1);
         world.Objects.Add(sphere2);
@@ -104,6 +105,32 @@ public class WorldTests
     }
 
     [Fact]
+    public void ShadeHit_ShouldBeCorrect_WhenSecondSphereInShadow()
+    {
+        // Arrange
+        World world = new();
+        PointLight light = new(new Point(0, 0, -10), new Color(1, 1, 1));
+        world.LightSources.Add(light);
+        Sphere sphere1 = new();
+        world.Objects.Add(sphere1);
+        Sphere sphere2 = new()
+        {
+            Transform = Matrix.Translation(0, 0, 10)
+        };
+        world.Objects.Add(sphere2);
+        Ray ray = new(new Point(0, 0, 5), new Vector(0, 0, 1));
+        Intersection intersection = new(4, sphere2);
+        Computations computations = new(intersection, ray);
+        Color expected = new(0.1, 0.1, 0.1);
+
+        // Act
+        var actual = world.ShadeHit(computations);
+
+        // Assert
+        Assert.Equal(expected, actual);
+    }
+
+    [Fact]
     public void ColorAt_ShouldBeBlack_WhenRayMisses()
     {
         // Arrange
@@ -150,5 +177,65 @@ public class WorldTests
 
         // Assert
         Assert.Equal(expected, actual);
+    }
+
+    [Fact]
+    public void IsShadowed_ShouldBeFalse_WhenNothingCollinearWithPointAndLight()
+    {
+        // Arrange
+        World world = DefaultTestWorld();
+        Point point = new(0, 10, 0);
+        PointLight light = world.LightSources[0];
+
+        // Act
+        var result = world.IsShadowed(point, light);
+
+        // Assert
+        Assert.False(result);
+    }
+
+    [Fact]
+    public void IsShadowed_ShouldBeTrue_WhenObjectBetweenLightAndPoint()
+    {
+        // Arrange
+        World world = DefaultTestWorld();
+        Point point = new(10, -10, 10);
+        PointLight light = world.LightSources[0];
+
+        // Act
+        var result = world.IsShadowed(point, light);
+
+        // Assert
+        Assert.True(result);
+    }
+
+    [Fact]
+    public void IsShadowed_ShouldBeFalse_WhenObjectBehindLight()
+    {
+        // Arrange
+        World world = DefaultTestWorld();
+        Point point = new(-20, 20, -20);
+        PointLight light = world.LightSources[0];
+
+        // Act
+        var result = world.IsShadowed(point, light);
+
+        // Assert
+        Assert.False(result);
+    }
+
+    [Fact]
+    public void IsShadowed_ShouldBeFalse_WhenObjectBehindPoint()
+    {
+        // Arrange
+        World world = DefaultTestWorld();
+        Point point = new(-2, 2, -2);
+        PointLight light = world.LightSources[0];
+
+        // Act
+        var result = world.IsShadowed(point, light);
+
+        // Assert
+        Assert.False(result);
     }
 }

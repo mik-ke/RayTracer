@@ -1,4 +1,6 @@
-﻿namespace RayTracer.Models;
+﻿using System.Runtime.CompilerServices;
+
+namespace RayTracer.Models;
 
 public sealed class World
 {
@@ -47,13 +49,35 @@ public sealed class World
 
         foreach (var light in LightSources)
         {
+            bool isShadowed = IsShadowed(computations.OverPoint, light);
             finalColor += computations.Object.Material.Lighting(
                 light,
-                computations.Point,
+                computations.OverPoint,
                 computations.EyeVector,
-                computations.NormalVector);
+                computations.NormalVector,
+                isShadowed);
         }
 
         return finalColor;
+    }
+
+    /// <summary>
+    /// Returns true if the given <paramref name="point"/> in the <see cref="World"/> is in shadow
+    /// for the given <paramref name="light"/>.
+    /// </summary>
+    public bool IsShadowed(Point point, PointLight light)
+    {
+        var pointToLight = light.Position - point;
+        var distance = pointToLight.Magnitude();
+        var direction = pointToLight.Normalize();
+
+        Ray ray = new(point, direction);
+        var intersections = Intersect(ray);
+
+        var hit = intersections.Hit();
+        if (hit != null && hit.T < distance)
+            return true;
+
+        return false;
     }
 }

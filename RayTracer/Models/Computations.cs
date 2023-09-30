@@ -1,4 +1,6 @@
-﻿namespace RayTracer.Models;
+﻿using RayTracer.Extensions;
+
+namespace RayTracer.Models;
 
 /// <summary>
 /// Data structure that encapsulates precomputed information related to an <see cref="Intersection"/>.
@@ -19,6 +21,12 @@ public sealed record Computations
     /// Intersection position in world space.
     /// </summary>
     public Point Point { get; init; }
+
+    /// <summary>
+    /// The <see cref="Point"/> slightly adjusted in the direction of <see cref="NormalVector"/>.
+    /// Used for preventing self-shadowing.
+    /// </summary>
+    public Point OverPoint { get; init; }
 
     /// <summary>
     /// Eye vector.
@@ -48,5 +56,7 @@ public sealed record Computations
             IsInside = true;
             NormalVector = -NormalVector;
         }
+
+        OverPoint = Point + NormalVector * DoubleExtensions.EPSILON;
     }
 }
