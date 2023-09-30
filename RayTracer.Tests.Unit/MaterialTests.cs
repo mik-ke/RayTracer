@@ -1,4 +1,5 @@
 ﻿using RayTracer.Models;
+using Xunit;
 
 namespace RayTracer.Tests.Unit;
 
@@ -110,6 +111,25 @@ public class MaterialTests
 
 		// Act
 		var result = material.Lighting(light, position, eye, normal);
+
+		// Assert
+		Assert.Equal(expected, result);
+	}
+
+	[Fact]
+	public void Lighting_ShouldWork_WhenInShadow()
+	{
+		// Arrange
+		Material material = new();
+		Point position = new(0, 0, 0);
+		Vector eye = new(0, 0, -1);
+		Vector normal = new(0, 0, -1);
+		PointLight light = new(new Point(0, 0, -10), new Color(1, 1, 1));
+		const bool inShadow = true;
+		Color expected = new(0.1, 0.1, 0.1);
+
+		// Act
+		var result = material.Lighting(light, position, eye, normal, inShadow);
 
 		// Assert
 		Assert.Equal(expected, result);

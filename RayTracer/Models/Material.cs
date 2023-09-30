@@ -27,12 +27,17 @@ public sealed class Material
     /// Defines what <see cref="Models.Color"/> shades an object so it appears three-dimensional.
     /// Calculated by combining the ambient, diffuse and specular contributions.
     /// </summary>
+    /// <param name="inShadow">
+    /// Determines if the point is in shadow. If true, ignores diffuse and specular components.
+    /// </param>
     /// <returns>A new <see cref="Models.Color"/></returns>
-    public Color Lighting(PointLight light, Point position, Vector eye, Vector normal)
+    public Color Lighting(PointLight light, Point position, Vector eye, Vector normal, bool inShadow = false)
     {
         Color effective = Color * light.Intensity;
         Vector lightDirection = (light.Position - position).Normalize();
         Color ambient = effective * Ambient;
+
+        if (inShadow) return ambient;
 
         // light dot normal is the cosine of the angle between the light vector and surface normal vector
         // negative number means the light is on the other side of the surface
