@@ -12,9 +12,9 @@ public sealed class Intersection
     /// <summary>
     /// Object that was intersected.
     /// </summary>
-    public Sphere Object { get; init; }
+    public Shape Object { get; init; }
 
-    public Intersection(double t, Sphere @object)
+    public Intersection(double t, Shape @object)
     {
         T = t;
         Object = @object;

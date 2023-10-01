@@ -16,7 +16,7 @@ public sealed record Computations
     /// <summary>
     /// Intersected object.
     /// </summary>
-    public Sphere Object { get; init; }
+    public Shape Object { get; init; }
 
     /// <summary>
     /// Intersection position in world space.
