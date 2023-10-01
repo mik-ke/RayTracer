@@ -2,6 +2,7 @@
 using RayTracer.Models;
 using RayTracer.Shapes;
 using RayTracer.Utilities;
+using System.Reflection.Metadata.Ecma335;
 
 namespace WorldRender.CLI;
 
@@ -14,7 +15,7 @@ internal class Program
         AddSpheres(world);
         AddLightSources(world);
 
-        Point from = new(0, 1.5, -5);
+        Point from = new(0, 1.5, -10);
         Point to = new(0, 1, 0);
         Vector up = new(0, 1, 0);
         Matrix cameraTransform = Matrix.View(from, to, up);
@@ -29,52 +30,41 @@ internal class Program
     static void AddFloorAndWalls(World world)
     {
         var floor = CreateFloor();
-        var leftWall = CreateLeftWall(floor);
-        var rightWall = CreateRightWall(floor);
+        var backdrop = CreateBackdrop(floor.Material);
+        var rightWall = CreateRightWall(floor.Material);
         world.Objects.Add(floor);
-        world.Objects.Add(leftWall); 
-        world.Objects.Add(rightWall); 
+        world.Objects.Add(backdrop);
+        world.Objects.Add(rightWall);
     }
 
-    static Sphere CreateFloor()
+    static Plane CreateFloor()
     {
-        Sphere floor = new()
+        return new Plane()
         {
-            Transform = Matrix.Scaling(10, 0.01, 10),
             Material = new()
             {
                 Color = new(1, 0.9, 0.9),
                 Specular = 0
             }
         };
-
-        return floor;
     }
 
-    static Sphere CreateLeftWall(Sphere floor)
+    static Plane CreateBackdrop(Material floorMaterial)
     {
-        Matrix leftRotationY = Matrix.RotationY(-Math.PI / 4);
-        return CreateWall(leftRotationY, floor);
-    }
-
-    static Sphere CreateRightWall(Sphere floor)
-    {
-        Matrix rightRotationY = Matrix.RotationY(Math.PI / 4);
-        return CreateWall(rightRotationY, floor);
-    }
-
-    static Sphere CreateWall(Matrix rotationY, Sphere floor)
-    {
-        Sphere wall = new()
+        return new Plane()
         {
-            Transform = Matrix.Translation(0, 0, 5)
-                * rotationY
-                * Matrix.RotationX(Math.PI / 2)
-                * Matrix.Scaling(10, 0.01, 10),
-            Material = floor.Material
+            Material = floorMaterial,
+            Transform = Matrix.RotationX(Math.PI / 2).Translate(0, 0, 5)
         };
+    }
 
-        return wall;
+    static Plane CreateRightWall(Material floorMaterial)
+    {
+        return new Plane()
+        {
+            Material = floorMaterial,
+            Transform = Matrix.RotationX(Math.PI / 2).RotateY(Math.PI / 2).Translate(3, 0, 0)
+        };
     }
 
     static void AddSpheres(World world)
@@ -122,7 +112,7 @@ internal class Program
 
     static void AddLightSources(World world)
     {
-        PointLight lightSource = new(new Point(-10, 10, -10), new Color(1, 1, 1));
+        PointLight lightSource = new(new Point(-3, 3, -3), new Color(1, 1, 1));
         world.LightSources.Add(lightSource);
     }
 }

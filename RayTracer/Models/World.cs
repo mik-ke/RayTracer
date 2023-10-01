@@ -7,7 +7,7 @@ public sealed class World
 {
     #region properties
     public List<PointLight> LightSources { get; } = new List<PointLight>();
-    public List<Sphere> Objects { get; } = new List<Sphere>();
+    public List<Shape> Objects { get; } = new List<Shape>();
     #endregion
 
     /// <summary>
