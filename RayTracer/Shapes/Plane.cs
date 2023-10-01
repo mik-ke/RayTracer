@@ -22,7 +22,7 @@ public class Plane : Shape
         Intersection intersection = new(t, this);
         return new Intersections(intersection);
     }
-    private bool IsRayParallel(Ray ray) =>
+    private static bool IsRayParallel(Ray ray) =>
         Math.Abs(ray.Direction.Y) < DoubleExtensions.EPSILON;
 
 

@@ -1,4 +1,5 @@
 ﻿using RayTracer.Models;
+using Xunit;
 
 namespace RayTracer.Tests.Unit;
 
@@ -19,6 +20,32 @@ public class ColorTests
         Assert.Equal(r, color.R);
         Assert.Equal(g, color.G);
         Assert.Equal(b, color.B);
+    }
+
+    [Fact]
+    public void Black_ShouldBeCorrect()
+    {
+        // Arrange
+        Color expected = new(0, 0, 0);
+
+        // Act
+        var actual = Color.Black;
+
+        // Assert
+        Assert.Equal(expected, actual);
+    }
+
+    [Fact]
+    public void White_ShouldBeCorrect()
+    {
+        // Arrange
+        Color expected = new(1, 1, 1);
+
+        // Act
+        var actual = Color.White;
+
+        // Assert
+        Assert.Equal(expected, actual);
     }
 
     #region arithmetic operations

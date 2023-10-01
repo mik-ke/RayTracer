@@ -73,7 +73,7 @@ public class WorldTests
         // Arrange
         World world = DefaultTestWorld();
         Ray ray = new(new Point(0, 0, -5), new Vector(0, 0, 1));
-        Sphere shape = world.Objects[0];
+        Sphere shape = (Sphere)world.Objects[0];
         Intersection intersection = new(4, shape);
         Computations computations = new(intersection, ray);
         Color expected = new(0.38066, 0.47583, 0.2855);
@@ -93,7 +93,7 @@ public class WorldTests
         world.LightSources.Clear();
         world.LightSources.Add(new PointLight(new Point(0, 0.25, 0), new Color(1, 1, 1)));
         Ray ray = new(new Point(0, 0, 0), new Vector(0, 0, 1));
-        Sphere shape = world.Objects[1];
+        Sphere shape = (Sphere)world.Objects[1];
         Intersection intersection = new(0.5, shape);
         Computations computations = new(intersection, ray);
         Color expected = new(0.90498, 0.90498, 0.90498);
@@ -166,8 +166,8 @@ public class WorldTests
     {
         // Arrange
         World world = DefaultTestWorld();
-        Sphere outer = world.Objects[0];
-        Sphere inner = world.Objects[1];
+        Sphere outer = (Sphere)world.Objects[0];
+        Sphere inner = (Sphere)world.Objects[1];
         outer.Material.Ambient = 1;
         inner.Material.Ambient = 1;
         Ray ray = new(new Point(0, 0, 0.75), new Vector(0, 0, -1));
