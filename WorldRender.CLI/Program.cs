@@ -45,8 +45,9 @@ internal class Program
             {
                 Color = new(1, 0.9, 0.9),
                 Specular = 0,
-                Pattern = new StripePattern(new Color(1, 1, 1), new Color(0, 0, 1))
-            }
+                Pattern = new StripePattern(new Color(0.75, 0.75, 0.75), new Color(0.25, 0.25, 0.25))
+            },
+            Transform = Matrix.RotationY(Math.PI / 4)
         };
     }
 
@@ -55,7 +56,7 @@ internal class Program
         return new Plane()
         {
             Material = floorMaterial,
-            Transform = Matrix.RotationX(Math.PI / 2).Translate(0, 0, 5)
+            Transform = Matrix.RotationX(Math.PI / 2).RotateZ(Math.PI / 4).Translate(0, 0, 5)
         };
     }
 
@@ -64,7 +65,7 @@ internal class Program
         return new Plane()
         {
             Material = floorMaterial,
-            Transform = Matrix.RotationX(Math.PI / 2).RotateY(Math.PI / 2).Translate(3.1, 0, 0)
+            Transform = Matrix.RotationX(Math.PI / 2).RotateY(Math.PI / 2).RotateX(-Math.PI / 4).Translate(5, 0, 0)
         };
     }
 
