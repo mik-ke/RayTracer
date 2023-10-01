@@ -26,6 +26,6 @@ public class Plane : Shape
         Math.Abs(ray.Direction.Y) < DoubleExtensions.EPSILON;
 
 
-    private static Vector _planeNormal = new Vector(0, 1, 0);
+    private static readonly Vector _planeNormal = new(0, 1, 0);
     protected override Vector LocalNormal(Point localPoint) => _planeNormal;
 }

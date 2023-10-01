@@ -140,15 +140,17 @@ public class MaterialTests
 	[MemberData(nameof(LightingPatternData))]
 	public void Lighting_ShouldWork_WhenPatternApplied(Point position, Color expected)
 	{
-		// Arrange
-		Material material = new();
-		material.Pattern = new StripePattern(Color.White, Color.Black);
-		material.Ambient = 1;
-		material.Diffuse = 0;
-		material.Specular = 0;
-		Vector eye = new(0, 0, -1);
+        // Arrange
+        Material material = new()
+        {
+            Pattern = new StripePattern(Color.White, Color.Black),
+            Ambient = 1,
+            Diffuse = 0,
+            Specular = 0
+        };
+        Vector eye = new(0, 0, -1);
 		Vector normal = new(0, 0, -1);
-		PointLight light = new PointLight(new Point(0, 0, -10), Color.White);
+		PointLight light = new(new Point(0, 0, -10), Color.White);
 
 		// Act
 		var actual = material.Lighting(new Sphere(), light, position, eye, normal);

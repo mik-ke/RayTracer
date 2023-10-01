@@ -100,10 +100,7 @@ public class StripePatternTests
 	{
 		// Arrange
 		Sphere sphere = new();
-		StripePattern pattern = new(Color.White, Color.Black)
-		{
-			Transform = Matrix.Scaling(2, 2, 2)
-		};
+		StripePattern pattern = new(Color.White, Color.Black, transform: Matrix.Scaling(2, 2, 2));
 		Point point = new(1.5, 0, 0);
 		Color expected = Color.White;
 
@@ -119,10 +116,7 @@ public class StripePatternTests
 	{
 		// Arrange
 		Sphere sphere = new(transform: Matrix.Scaling(2, 2, 2));
-		StripePattern pattern = new(Color.White, Color.Black)
-		{
-			Transform = Matrix.Translation(2, 2, 2)
-		};
+		StripePattern pattern = new(Color.White, Color.Black, transform: Matrix.Translation(2, 2, 2));
 		Point point = new(1.5, 0, 0);
 		Color expected = Color.White;
 
