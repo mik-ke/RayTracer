@@ -2,7 +2,7 @@
 using RayTracer.Models;
 using RayTracer.Shapes;
 using RayTracer.Utilities;
-using System.Reflection.Metadata.Ecma335;
+using RayTracer.Patterns;
 
 namespace WorldRender.CLI;
 
@@ -44,7 +44,8 @@ internal class Program
             Material = new()
             {
                 Color = new(1, 0.9, 0.9),
-                Specular = 0
+                Specular = 0,
+                Pattern = new StripePattern(new Color(1, 1, 1), new Color(0, 0, 1))
             }
         };
     }
@@ -63,7 +64,7 @@ internal class Program
         return new Plane()
         {
             Material = floorMaterial,
-            Transform = Matrix.RotationX(Math.PI / 2).RotateY(Math.PI / 2).Translate(3, 0, 0)
+            Transform = Matrix.RotationX(Math.PI / 2).RotateY(Math.PI / 2).Translate(3.1, 0, 0)
         };
     }
 

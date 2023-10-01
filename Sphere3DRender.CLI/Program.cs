@@ -60,7 +60,7 @@ internal class Program
                     var normal = hit.Object.Normal(point);
                     var eyeDirection = -ray.Direction;
 
-                    var lighting = sphere.Material.Lighting(light, point, eyeDirection, normal);
+                    var lighting = sphere.Material.Lighting(sphere, light, point, eyeDirection, normal);
 
                     canvas[x, y] = lighting;
                 }

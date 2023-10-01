@@ -1,6 +1,6 @@
 ﻿using RayTracer.Models;
 using RayTracer.Patterns;
-using Xunit;
+using RayTracer.Shapes;
 
 namespace RayTracer.Tests.Unit;
 
@@ -39,7 +39,7 @@ public class MaterialTests
 		Color expected = new(1.9, 1.9, 1.9);
 
 		// Act
-		var result = material.Lighting(light, position, eye, normal);
+		var result = material.Lighting(new Sphere(), light, position, eye, normal);
 
 		// Assert
 		Assert.Equal(expected, result);
@@ -57,7 +57,7 @@ public class MaterialTests
 		Color expected = new(1.0, 1.0, 1.0);
 
 		// Act
-		var result = material.Lighting(light, position, eye, normal);
+		var result = material.Lighting(new Sphere(), light, position, eye, normal);
 
 		// Assert
 		Assert.Equal(expected, result);
@@ -75,7 +75,7 @@ public class MaterialTests
 		Color expected = new(0.7364, 0.7364, 0.7364);
 
 		// Act
-		var result = material.Lighting(light, position, eye, normal);
+		var result = material.Lighting(new Sphere(), light, position, eye, normal);
 
 		// Assert
 		Assert.Equal(expected, result);
@@ -93,7 +93,7 @@ public class MaterialTests
 		Color expected = new(1.6364, 1.6364, 1.6364);
 
 		// Act
-		var result = material.Lighting(light, position, eye, normal);
+		var result = material.Lighting(new Sphere(), light, position, eye, normal);
 
 		// Assert
 		Assert.Equal(expected, result);
@@ -111,7 +111,7 @@ public class MaterialTests
 		Color expected = new(material.Ambient, material.Ambient, material.Ambient);
 
 		// Act
-		var result = material.Lighting(light, position, eye, normal);
+		var result = material.Lighting(new Sphere(), light, position, eye, normal);
 
 		// Assert
 		Assert.Equal(expected, result);
@@ -130,7 +130,7 @@ public class MaterialTests
 		Color expected = new(0.1, 0.1, 0.1);
 
 		// Act
-		var result = material.Lighting(light, position, eye, normal, inShadow);
+		var result = material.Lighting(new Sphere(), light, position, eye, normal, inShadow);
 
 		// Assert
 		Assert.Equal(expected, result);
@@ -151,7 +151,7 @@ public class MaterialTests
 		PointLight light = new PointLight(new Point(0, 0, -10), Color.White);
 
 		// Act
-		var actual = material.Lighting(light, position, eye, normal);
+		var actual = material.Lighting(new Sphere(), light, position, eye, normal);
 
 		// Assert
 		Assert.Equal(expected, actual);

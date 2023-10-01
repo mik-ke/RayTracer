@@ -52,6 +52,7 @@ public sealed class World
         {
             bool isShadowed = IsShadowed(computations.OverPoint, light);
             finalColor += computations.Object.Material.Lighting(
+                computations.Object,
                 light,
                 computations.OverPoint,
                 computations.EyeVector,

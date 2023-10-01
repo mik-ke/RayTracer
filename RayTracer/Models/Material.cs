@@ -1,5 +1,6 @@
 ﻿using RayTracer.Extensions;
 using RayTracer.Patterns;
+using RayTracer.Shapes;
 
 namespace RayTracer.Models;
 
@@ -26,17 +27,18 @@ public sealed class Material
     }
 
     /// <summary>
-    /// Defines what <see cref="Models.Color"/> shades an object so it appears three-dimensional.
+    /// Defines what <see cref="Models.Color"/> shades the <paramref name="object"/> so it appears three-dimensional.
     /// Calculated by combining the ambient, diffuse and specular contributions.
     /// </summary>
     /// <param name="inShadow">
     /// Determines if the point is in shadow. If true, ignores diffuse and specular components.
     /// </param>
     /// <returns>A new <see cref="Models.Color"/></returns>
-    public Color Lighting(PointLight light, Point position, Vector eye, Vector normal, bool inShadow = false)
+    public Color Lighting(Shape @object, PointLight light, Point position,
+        Vector eye, Vector normal, bool inShadow = false)
     {
         var color = Color;
-        if (Pattern != null) color = Pattern.StripeAt(position);
+        if (Pattern != null) color = Pattern.StripeAtObject(@object, position);
         Color effective = color * light.Intensity;
         Vector lightDirection = (light.Position - position).Normalize();
         Color ambient = effective * Ambient;
