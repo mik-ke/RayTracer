@@ -1,4 +1,5 @@
 ﻿using RayTracer.Models;
+using RayTracer.Patterns;
 using Xunit;
 
 namespace RayTracer.Tests.Unit;
@@ -134,6 +135,33 @@ public class MaterialTests
 		// Assert
 		Assert.Equal(expected, result);
 	}
+
+	[Theory]
+	[MemberData(nameof(LightingPatternData))]
+	public void Lighting_ShouldWork_WhenPatternApplied(Point position, Color expected)
+	{
+		// Arrange
+		Material material = new();
+		material.Pattern = new StripePattern(Color.White, Color.Black);
+		material.Ambient = 1;
+		material.Diffuse = 0;
+		material.Specular = 0;
+		Vector eye = new(0, 0, -1);
+		Vector normal = new(0, 0, -1);
+		PointLight light = new PointLight(new Point(0, 0, -10), Color.White);
+
+		// Act
+		var actual = material.Lighting(light, position, eye, normal);
+
+		// Assert
+		Assert.Equal(expected, actual);
+	}
+	public static IEnumerable<object[]> LightingPatternData =>
+		new List<object[]>
+		{
+			new object[] { new Point(0.9, 0, 0), Color.White },
+			new object[] { new Point(1.1, 0, 0), Color.Black }
+		};
 
     #region equality
     [Fact]

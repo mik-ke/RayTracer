@@ -1,4 +1,5 @@
 ﻿using RayTracer.Extensions;
+using RayTracer.Patterns;
 
 namespace RayTracer.Models;
 
@@ -9,6 +10,7 @@ namespace RayTracer.Models;
 public sealed class Material
 {
     public Color Color { get; set; }
+    public StripePattern? Pattern { get; set; }
     public double Ambient { get; set; }
     public double Diffuse { get; set; }
     public double Specular { get; set; }
@@ -33,7 +35,9 @@ public sealed class Material
     /// <returns>A new <see cref="Models.Color"/></returns>
     public Color Lighting(PointLight light, Point position, Vector eye, Vector normal, bool inShadow = false)
     {
-        Color effective = Color * light.Intensity;
+        var color = Color;
+        if (Pattern != null) color = Pattern.StripeAt(position);
+        Color effective = color * light.Intensity;
         Vector lightDirection = (light.Position - position).Normalize();
         Color ambient = effective * Ambient;
 
