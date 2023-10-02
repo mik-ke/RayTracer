@@ -11,7 +11,7 @@ namespace RayTracer.Models;
 public sealed class Material
 {
     public Color Color { get; set; }
-    public StripePattern? Pattern { get; set; }
+    public Pattern? Pattern { get; set; }
     public double Ambient { get; set; }
     public double Diffuse { get; set; }
     public double Specular { get; set; }
@@ -38,7 +38,7 @@ public sealed class Material
         Vector eye, Vector normal, bool inShadow = false)
     {
         var color = Color;
-        if (Pattern != null) color = Pattern.StripeAtObject(@object, position);
+        if (Pattern != null) color = Pattern.PatternAtShape(@object, position);
         Color effective = color * light.Intensity;
         Vector lightDirection = (light.Position - position).Normalize();
         Color ambient = effective * Ambient;

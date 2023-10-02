@@ -22,7 +22,7 @@ public class StripePatternTests
 	[InlineData(0)]
 	[InlineData(1)]
 	[InlineData(2)]
-	public void StripeAt_ShouldBeConstant_WhenYCoordinateChanges(double yCoordinate)
+	public void PatternAt_ShouldBeConstant_WhenYCoordinateChanges(double yCoordinate)
 	{
 		// Arrange
 		StripePattern pattern = new(Color.White, Color.Black);
@@ -30,7 +30,7 @@ public class StripePatternTests
 		Color expected = Color.White;
 
 		// Act
-		var actual = pattern.StripeAt(point);
+		var actual = pattern.PatternAt(point);
 
 		// Assert
 		Assert.Equal(expected, actual);
@@ -40,7 +40,7 @@ public class StripePatternTests
 	[InlineData(0)]
 	[InlineData(1)]
 	[InlineData(2)]
-	public void StripeAt_ShouldBeConstant_WhenZCoordinateChanges(double zCoordinate)
+	public void PatternAt_ShouldBeConstant_WhenZCoordinateChanges(double zCoordinate)
 	{
 		// Arrange
 		StripePattern pattern = new(Color.White, Color.Black);
@@ -48,7 +48,7 @@ public class StripePatternTests
 		Color expected = Color.White;
 
 		// Act
-		var actual = pattern.StripeAt(point);
+		var actual = pattern.PatternAt(point);
 
 		// Assert
 		Assert.Equal(expected, actual);
@@ -56,14 +56,14 @@ public class StripePatternTests
 
 	[Theory]
 	[MemberData(nameof(StripeAtData))]
-	public void StripeAt_ShouldAlternate_WhenXCoordinateChanges(double xCoordinate, Color expected)
+	public void PatternAt_ShouldAlternate_WhenXCoordinateChanges(double xCoordinate, Color expected)
 	{
 		// Arrange
 		StripePattern pattern = new(Color.White, Color.Black);
 		Point point = new(xCoordinate, 0, 0);
 
 		// Act
-		var actual = pattern.StripeAt(point);
+		var actual = pattern.PatternAt(point);
 
 		// Assert
 		Assert.Equal(expected, actual);
@@ -78,52 +78,4 @@ public class StripePatternTests
 			new object[] { -1, Color.Black },
 			new object[] { -1.1, Color.White },
 		};
-
-	[Fact]
-	public void StripeAtObject_ShouldWork_WhenObjectTransformed()
-	{
-		// Arrange
-		Sphere sphere = new(transform: Matrix.Scaling(2, 2, 2));
-		StripePattern pattern = new(Color.White, Color.Black);
-		Point point = new(1.5, 0, 0);
-		Color expected = Color.White;
-
-		// Act
-		var actual = pattern.StripeAtObject(sphere, point);
-
-		// Assert
-		Assert.Equal(expected, actual);
-	}
-
-	[Fact]
-	public void StripeAtObject_ShouldWork_WhenPatternTransformed()
-	{
-		// Arrange
-		Sphere sphere = new();
-		StripePattern pattern = new(Color.White, Color.Black, transform: Matrix.Scaling(2, 2, 2));
-		Point point = new(1.5, 0, 0);
-		Color expected = Color.White;
-
-		// Act
-		var actual = pattern.StripeAtObject(sphere, point);
-
-		// Assert
-		Assert.Equal(expected, actual);
-	}
-
-	[Fact]
-	public void StripeAtObject_ShouldWork_WhenObjectAndPatternTransformed()
-	{
-		// Arrange
-		Sphere sphere = new(transform: Matrix.Scaling(2, 2, 2));
-		StripePattern pattern = new(Color.White, Color.Black, transform: Matrix.Translation(2, 2, 2));
-		Point point = new(1.5, 0, 0);
-		Color expected = Color.White;
-
-		// Act
-		var actual = pattern.StripeAtObject(sphere, point);
-
-		// Assert
-		Assert.Equal(expected, actual);
-	}
 }
