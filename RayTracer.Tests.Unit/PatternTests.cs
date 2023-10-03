@@ -57,7 +57,7 @@ public class PatternTests
 		Point point = new(2, 3, 4);
 		Matrix transform = Matrix.Scaling(2, 2, 2);
 		Pattern pattern = new TestPattern(transform);
-		Color expected = new Color(1, 1.5, 2);
+		Color expected = new(1, 1.5, 2);
 
 		// Act
 		var actual = pattern.PatternAtShape(shape, point);
