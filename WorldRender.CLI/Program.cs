@@ -45,7 +45,7 @@ internal class Program
             {
                 Color = new(1, 0.9, 0.9),
                 Specular = 0,
-                Pattern = new StripePattern(new Color(0.75, 0.75, 0.75), new Color(0.25, 0.25, 0.25))
+                Pattern = new RingPattern(new Color(0.25, 0.25, 0.25), new Color(0.75, 0.75, 0.75))
             },
             Transform = Matrix.RotationY(Math.PI / 4)
         };
@@ -79,11 +79,12 @@ internal class Program
             {
                 Color = new(0.1, 1, 0.5),
                 Diffuse = 0.7,
-                Specular = 0.3
+                Specular = 0.3,
+                Pattern = new GradientPattern(new Color(0.1, 0.1, 0.1), new Color(0.7, 0.7, 0))
             }
         };
 
-        // smaller green sphere on the right
+        // smaller sphere on the right
         Sphere right = new()
         {
             Transform = Matrix.Translation(1.5, 0.5, -0.5) * Matrix.Scaling(0.5, 0.5, 0.5),
@@ -91,7 +92,8 @@ internal class Program
             {
                 Color = new(0.5, 1, 0.1),
                 Diffuse = 0.7,
-                Specular = 0.3
+                Specular = 0.3,
+                Pattern = new CheckersPattern(new Color(0, 0, 0.5), new Color(0, 0, 0.9), Matrix.Scaling(0.5, 0.5, 0.5))
             }
         };
 
@@ -103,7 +105,8 @@ internal class Program
             {
                 Color = new(1, 0.8, 0.1),
                 Diffuse = 0.7,
-                Specular = 0.3
+                Specular = 0.3,
+                Pattern = new StripePattern(new Color(0, 1, 0), new Color(0, 0, 0.1), Matrix.RotationZ(Math.PI / 2))
             }
         };
 
