@@ -19,7 +19,6 @@ public class RingPattern : Pattern
     public override Color PatternAt(Point point)
     {
         var distance = Math.Sqrt(point.X * point.X + point.Z * point.Z);
-
         if (distance % 2 == 0) return A;
         return B;
     }
