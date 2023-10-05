@@ -16,6 +16,7 @@ public sealed class Material
     public double Diffuse { get; set; }
     public double Specular { get; set; }
     public double Shininess { get; set; }
+    public double Reflective { get; set; }
 
     public Material()
     {
