@@ -30,8 +30,8 @@ internal class Program
     static void AddFloorAndWalls(World world)
     {
         var floor = CreateFloor();
-        var backdrop = CreateBackdrop(floor.Material);
-        var rightWall = CreateRightWall(floor.Material);
+        var backdrop = CreateBackdrop();
+        var rightWall = CreateRightWall();
         world.Objects.Add(floor);
         world.Objects.Add(backdrop);
         world.Objects.Add(rightWall);
@@ -45,27 +45,38 @@ internal class Program
             {
                 Color = new(1, 0.9, 0.9),
                 Specular = 0,
-                Pattern = new RingPattern(new Color(0.25, 0.25, 0.25), new Color(0.75, 0.75, 0.75))
+                Pattern = new RingPattern(new Color(0.25, 0.25, 0.25), new Color(0.75, 0.75, 0.75)),
+                Reflective = 0.5
             },
             Transform = Matrix.RotationY(Math.PI / 4)
         };
     }
 
-    static Plane CreateBackdrop(Material floorMaterial)
+    static Plane CreateBackdrop()
     {
         return new Plane()
         {
-            Material = floorMaterial,
-            Transform = Matrix.RotationX(Math.PI / 2).RotateZ(Math.PI / 4).Translate(0, 0, 5)
+            Transform = Matrix.RotationX(Math.PI / 2).Translate(0, 0, 5),
+            Material = new()
+            {
+                Color = Color.White,
+                Specular = 0,
+                Pattern = new CheckersPattern(Color.White, Color.Black)
+            }
         };
     }
 
-    static Plane CreateRightWall(Material floorMaterial)
+    static Plane CreateRightWall()
     {
         return new Plane()
         {
-            Material = floorMaterial,
-            Transform = Matrix.RotationX(Math.PI / 2).RotateY(Math.PI / 2).RotateX(-Math.PI / 4).Translate(5, 0, 0)
+            Transform = Matrix.RotationX(Math.PI / 2).RotateY(Math.PI / 2).Translate(5, 0, 0),
+            Material = new()
+            {
+                Color = Color.White,
+                Specular = 0,
+                Pattern = new CheckersPattern(Color.White, Color.Black)
+            }
         };
     }
 
@@ -79,8 +90,7 @@ internal class Program
             {
                 Color = new(0.1, 1, 0.5),
                 Diffuse = 0.7,
-                Specular = 0.3,
-                Pattern = new GradientPattern(new Color(0.1, 0.1, 0.1), new Color(0.7, 0.7, 0))
+                Specular = 0.3
             }
         };
 
