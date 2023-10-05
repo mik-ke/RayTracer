@@ -40,6 +40,11 @@ public sealed record Computations
     public Vector NormalVector { get; init; }
 
     /// <summary>
+    /// Ray's reflection vector.
+    /// </summary>
+    public Vector ReflectVector { get; init; }
+
+    /// <summary>
     /// Is the intersection inside the Object?
     /// </summary>
     public bool IsInside { get; init; }
@@ -59,5 +64,6 @@ public sealed record Computations
         }
 
         OverPoint = Point + NormalVector * DoubleExtensions.EPSILON;
+        ReflectVector = ray.Direction.Reflect(NormalVector);
     }
 }

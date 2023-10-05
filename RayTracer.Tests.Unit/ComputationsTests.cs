@@ -76,4 +76,20 @@ public class ComputationsTests
 		Assert.True(computations.OverPoint.Z < -DoubleExtensions.EPSILON / 2);
 		Assert.True(computations.Point.Z > computations.OverPoint.Z);
 	}
+
+	[Fact]
+	public void ReflectVector_ShouldBeCalculatedCorrectly()
+	{
+		// Arrange
+		Plane shape = new();
+		Ray ray = new(new Point(0, 1, -1), new Vector(0, -Math.Sqrt(2) / 2, Math.Sqrt(2) / 2));
+		Intersection intersection = new(Math.Sqrt(2), shape);
+		Vector expected = new(0, Math.Sqrt(2) / 2, Math.Sqrt(2) / 2);
+
+        // Act
+        var actual = new Computations(intersection, ray).ReflectVector;
+
+		// Assert
+		Assert.Equal(expected, actual);
+	}
 }
