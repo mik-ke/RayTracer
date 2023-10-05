@@ -40,7 +40,7 @@ public class PatternTests
 		Shape shape = new Sphere(transform);
 		Point point = new(2, 3, 4);
 		Pattern pattern = new TestPattern();
-		Color expected = new Color(1, 1.5, 2);
+		Color expected = new(1, 1.5, 2);
 
 		// Act
 		var actual = pattern.PatternAtShape(shape, point);

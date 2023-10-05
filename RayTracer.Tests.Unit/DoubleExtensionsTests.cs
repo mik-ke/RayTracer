@@ -50,8 +50,8 @@ public class DoubleExtensionsTests
     public void IsEqualTo_ShouldBeFalse_WhenDifferenceEqualToEPSILON()
     {
         // Arrange
-        const double a = 1.12345;
-        const double b = 1.12344;
+        const double a = 0.0001;
+        const double b = 0.0002;
 
         // Act
         bool result = a.IsEqualTo(b);
@@ -64,8 +64,8 @@ public class DoubleExtensionsTests
     public void IsEqualTo_ShouldBeFalse_WhenDifferenceGreaterThanEPSILON()
     {
         // Arrange
-        const double a = 1.12345;
-        const double b = 1.123439;
+        const double a = 1.1234;
+        const double b = 1.12329;
 
         // Act
         bool result = a.IsEqualTo(b);

@@ -132,6 +132,27 @@ public class WorldTests
     }
 
     [Fact]
+    public void ShadeHit_ShouldBeCorrect_WhenMaterialReflective()
+    {
+        // Arrange
+        World world = DefaultTestWorld();
+        Matrix transform = Matrix.Translation(0, -1, 0);
+        Plane shape = new(transform);
+        shape.Material.Reflective = 0.5;
+        world.Objects.Add(shape);
+        Ray ray = new(new Point(0, 0, -3), new Vector(0, -Math.Sqrt(2) / 2, Math.Sqrt(2) / 2));
+        Intersection intersection = new(Math.Sqrt(2), shape);
+        Computations computations = new(intersection, ray);
+        Color expected = new(0.87677, 0.92436, 0.82918);
+
+        // Act
+        var actual = world.ShadeHit(computations);
+
+        // Assert
+        Assert.Equal(expected, actual);
+    }
+
+    [Fact]
     public void ColorAt_ShouldBeBlack_WhenRayMisses()
     {
         // Arrange
@@ -178,6 +199,25 @@ public class WorldTests
 
         // Assert
         Assert.Equal(expected, actual);
+    }
+
+    [Fact(Timeout = 100)]
+    public void ColorAt_ShouldTerminate_WhenTwoMutuallyReflectiveSurfaces()
+    {
+        // Arrange
+        World world = new();
+        world.LightSources.Add(new PointLight(new Point(0, 0, 0), new Color(1, 1, 1)));
+        Plane lower = new(Matrix.Translation(0, -1, 0));
+        lower.Material.Reflective = 1;
+        world.Objects.Add(lower);
+        Plane upper = new(Matrix.Translation(0, 1, 0));
+        upper.Material.Reflective = 1;
+        world.Objects.Add(upper);
+        Ray ray = new(new Point(0, 0, 0), new Vector(0, 1, 0));
+
+        // Act
+        // Assert
+        world.ColorAt(ray);
     }
 
     [Fact]
@@ -238,5 +278,66 @@ public class WorldTests
 
         // Assert
         Assert.False(result);
+    }
+
+    [Fact]
+    public void ReflectedColor_ShouldReturnBlack_WhenNonreflectiveMaterial()
+    {
+        // Arrange
+        World world = DefaultTestWorld();
+        Ray ray = new(new Point(0, 0, 0), new Vector(0, 0, 1));
+        Shape shape = world.Objects[1];
+        shape.Material.Ambient = 1;
+        Intersection intersection = new(1, shape);
+        Computations computations = new(intersection, ray);
+        Color expected = Color.Black;
+
+        // Act
+        var actual = world.ReflectedColor(computations);
+
+        // Assert
+        Assert.Equal(expected, actual);
+    }
+
+    [Fact]
+    public void ReflectedColor_ShouldReturnCorrect_WhenReflectiveMaterial()
+    {
+        // Arrange
+        World world = DefaultTestWorld();
+        Matrix transform = Matrix.Translation(0, -1, 0);
+        Plane shape = new(transform);
+        shape.Material.Reflective = 0.5;
+        world.Objects.Add(shape);
+        Ray ray = new(new Point(0, 0, -3), new Vector(0, -Math.Sqrt(2) / 2, Math.Sqrt(2) / 2));
+        Intersection intersection = new(Math.Sqrt(2), shape);
+        Computations computations = new(intersection, ray);
+        Color expected = new(0.19032, 0.2379, 0.14274);
+
+        // Act
+        var actual = world.ReflectedColor(computations);
+
+        // Assert
+        Assert.Equal(expected, actual);
+    }
+
+    [Fact]
+    public void ReflectedColor_ShouldReturnInstantly_WhenAtMaximumRecursiveDepth()
+    {
+        // Arrange
+        World world = DefaultTestWorld();
+        Matrix transform = Matrix.Translation(0, -1, 0);
+        Plane shape = new(transform);
+        shape.Material.Reflective = 0.5;
+        world.Objects.Add(shape);
+        Ray ray = new(new Point(0, 0, -3), new Vector(0, -Math.Sqrt(2) / 2, Math.Sqrt(2) / 2));
+        Intersection intersection = new(Math.Sqrt(2), shape);
+        Computations computations = new(intersection, ray);
+        Color expected = new(0, 0, 0);
+
+        // Act
+        var actual = world.ReflectedColor(computations, 0);
+
+        // Assert
+        Assert.Equal(expected, actual);
     }
 }

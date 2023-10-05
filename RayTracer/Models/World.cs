@@ -5,6 +5,8 @@ namespace RayTracer.Models;
 
 public sealed class World
 {
+    private const int DEFAULT_RECURSIONS = 4;
+
     #region properties
     public List<PointLight> LightSources { get; } = new List<PointLight>();
     public List<Shape> Objects { get; } = new List<Shape>();
@@ -14,14 +16,14 @@ public sealed class World
     /// Intersects the given <paramref name="ray"/> with the <see cref="World"/>
     /// and returns the color at the resulting intersection.
     /// </summary>
-    public Color ColorAt(Ray ray)
+    public Color ColorAt(Ray ray, int remainingRecursions = DEFAULT_RECURSIONS)
     {
         var intersections = Intersect(ray);
         var hit = intersections.Hit();
         if (hit == null) return Color.Black;
 
         Computations computations = new(hit, ray);
-        return ShadeHit(computations);
+        return ShadeHit(computations, remainingRecursions);
     }
 
     /// <summary>
@@ -44,7 +46,7 @@ public sealed class World
     /// <summary>
     /// Computes and returns the shading of the given intersection's <paramref name="computations"/>.
     /// </summary>
-    public Color ShadeHit(Computations computations)
+    public Color ShadeHit(Computations computations, int remainingRecursions = DEFAULT_RECURSIONS)
     {
         Color finalColor = Color.Black;
 
@@ -58,6 +60,9 @@ public sealed class World
                 computations.EyeVector,
                 computations.NormalVector,
                 isShadowed);
+
+            Color reflect = ReflectedColor(computations, remainingRecursions);
+            finalColor += reflect;
         }
 
         return finalColor;
@@ -81,5 +86,22 @@ public sealed class World
             return true;
 
         return false;
+    }
+
+    /// <summary>
+    /// Returns the reflected <see cref="Color"/> of the given <paramref name="computations"/>
+    /// </summary>
+    /// <param name="remainingRecursions">The remaining recursions. If less than 1, returns without effect (i.e. black).</param>
+    public Color ReflectedColor(Computations computations, int remainingRecursions = DEFAULT_RECURSIONS)
+    {
+        if (computations.Object.Material.Reflective == 0)
+            return Color.Black;
+        if (remainingRecursions < 1)
+            return Color.Black;
+
+        Ray reflect = new(computations.OverPoint, computations.ReflectVector);
+        Color color = ColorAt(reflect, remainingRecursions - 1);
+
+        return color * computations.Object.Material.Reflective;
     }
 }
