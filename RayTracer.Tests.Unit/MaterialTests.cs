@@ -16,6 +16,8 @@ public class MaterialTests
 		const double expectedSpecular = 0.9;
 		const double expectedShininess = 200.0;
 		const double expectedReflective = 0.0;
+		const double expectedTransparency = 0.0;
+		const double expectedRefractive = 1.0;
 
 		// Act
 		Material material = new();
@@ -27,6 +29,8 @@ public class MaterialTests
 		Assert.Equal(expectedSpecular, material.Specular);
 		Assert.Equal(expectedShininess, material.Shininess);
 		Assert.Equal(expectedReflective, material.Reflective);
+		Assert.Equal(expectedTransparency, material.Transparency);
+		Assert.Equal(expectedRefractive, material.RefractiveIndex);
 	}
 
 	[Fact]

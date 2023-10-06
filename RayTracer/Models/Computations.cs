@@ -49,7 +49,17 @@ public sealed record Computations
     /// </summary>
     public bool IsInside { get; init; }
 
-    public Computations(Intersection intersection, Ray ray)
+    /// <summary>
+    /// Refractive index of the material the ray is passing from.
+    /// </summary>
+    public double N1 { get; init; }
+
+    /// <summary>
+    /// Refractive index of the material the ray is passing to.
+    /// </summary>
+    public double N2 { get; init; }
+
+    public Computations(Intersection intersection, Ray ray, Intersections? intersections = null)
     {
         T = intersection.T;
         Object = intersection.Object;

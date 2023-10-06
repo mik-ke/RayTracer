@@ -22,7 +22,7 @@ public sealed class World
         var hit = intersections.Hit();
         if (hit == null) return Color.Black;
 
-        Computations computations = new(hit, ray);
+        Computations computations = new(hit, ray, intersections);
         return ShadeHit(computations, remainingRecursions);
     }
 

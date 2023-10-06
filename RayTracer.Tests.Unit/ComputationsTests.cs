@@ -1,6 +1,7 @@
 ﻿using RayTracer.Extensions;
 using RayTracer.Models;
 using RayTracer.Shapes;
+using Xunit;
 
 namespace RayTracer.Tests.Unit;
 
@@ -91,5 +92,49 @@ public class ComputationsTests
 
 		// Assert
 		Assert.Equal(expected, actual);
+	}
+
+	private Sphere TestGlassSphere()
+	{
+		Sphere sphere = new();
+		sphere.Material.Transparency = 1.0;
+		sphere.Material.RefractiveIndex = 1.5;
+		return sphere;
+	}
+
+	[Theory]
+	[InlineData(0, 1.0, 1.5)]
+	[InlineData(1, 1.5, 2.0)]
+	[InlineData(2, 2.0, 2.5)]
+	[InlineData(3, 2.5, 2.5)]
+	[InlineData(4, 2.5, 1.5)]
+	[InlineData(5, 1.5, 1.0)]
+	public void N1N2_ShouldBeCorrect_WhenVariousIntersections(int index, double expectedN1, double expectedN2)
+	{
+		// Arrange
+		Sphere glassSphereA = TestGlassSphere();
+		glassSphereA.Transform = Matrix.Scaling(2, 2, 2);
+		glassSphereA.Material.RefractiveIndex = 1.5;
+		Sphere glassSphereB = TestGlassSphere();
+		glassSphereA.Transform = Matrix.Translation(0, 0, -0.25);
+		glassSphereA.Material.RefractiveIndex = 2.0;
+		Sphere glassSphereC = TestGlassSphere();
+		glassSphereA.Transform = Matrix.Translation(0, 0, 0.25);
+		glassSphereA.Material.RefractiveIndex = 2.5;
+		Ray ray = new(new Point(0, 0, -4), new Vector(0, 0, 1));
+		Intersections intersections = new Intersections(
+			new Intersection(2, glassSphereA),
+			new Intersection(2.75, glassSphereB),
+			new Intersection(3.25, glassSphereC),
+			new Intersection(4.75, glassSphereB),
+			new Intersection(5.25, glassSphereC),
+			new Intersection(6, glassSphereA));
+
+		// Act
+		Computations computations = new(intersections[index], ray, intersections);
+
+		// Assert
+		Assert.Equal(expectedN1, computations.N1);
+		Assert.Equal(expectedN2, computations.N2);
 	}
 }

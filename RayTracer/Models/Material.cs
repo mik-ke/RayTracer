@@ -17,6 +17,8 @@ public sealed class Material
     public double Specular { get; set; }
     public double Shininess { get; set; }
     public double Reflective { get; set; }
+    public double Transparency { get; set; }
+    public double RefractiveIndex { get; set; }
 
     public Material()
     {
@@ -25,6 +27,7 @@ public sealed class Material
         Diffuse = 0.9;
         Specular = 0.9;
         Shininess = 200.0;
+        RefractiveIndex = 1.0;
     }
 
     /// <summary>
