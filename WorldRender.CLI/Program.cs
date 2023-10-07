@@ -90,7 +90,10 @@ internal class Program
             {
                 Color = new(0.1, 1, 0.5),
                 Diffuse = 0.7,
-                Specular = 0.3
+                Specular = 0.3,
+                Reflective = 0.9,
+                Transparency = 0.9,
+                RefractiveIndex = 1.5
             }
         };
 
