@@ -153,6 +153,37 @@ public class WorldTests
     }
 
     [Fact]
+    public void ShadeHit_ShouldBeCorrect_WhenMaterialTransparent()
+    {
+        // Arrange
+        World world = DefaultTestWorld();
+
+        Matrix floorTransform = Matrix.Translation(0, -1, 0);
+        Plane floor = new(floorTransform);
+        floor.Material.Transparency = 0.5;
+        floor.Material.RefractiveIndex = 1.5;
+        world.Objects.Add(floor);
+
+        Matrix ballTransform = Matrix.Translation(0, -3.5, -0.5);
+        Sphere ball = new(ballTransform);
+        ball.Material.Color = new(1, 0, 0);
+        ball.Material.Ambient = 0.5;
+        world.Objects.Add(ball);
+
+        Ray ray = new(new Point(0, 0, -3), new Vector(0, -Math.Sqrt(2) / 2, Math.Sqrt(2) / 2));
+        Intersection intersection = new(Math.Sqrt(2), floor);
+        Intersections intersections = new(intersection);
+        Computations computations = new(intersection, ray, intersections);
+        Color expected = new(0.93642, 0.68642, 0.68642);
+
+        // Act
+        var actual = world.ShadeHit(computations);
+
+        // Assert
+        Assert.Equal(expected, actual);
+    }
+
+    [Fact]
     public void ColorAt_ShouldBeBlack_WhenRayMisses()
     {
         // Arrange
@@ -321,7 +352,7 @@ public class WorldTests
     }
 
     [Fact]
-    public void ReflectedColor_ShouldReturnInstantly_WhenAtMaximumRecursiveDepth()
+    public void ReflectedColor_ShouldReturnBlackInstantly_WhenAtMaximumRecursiveDepth()
     {
         // Arrange
         World world = DefaultTestWorld();
@@ -336,6 +367,101 @@ public class WorldTests
 
         // Act
         var actual = world.ReflectedColor(computations, 0);
+
+        // Assert
+        Assert.Equal(expected, actual);
+    }
+
+    [Fact]
+    public void RefractedColor_ShouldReturnBlack_WhenHitObjectOpaque()
+    {
+        // Arrange
+        World world = DefaultTestWorld();
+        Shape shape = world.Objects[0];
+        Ray ray = new(new Point(0, 0, -5), new Vector(0, 0, 1));
+        Intersections intersections = new(
+            new Intersection(4, shape),
+            new Intersection(6, shape));
+        Computations computations = new(intersections[0], ray, intersections);
+        Color expected = Color.Black;
+
+        // Act
+        var actual = world.RefractedColor(computations, 5);
+
+        // Assert
+        Assert.Equal(expected, actual);
+    }
+
+    [Fact]
+    public void RefractedColor_ShouldReturnBlackInstantly_WhenAtMaximumRecursiveDepth()
+    {
+        // Arrange
+        World world = DefaultTestWorld();
+        Shape shape = world.Objects[0];
+        shape.Material.Transparency = 1.0;
+        shape.Material.RefractiveIndex = 1.5;
+        Ray ray = new(new Point(0, 0, -5), new Vector(0, 0, 1));
+        Intersections intersections = new(
+            new Intersection(4, shape),
+            new Intersection(6, shape));
+        Computations computations = new(intersections[0], ray, intersections);
+        Color expected = Color.Black;
+
+        // Act
+        var actual = world.RefractedColor(computations, 0);
+
+        // Assert
+        Assert.Equal(expected, actual);
+    }
+
+    /// <summary>
+    /// Total internal refraction = the ray's angle is so acute that it does not
+    /// pass through the interface (i.e. shape). => should return black
+    /// </summary>
+    [Fact]
+    public void RefractedColor_ShouldReturnBlack_WhenTotalInternalReflection()
+    {
+        // Arrange
+        World world = DefaultTestWorld();
+        Shape shape = world.Objects[0];
+        shape.Material.Transparency = 1.0;
+        shape.Material.RefractiveIndex = 1.5;
+        Ray ray = new(new Point(0, 0, Math.Sqrt(2) / 2), new Vector(0, 1, 0));
+        Intersections intersections = new(
+            new Intersection(-Math.Sqrt(2) / 2, shape),
+            new Intersection(Math.Sqrt(2) / 2, shape));
+        Computations computations = new(intersections[1], ray, intersections);
+        Color expected = Color.Black;
+
+        // Act
+        var actual = world.RefractedColor(computations, 5);
+
+        // Assert
+        Assert.Equal(expected, actual);
+    }
+
+    [Fact]
+    public void RefractedColor_ShouldReturnCorrect_WhenPassesThrough()
+    {
+        // Arrange
+        World world = DefaultTestWorld();
+        Shape shapeA = world.Objects[0];
+        shapeA.Material.Ambient = 1.0;
+        shapeA.Material.Pattern = new TestPattern();
+        Shape shapeB = world.Objects[1];
+        shapeB.Material.Transparency = 1.0;
+        shapeB.Material.RefractiveIndex = 1.5;
+        Ray ray = new(new Point(0, 0, 0.1), new Vector(0, 1, 0));
+        Intersections intersections = new(
+            new Intersection(-0.9899, shapeA),
+            new Intersection(-0.4899, shapeB),
+            new Intersection(0.4899, shapeB),
+            new Intersection(0.9899, shapeA));
+        Computations computations = new(intersections[2], ray, intersections);
+        Color expected = new(0, 0.99888, 0.04725);
+
+        // Act
+        var actual = world.RefractedColor(computations, 5);
 
         // Assert
         Assert.Equal(expected, actual);

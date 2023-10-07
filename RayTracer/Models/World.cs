@@ -63,6 +63,9 @@ public sealed class World
 
             Color reflect = ReflectedColor(computations, remainingRecursions);
             finalColor += reflect;
+
+            Color refract = RefractedColor(computations, remainingRecursions);
+            finalColor += refract;
         }
 
         return finalColor;
@@ -94,9 +97,9 @@ public sealed class World
     /// <param name="remainingRecursions">The remaining recursions. If less than 1, returns without effect (i.e. black).</param>
     public Color ReflectedColor(Computations computations, int remainingRecursions = DEFAULT_RECURSIONS)
     {
-        if (computations.Object.Material.Reflective == 0)
-            return Color.Black;
         if (remainingRecursions < 1)
+            return Color.Black;
+        if (computations.Object.Material.Reflective == 0)
             return Color.Black;
 
         Ray reflect = new(computations.OverPoint, computations.ReflectVector);
@@ -104,4 +107,33 @@ public sealed class World
 
         return color * computations.Object.Material.Reflective;
     }
+
+    public Color RefractedColor(Computations computations, int remainingRecursions = DEFAULT_RECURSIONS)
+    {
+        if (remainingRecursions < 1)
+            return Color.Black;
+        if (computations.Object.Material.Transparency == 0)
+            return Color.Black;
+
+        var nRatio = computations.N1 / computations.N2;
+        var cosI = computations.EyeVector.Dot(computations.NormalVector);
+        var sin2T = nRatio * nRatio * (1 - cosI * cosI);
+
+        if (IsTotalInternalRefraction(sin2T))
+            return Color.Black;
+
+        var cosT = Math.Sqrt(1.0 - sin2T);
+        Vector refractDirection = computations.NormalVector * (nRatio * cosI - cosT)
+            - computations.EyeVector * nRatio;
+        Ray refractRay = new(computations.UnderPoint, refractDirection);
+        Color color = ColorAt(refractRay, remainingRecursions - 1);
+
+        return color * computations.Object.Material.Transparency;
+    }
+
+    /// <summary>
+    /// Total internal refraction means the ray's angle is so acute that it doesn't
+    /// pass through the interface (i.e. shape). Calculated using Snell's Law.
+    /// </summary>
+    private static bool IsTotalInternalRefraction(in double sin2T) => sin2T > 1;
 }

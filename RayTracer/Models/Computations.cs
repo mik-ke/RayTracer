@@ -30,6 +30,12 @@ public sealed record Computations
     public Point OverPoint { get; init; }
 
     /// <summary>
+    /// The <see cref="Point"/> slightly adjusted in the negative direction of <see cref="NormalVector"/>.
+    /// Used for refraction.
+    /// </summary>
+    public Point UnderPoint { get; init; }
+
+    /// <summary>
     /// Eye vector.
     /// </summary>
     public Vector EyeVector { get; init; }
@@ -74,6 +80,7 @@ public sealed record Computations
         }
 
         OverPoint = Point + NormalVector * DoubleExtensions.EPSILON;
+        UnderPoint = Point - NormalVector * DoubleExtensions.EPSILON;
         ReflectVector = ray.Direction.Reflect(NormalVector);
 
         if (intersections != null) InitializeNValues(intersection, intersections);

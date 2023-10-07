@@ -2,6 +2,7 @@
 using RayTracer.Models;
 using RayTracer.Shapes;
 using Xunit;
+using Xunit.Sdk;
 
 namespace RayTracer.Tests.Unit;
 
@@ -76,6 +77,24 @@ public class ComputationsTests
 		// Assert
 		Assert.True(computations.OverPoint.Z < -DoubleExtensions.EPSILON / 2);
 		Assert.True(computations.Point.Z > computations.OverPoint.Z);
+	}
+
+	[Fact]
+	public void UnderPoint_ShouldBeInitializedCorrectly()
+	{
+		// Arrange
+		Ray ray = new(new Point(0, 0, -5), new Vector(0, 0, 1));
+		Shape shape = TestGlassSphere();
+		shape.Transform = Matrix.Translation(0, 0, 1);
+		Intersection intersection = new(5, shape);
+		Intersections intersections = new(intersection);
+
+		// Act
+		Computations computations = new(intersection, ray, intersections);
+
+		// Assert
+		Assert.True(computations.UnderPoint.Z > DoubleExtensions.EPSILON / 2);
+		Assert.True(computations.Point.Z < computations.UnderPoint.Z);
 	}
 
 	[Fact]
