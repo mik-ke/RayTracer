@@ -52,12 +52,12 @@ public sealed record Computations
     /// <summary>
     /// Refractive index of the material the ray is passing from.
     /// </summary>
-    public double N1 { get; init; }
+    public double N1 { get; set; }
 
     /// <summary>
     /// Refractive index of the material the ray is passing to.
     /// </summary>
-    public double N2 { get; init; }
+    public double N2 { get; set; }
 
     public Computations(Intersection intersection, Ray ray, Intersections? intersections = null)
     {
@@ -75,5 +75,38 @@ public sealed record Computations
 
         OverPoint = Point + NormalVector * DoubleExtensions.EPSILON;
         ReflectVector = ray.Direction.Reflect(NormalVector);
+
+        if (intersections != null) InitializeNValues(intersection, intersections);
+    }
+
+    private void InitializeNValues(Intersection hit, Intersections intersections)
+    {
+        LinkedList<Shape> containers = new();
+        foreach (Intersection intersection in intersections)
+        {
+            bool isHit = intersection == hit;
+            if (isHit)
+            {
+                if (containers.Count < 1)
+                    N1 = 1.0;
+                else
+                    N1 = containers.Last!.ValueRef.Material.RefractiveIndex;
+            }
+
+            if (containers.Contains(intersection.Object))
+                containers.Remove(intersection.Object);
+            else
+                containers.AddLast(intersection.Object);
+
+            if (isHit)
+            {
+                if (containers.Count < 1)
+                    N2 = 1.0;
+                else
+                    N2 = containers.Last!.ValueRef.Material.RefractiveIndex;
+
+                break;
+            }
+        }
     }
 }

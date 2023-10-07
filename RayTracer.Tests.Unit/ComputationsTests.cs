@@ -94,7 +94,7 @@ public class ComputationsTests
 		Assert.Equal(expected, actual);
 	}
 
-	private Sphere TestGlassSphere()
+	private static Sphere TestGlassSphere()
 	{
 		Sphere sphere = new();
 		sphere.Material.Transparency = 1.0;
@@ -116,13 +116,13 @@ public class ComputationsTests
 		glassSphereA.Transform = Matrix.Scaling(2, 2, 2);
 		glassSphereA.Material.RefractiveIndex = 1.5;
 		Sphere glassSphereB = TestGlassSphere();
-		glassSphereA.Transform = Matrix.Translation(0, 0, -0.25);
-		glassSphereA.Material.RefractiveIndex = 2.0;
+		glassSphereB.Transform = Matrix.Translation(0, 0, -0.25);
+		glassSphereB.Material.RefractiveIndex = 2.0;
 		Sphere glassSphereC = TestGlassSphere();
-		glassSphereA.Transform = Matrix.Translation(0, 0, 0.25);
-		glassSphereA.Material.RefractiveIndex = 2.5;
+		glassSphereC.Transform = Matrix.Translation(0, 0, 0.25);
+		glassSphereC.Material.RefractiveIndex = 2.5;
 		Ray ray = new(new Point(0, 0, -4), new Vector(0, 0, 1));
-		Intersections intersections = new Intersections(
+		Intersections intersections = new(
 			new Intersection(2, glassSphereA),
 			new Intersection(2.75, glassSphereB),
 			new Intersection(3.25, glassSphereC),
