@@ -88,7 +88,7 @@ internal class Program
             Transform = Matrix.Translation(-0.5, 1, 0.5),
             Material = new()
             {
-                Color = new(0.1, 1, 0.5),
+                Color = new(1, 0.85, 0.9),
                 Diffuse = 0.7,
                 Specular = 0.3,
                 Reflective = 0.9,
@@ -119,7 +119,9 @@ internal class Program
                 Color = new(1, 0.8, 0.1),
                 Diffuse = 0.7,
                 Specular = 0.3,
-                Pattern = new StripePattern(new Color(0, 1, 0), new Color(0, 0, 0.1), Matrix.RotationZ(Math.PI / 2))
+                Pattern = new StripePattern(new Color(0, 1, 0), new Color(0, 0, 0.1), Matrix.RotationZ(Math.PI / 2)),
+                Reflective = 0.5,
+                Transparency = 0.5
             }
         };
 
