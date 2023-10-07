@@ -69,6 +69,11 @@ public sealed class Material
         return ambient + diffuse + specular;
     }
 
+    /// <summary>
+    /// Determines if the material is both reflective and transparent.
+    /// </summary>
+    public bool IsReflectiveAndTransparent() => Reflective > 0 && Transparency > 0;
+
     #region equality
     public override bool Equals(object? obj) => Equals(obj as Material);
 

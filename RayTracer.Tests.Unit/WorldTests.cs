@@ -125,7 +125,7 @@ public class WorldTests
         Color expected = new(0.1, 0.1, 0.1);
 
         // Act
-        var actual = world.ShadeHit(computations);
+        var actual = world.ShadeHit(computations, 5);
 
         // Assert
         Assert.Equal(expected, actual);
@@ -146,7 +146,7 @@ public class WorldTests
         Color expected = new(0.87677, 0.92436, 0.82918);
 
         // Act
-        var actual = world.ShadeHit(computations);
+        var actual = world.ShadeHit(computations, 5);
 
         // Assert
         Assert.Equal(expected, actual);
@@ -175,6 +175,39 @@ public class WorldTests
         Intersections intersections = new(intersection);
         Computations computations = new(intersection, ray, intersections);
         Color expected = new(0.93642, 0.68642, 0.68642);
+
+        // Act
+        var actual = world.ShadeHit(computations);
+
+        // Assert
+        Assert.Equal(expected, actual);
+    }
+
+
+    [Fact]
+    public void ShadeHit_ShouldBeCorrect_WhenMaterialTransparentAndReflective()
+    {
+        // Arrange
+        World world = DefaultTestWorld();
+        Ray ray = new(new Point(0, 0, -3), new Vector(0, -Math.Sqrt(2) / 2, Math.Sqrt(2) / 2));
+
+        Matrix floorTransform = Matrix.Translation(0, -1, 0);
+        Plane floor = new(floorTransform);
+        floor.Material.Reflective = 0.5;
+        floor.Material.Transparency = 0.5;
+        floor.Material.RefractiveIndex = 1.5;
+        world.Objects.Add(floor);
+
+        Matrix ballTransform = Matrix.Translation(0, -3.5, -0.5);
+        Sphere ball = new(ballTransform);
+        ball.Material.Color = new(1, 0, 0);
+        ball.Material.Ambient = 0.5;
+        world.Objects.Add(ball);
+
+        Intersection intersection = new(Math.Sqrt(2), floor);
+        Intersections intersections = new(intersection);
+        Computations computations = new(intersection, ray, intersections);
+        Color expected = new(0.93391, 0.69643, 0.69243);
 
         // Act
         var actual = world.ShadeHit(computations);
@@ -414,10 +447,6 @@ public class WorldTests
         Assert.Equal(expected, actual);
     }
 
-    /// <summary>
-    /// Total internal refraction = the ray's angle is so acute that it does not
-    /// pass through the interface (i.e. shape). => should return black
-    /// </summary>
     [Fact]
     public void RefractedColor_ShouldReturnBlack_WhenTotalInternalReflection()
     {

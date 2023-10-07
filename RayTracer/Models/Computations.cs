@@ -116,4 +116,34 @@ public sealed record Computations
             }
         }
     }
+
+    /// <summary>
+    /// Determines the reflectance and represents what fraction of the light is reflected
+    /// given the surface information at the hit.
+    /// </summary>
+    /// <returns>A double between 0 and 1, inclusive, where 1 is total internal reflection.</returns>
+    public double Shlick()
+    {
+        var cos = EyeVector.Dot(NormalVector);
+
+        if (N1 > N2)
+        {
+            var nRatio = N1 / N2;
+            var sin2T = nRatio * nRatio * (1.0 - cos * cos);
+            if (sin2T > 1.0)
+                return 1.0;
+
+            var cosT = Math.Sqrt(1.0 - sin2T);
+            cos = cosT;
+        }
+
+        var r0 = ((N1 - N2) / (N1 + N2)) * ((N1 - N2) / (N1 + N2));
+        return r0 + (1 - r0) * Math.Pow(1 - cos, 5);
+    }
+
+    /// <summary>
+    /// Total internal reflection means the ray's angle is so acute that it doesn't
+    /// pass through the interface (i.e. shape). Calculated using Snell's Law.
+    /// </summary>
+    public static bool IsTotalInternalReflection(in double sin2T) => sin2T > 1;
 }

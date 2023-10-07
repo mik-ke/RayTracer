@@ -61,11 +61,19 @@ public sealed class World
                 computations.NormalVector,
                 isShadowed);
 
-            Color reflect = ReflectedColor(computations, remainingRecursions);
-            finalColor += reflect;
+            Color reflected = ReflectedColor(computations, remainingRecursions);
+            Color refracted = RefractedColor(computations, remainingRecursions);
 
-            Color refract = RefractedColor(computations, remainingRecursions);
-            finalColor += refract;
+            if (computations.Object.Material.IsReflectiveAndTransparent())
+            {
+                var reflectance = computations.Shlick();
+                finalColor += reflected * reflectance +
+                    refracted * (1 - reflectance);
+            }
+            else
+            {
+                finalColor += reflected + refracted;
+            }
         }
 
         return finalColor;
@@ -119,7 +127,7 @@ public sealed class World
         var cosI = computations.EyeVector.Dot(computations.NormalVector);
         var sin2T = nRatio * nRatio * (1 - cosI * cosI);
 
-        if (IsTotalInternalRefraction(sin2T))
+        if (Computations.IsTotalInternalReflection(sin2T))
             return Color.Black;
 
         var cosT = Math.Sqrt(1.0 - sin2T);
@@ -130,10 +138,4 @@ public sealed class World
 
         return color * computations.Object.Material.Transparency;
     }
-
-    /// <summary>
-    /// Total internal refraction means the ray's angle is so acute that it doesn't
-    /// pass through the interface (i.e. shape). Calculated using Snell's Law.
-    /// </summary>
-    private static bool IsTotalInternalRefraction(in double sin2T) => sin2T > 1;
 }

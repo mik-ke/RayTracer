@@ -2,7 +2,6 @@
 using RayTracer.Models;
 using RayTracer.Shapes;
 using Xunit;
-using Xunit.Sdk;
 
 namespace RayTracer.Tests.Unit;
 
@@ -155,5 +154,61 @@ public class ComputationsTests
 		// Assert
 		Assert.Equal(expectedN1, computations.N1);
 		Assert.Equal(expectedN2, computations.N2);
+	}
+
+	[Fact]
+	public void Shlick_ShouldReturn1_WhenTotalInternalReflection()
+	{
+		// Arrange
+		Shape shape = TestGlassSphere();
+		Ray ray = new(new Point(0, 0, Math.Sqrt(2) / 2), new Vector(0, 1, 0));
+		Intersections intersections = new(
+			new Intersection(-Math.Sqrt(2) / 2, shape),
+			new Intersection(Math.Sqrt(2) / 2, shape));
+		Computations computations = new(intersections[1], ray, intersections);
+		const double expected = 1.0;
+
+		// Act
+		var actual = computations.Shlick();
+
+		// Assert
+		Assert.Equal(expected, actual);
+	}
+
+	[Fact]
+	public void Shlick_ShouldBeSmall_WhenRayPerpendicular()
+	{
+		// Arrange
+		Shape shape = TestGlassSphere();
+		Ray ray = new(new Point(0, 0, 0), new Vector(0, 1, 0));
+		Intersections intersections = new(
+			new Intersection(-1, shape),
+			new Intersection(1, shape));
+		Computations computations = new(intersections[1], ray, intersections);
+		const double expected = 0.04;
+
+		// Act
+		var actual = computations.Shlick();
+
+		// Assert
+		Assert.True(expected.IsEqualTo(actual));
+	}
+
+	[Fact]
+	public void Shlick_ShouldBeSignificant_WhenRayStrikesAtSmallAngle()
+	{
+		// Arrange
+		Shape shape = TestGlassSphere();
+		Ray ray = new(new Point(0, 0.99, -2), new Vector(0, 0, 1));
+		Intersection intersection = new(1.8589, shape);
+		Intersections intersections = new(intersection);
+		Computations computations = new(intersections[0], ray, intersections);
+		const double expected = 0.48873;
+
+		// Act
+		var actual = computations.Shlick();
+
+		// Assert
+		Assert.True(expected.IsEqualTo(actual));
 	}
 }
