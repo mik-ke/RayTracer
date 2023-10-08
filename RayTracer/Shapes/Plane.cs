@@ -8,8 +8,7 @@ namespace RayTracer.Shapes;
 /// </summary>
 public class Plane : Shape
 {
-    public Plane() : this(null) { }
-    public Plane(Matrix? transform) : base(transform)
+    public Plane(Matrix? transform = null) : base(transform)
     {
     }
 

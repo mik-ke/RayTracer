@@ -8,8 +8,7 @@ namespace RayTracer.Shapes;
 /// </summary>
 public class Cube : Shape
 {
-    public Cube() : this(null) { }
-    public Cube(Matrix? transform) : base(transform) { }
+    public Cube(Matrix? transform = null) : base(transform) { }
 
     protected override Vector LocalNormal(Point localPoint)
     {

@@ -14,11 +14,7 @@ public sealed class Sphere : Shape
 
     public static readonly Point Origin = new(0, 0, 0);
 
-    public Sphere() : this(null)
-    {
-    }
-
-    public Sphere(Matrix? transform) : base(transform)
+    public Sphere(Matrix? transform = null) : base(transform)
     {
         ID = _currentIDCounter++;
     }
@@ -31,7 +27,7 @@ public sealed class Sphere : Shape
         double b = 2 * localRay.Direction.Dot(sphereToRay);
         double c = sphereToRay.Dot(sphereToRay) - 1;
 
-        double discriminant = Math.Pow(b, 2) - 4 * a * c;
+        double discriminant = b * b - 4 * a * c;
         if (discriminant < 0) return Intersections.Empty;
 
         double t1 = (-b - Math.Sqrt(discriminant)) / (2 * a);
