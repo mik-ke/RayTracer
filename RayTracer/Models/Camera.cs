@@ -98,15 +98,15 @@ public sealed class Camera
     {
         Canvas image = new(HorizontalSize, VerticalSize);
 
-        for (int y = 0 ; y < VerticalSize; y++)
+        Parallel.For(0, VerticalSize, y =>
         {
-            for (int x = 0 ; x < HorizontalSize; x++)
+            Parallel.For(0, HorizontalSize,  x =>
             {
                 Ray ray = RayForPixel(x, y);
                 Color color = world.ColorAt(ray);
                 image[x, y] = color;
-            }
-        }
+            });
+        });
 
         return image;
     }
