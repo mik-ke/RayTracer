@@ -194,8 +194,40 @@ internal class Program
             }
         };
 
+        Matrix brownTransform = Matrix.Translation(2, 3.15, 0);
+        var brownOpenCylinder = new Cylinder(brownTransform)
+        {
+            Minimum = 0,
+            Maximum = 0.5,
+            Material = new()
+            {
+                Color = new(0.8, 0.4, 0),
+                Diffuse = 0.3,
+                Reflective = 1,
+                Transparency = 0.95,
+                RefractiveIndex = 1.5
+            }
+        };
+
+        Matrix greenTransform = Matrix.Scaling(0.5, 0.5, 0.5).Translate(-1, 3.15, -1.25);
+        var greenCylinder = new Cylinder(greenTransform)
+        {
+            Minimum = 0,
+            Maximum = 3,
+            Material = new()
+            {
+                Color = new(0, 0.3, 0),
+                Diffuse = 0.3,
+                Reflective = 1,
+                Transparency = 0.7,
+                RefractiveIndex = 1.5
+            }
+        };
+
         world.Objects.Add(blueCube);
         world.Objects.Add(redSphere);
+        world.Objects.Add(brownOpenCylinder);
+        world.Objects.Add(greenCylinder);
     }
 
     static void AddMirror(World world)
