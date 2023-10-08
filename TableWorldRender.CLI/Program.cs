@@ -30,7 +30,7 @@ internal class Program
         Vector up = new(0, 1, 0);
         Matrix cameraTransform = Matrix.View(from, to, up);
 
-        return new Camera(250, 125, Math.PI / 3, cameraTransform);
+        return new Camera(200, 100, Math.PI / 3, cameraTransform);
     }
 
     static void AddFloorAndWalls(World world)
@@ -93,19 +93,40 @@ internal class Program
         Matrix redTransform = Matrix.Scaling(0.1, 1, 1).Translate(-9.99, 5, -1);
         Cube redSquare = new(redTransform)
         {
-            Material = new() { Color = new(1, 0, 0) }
+            Material = new()
+            {
+                Color = new(0.9, 0, 0),
+                Diffuse = 0.4,
+                Reflective = 0.5,
+                Transparency = 0.5,
+                RefractiveIndex = 1.5
+            }
         };
 
         Matrix greenTransform = Matrix.Scaling(0.1, 0.5, 0.5).Translate(-9.99, 5.5, 1);
         Cube greenSquare = new(greenTransform)
         {
-            Material = new() { Color = new(0, 1, 0) }
+            Material = new()
+            {
+                Color = new(0, 0.9, 0),
+                Diffuse = 0.4,
+                Reflective = 0.5,
+                Transparency = 0.5,
+                RefractiveIndex = 1.5
+            }
         };
 
         Matrix blueTransform = Matrix.Scaling(0.1, 0.5, 0.5).Translate(-9.99, 4.5, 1);
         Cube blueSquare = new(blueTransform)
         {
-            Material = new() { Color = new(0, 0, 1) }
+            Material = new()
+            {
+                Color = new(0, 0, 0.9),
+                Diffuse = 0.4,
+                Reflective = 0.5,
+                Transparency = 0.5,
+                RefractiveIndex = 1.5
+            }
         };
 
         world.Objects.Add(redSquare);
@@ -202,7 +223,7 @@ internal class Program
             Material = new()
             {
                 Color = new(0.8, 0.4, 0),
-                Diffuse = 0.3,
+                Diffuse = 0.7,
                 Reflective = 1,
                 Transparency = 0.95,
                 RefractiveIndex = 1.5
