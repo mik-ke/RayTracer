@@ -63,12 +63,13 @@ public class CylinderTests
 		Cylinder cylinder = new();
 		direction = direction.Normalize();
 		Ray ray = new(origin, direction);
+		const int expectedLength = 2;
 
 		// Act
 		var result = cylinder.Intersect(ray);
 
 		// Assert
-		Assert.True(result.Length == 2);
+		Assert.Equal(expectedLength, result.Length);
 		Assert.True(expectedT1.IsEqualTo(result[0].T));
 		Assert.True(expectedT2.IsEqualTo(result[1].T));
 	}
