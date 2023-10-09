@@ -5,7 +5,7 @@ namespace RayTracer.Patterns;
 /// <summary>
 /// A ring pattern. Depends on two dimensions x and z.
 /// </summary>
-public class RingPattern : Pattern
+public sealed class RingPattern : Pattern
 {
     public Color A { get; }
     public Color B { get; }

@@ -6,7 +6,7 @@ namespace RayTracer.Shapes;
 /// <summary>
 /// A cube shape. An axis-aligned bounding box (before transformation).
 /// </summary>
-public class Cube : Shape
+public sealed class Cube : Shape
 {
     public Cube(Matrix? transform = null) : base(transform) { }
 

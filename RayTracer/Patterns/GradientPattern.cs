@@ -5,7 +5,7 @@ namespace RayTracer.Patterns;
 /// <summary>
 /// A pattern that linearly interpolates between the two <see cref="Color"/>s <see cref="A"/> and <see cref="B"/>.
 /// </summary>
-public class GradientPattern : Pattern
+public sealed class GradientPattern : Pattern
 {
     public Color A { get; }
     public Color B { get; }

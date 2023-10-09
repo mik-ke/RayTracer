@@ -5,7 +5,7 @@ namespace RayTracer.Patterns;
 /// <summary>
 /// A 3D checker pattern, i.e. repeating pattern of squares in three dimensions.
 /// </summary>
-public class CheckersPattern : Pattern
+public sealed class CheckersPattern : Pattern
 {
     public Color A { get; }
     public Color B { get; }

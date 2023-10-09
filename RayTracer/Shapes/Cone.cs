@@ -2,7 +2,7 @@
 
 namespace RayTracer.Shapes;
 
-public class Cone : Shape
+public sealed class Cone : Shape
 {
     /// <summary>
     /// The minimum Y component.

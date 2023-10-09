@@ -6,7 +6,7 @@ namespace RayTracer.Shapes;
 /// <summary>
 /// A perfectly flat surface that extends infinitely in two dimensions (x and z).
 /// </summary>
-public class Plane : Shape
+public sealed class Plane : Shape
 {
     public Plane(Matrix? transform = null) : base(transform)
     {

@@ -95,7 +95,7 @@ public class Cylinder : Shape
     /// Checks if the intersection at <paramref name="t"/> is within a radius of one
     /// (the radius of cylinders in object space) from the y axis.
     /// </summary>
-    private bool CheckCap(Ray localRay, in double t)
+    private static bool CheckCap(Ray localRay, in double t)
     {
         var x = localRay.Origin.X + t * localRay.Direction.X;
         var z = localRay.Origin.Z + t * localRay.Direction.Z;

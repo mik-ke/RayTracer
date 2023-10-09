@@ -1,6 +1,6 @@
 ﻿using RayTracer.Models;
 using RayTracer.Patterns;
-using Xunit;
+
 namespace RayTracer.Tests.Unit;
 
 public class GradientPatternTests
