@@ -189,7 +189,7 @@ internal class Program
 
     static void AddShapesOnTable(World world)
     {
-        Matrix blueTransform = Matrix.Scaling(0.3, 0.3, 0.3).Translate(0, 3.5, 0).RotateY(Math.PI / 5);
+        Matrix blueTransform = Matrix.Scaling(0.3, 0.3, 0.3).Translate(0, 3.4, 0).RotateY(Math.PI / 5);
         var blueCube = new Cube(blueTransform)
         {
             Material = new()
@@ -215,7 +215,7 @@ internal class Program
             }
         };
 
-        Matrix brownTransform = Matrix.Translation(2, 3.15, 0);
+        Matrix brownTransform = Matrix.Translation(2, 3.10, 0);
         var brownOpenCylinder = new Cylinder(brownTransform)
         {
             Minimum = 0,
