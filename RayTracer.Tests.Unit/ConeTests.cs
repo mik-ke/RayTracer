@@ -38,7 +38,7 @@ public class ConeTests
 	{
 		// Arrange
 		Cone cone = new();
-		var direction = new Vector(1, 1, 1).Normalize();
+		var direction = new Vector(0, 1, 1).Normalize();
 		Ray ray = new(new Point(0, 0, -1), direction);
 		const int expectedLength = 1;
 		const double expectedT = 0.35355;

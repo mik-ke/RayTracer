@@ -37,12 +37,30 @@ public sealed class Cone : Shape
 
         if (a == 0)
         {
-            if (b == 0)
-                return Intersections.Empty;
+            if (b == 0) return Intersections.Empty;
+            double t = -c / (2 * b);
+            return new Intersections(new Intersection(t, this));
         }
 
-        return null!;
+        var discriminant = b * b - 4 * a * c;
+        if (discriminant < 0)
+            return Intersections.Empty;
+
+        double t1 = (-b - Math.Sqrt(discriminant)) / (2 * a);
+        double t2 = (-b + Math.Sqrt(discriminant)) / (2 * a);
+
+        var y1 = localRay.Origin.Y + t1 * localRay.Direction.Y;
+        var y2 = localRay.Origin.Y + t2 * localRay.Direction.Y;
+
+        List<Intersection> intersections = new();
+        if (IsYInBounds(y1))
+            intersections.Add(new(t1, this));
+        if (IsYInBounds(y2))
+            intersections.Add(new(t2, this));
+
+        return new Intersections(intersections.ToArray());
     }
+    private bool IsYInBounds(in double y) => Minimum < y && y < Maximum;
 
     protected override Vector LocalNormal(Point localPoint)
     {
