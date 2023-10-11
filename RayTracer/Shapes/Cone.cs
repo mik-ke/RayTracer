@@ -60,6 +60,14 @@ public sealed class Cone : Shape
 
         return new Intersections(intersections.ToArray());
     }
+    /// <summary>
+    /// </summary>
+    private static bool CheckCap(Ray localRay, in double t)
+    {
+        // TODO
+        return false;
+    }
+
     private bool IsYInBounds(in double y) => Minimum < y && y < Maximum;
 
     protected override Vector LocalNormal(Point localPoint)
