@@ -1,7 +1,6 @@
 ﻿using RayTracer.Extensions;
 using RayTracer.Models;
 using RayTracer.Shapes;
-using Xunit;
 
 namespace RayTracer.Tests.Unit;
 
@@ -78,5 +77,26 @@ public class ConeTests
 			new object[] { new Point(0, 0, -5), new Vector(0, 1, 0), 0 },
 			new object[] { new Point(0, 0, -0.25), new Vector(0, 1, 1), 2 },
 			new object[] { new Point(0, 0, -0.25), new Vector(0, 1, 0), 4 },
+		};
+
+	[Theory]
+	[MemberData(nameof(NormalData))]
+	public void Normal_ShouldComputeCorrectly(Point point, Vector expected)
+	{
+		// Arrange
+		Cone cone = new();
+
+		// Act
+		var actual = cone.Normal(point);
+
+		// Assert
+		Assert.Equal(expected.Normalize(), actual);
+	}
+	public static IEnumerable<object[]> NormalData =>
+		new List<object[]>
+		{
+			new object[] { new Point(0, 0, 0), new Vector(0, 0, 0) },
+			new object[] { new Point(1, 1, 1), new Vector(1, -Math.Sqrt(2), 1) },
+			new object[] { new Point(-1, -1, 0), new Vector(-1, 1, 0) },
 		};
 }

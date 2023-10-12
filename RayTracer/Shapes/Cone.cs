@@ -120,6 +120,22 @@ public sealed class Cone : Shape
 
     protected override Vector LocalNormal(Point localPoint)
     {
-        throw new NotImplementedException();
+        double distance = localPoint.X * localPoint.X +
+            localPoint.Z * localPoint.Z;
+
+        if (IsPointOnMaximumCap(distance, localPoint))
+            return new(0, 1, 0);
+        else if (IsPointOnMinimumCap(distance, localPoint))
+            return new(0, -1, 0);
+
+        double y = Math.Sqrt(localPoint.X * localPoint.X + localPoint.Z * localPoint.Z);
+        if (localPoint.Y > 0) y = -y;
+
+        return new(localPoint.X, y, localPoint.Z);
     }
+
+    private bool IsPointOnMaximumCap(in double distance, Point localPoint) =>
+        distance < Math.Abs(Maximum) && localPoint.Y >= Maximum - DoubleExtensions.EPSILON;
+    private bool IsPointOnMinimumCap(in double distance, Point localPoint) =>
+        distance < Math.Abs(Minimum) && localPoint.Y <= Minimum + DoubleExtensions.EPSILON;
 }
