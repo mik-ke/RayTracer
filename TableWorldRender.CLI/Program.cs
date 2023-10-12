@@ -13,6 +13,7 @@ internal class Program
         AddLeftWallDecorations(world);
         AddTable(world);
         AddShapesOnTable(world);
+        AddConeChair(world);
         AddMirror(world);
         AddLightSources(world);
 
@@ -245,10 +246,60 @@ internal class Program
             }
         };
 
+        var blueConeTransform = Matrix.Scaling(0.5, 0.5, 0.5).Translate(-1, 5.15, -1.25);
+        var blueCone = new Cone(blueConeTransform)
+        {
+            Minimum = -1,
+            Maximum = 0,
+            Material = new()
+            {
+                Color = new(0, 0, 0.7),
+                Diffuse = 0.3,
+                Reflective = 1,
+            }
+        };
+
         world.Objects.Add(blueCube);
         world.Objects.Add(redSphere);
         world.Objects.Add(brownOpenCylinder);
         world.Objects.Add(greenCylinder);
+        world.Objects.Add(blueCone);
+    }
+
+    static void AddConeChair(World world)
+    {
+        Matrix redTransform = Matrix.Translation(0, 1, -3.4);
+        Cone redCone = new(redTransform)
+        {
+            Minimum = -1,
+            Maximum = 1,
+            Material = new()
+            {
+                Color = new(0.5, 0, 0),
+                Diffuse = 0.7,
+                Reflective = 0.8,
+                Transparency = 0.7,
+                RefractiveIndex = 1.5
+            }
+        };
+
+        Matrix blueTransform = Matrix.Translation(4, 1, 0);
+        Cone blueCone = new(blueTransform)
+        {
+            Minimum = -1,
+            Maximum = 1,
+            Material = new()
+            {
+                Color = new(0, 0, 0.5),
+                Diffuse = 0.7,
+                Reflective = 0.8,
+                Transparency = 0.7,
+                RefractiveIndex = 1.5
+            }
+        };
+
+        world.Objects.Add(redCone);
+        world.Objects.Add(blueCone);
     }
 
     static void AddMirror(World world)
