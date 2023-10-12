@@ -1,6 +1,7 @@
 ﻿using RayTracer.Extensions;
 using RayTracer.Models;
 using RayTracer.Shapes;
+using Xunit;
 
 namespace RayTracer.Tests.Unit;
 
@@ -50,4 +51,32 @@ public class ConeTests
 		Assert.Equal(expectedLength, result.Length);
 		Assert.True(expectedT.IsEqualTo(result[0].T));
 	}
+
+	[Theory]
+	[MemberData(nameof(IntersectCappedData))]
+	public void Intersect_ShouldBeCorrect_WhenConeCapped(Point origin, Vector direction, int expectedIntersectionCount)
+	{
+		// Arrange
+		Cone cone = new()
+		{
+			Minimum = -0.5,
+			Maximum = 0.5,
+			Closed = true
+		};
+		direction = direction.Normalize();
+		Ray ray = new(origin, direction);
+
+		// Act
+		var result = cone.Intersect(ray);
+
+		// Assert
+		Assert.Equal(expectedIntersectionCount, result.Length);
+	}
+	public static IEnumerable<object[]> IntersectCappedData =>
+		new List<object[]>
+		{
+			new object[] { new Point(0, 0, -5), new Vector(0, 1, 0), 0 },
+			new object[] { new Point(0, 0, -0.25), new Vector(0, 1, 1), 2 },
+			new object[] { new Point(0, 0, -0.25), new Vector(0, 1, 0), 4 },
+		};
 }
