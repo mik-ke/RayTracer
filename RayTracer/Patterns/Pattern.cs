@@ -22,7 +22,7 @@ public abstract class Pattern
     /// <returns>The <see cref="Color"/> of the pattern.</returns>
     public Color PatternAtShape(Shape shape, Point worldPoint)
     {
-        var objectPoint = (Point)(shape.Transform.Inverse() * worldPoint);
+        var objectPoint = shape.WorldToObject(worldPoint);
         var patternPoint = (Point)(Transform.Inverse() * objectPoint);
 
         return PatternAt(patternPoint);

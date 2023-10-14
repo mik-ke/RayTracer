@@ -142,6 +142,32 @@ public class ShapeTests
 	}
 
 	[Fact]
+	public void Normal_ShouldWork_WhenShapeIsChildOfGroup()
+	{
+		// Arrange
+		Matrix transform1 = Matrix.RotationY(Math.PI / 2);
+		Group group1 = new(transform1);
+
+		Matrix transform2 = Matrix.Scaling(1, 2, 3);
+		Group group2 = new(transform2);
+
+		group1.AddChild(group2);
+
+		Matrix transform3 = Matrix.Translation(5, 0, 0);
+		Sphere sphere = new(transform3);
+
+		group2.AddChild(sphere);
+
+		Vector expected = new(0.2857, 0.4286, -0.8571);
+
+		// Act
+		var actual = sphere.Normal(new Point(1.7321, 1.1547, -5.5774));
+
+		// Assert
+		Assert.Equal(expected, actual);
+	}
+
+	[Fact]
 	public void WorldToObject_ShouldConvertWorldPointToObjectPoint()
 	{
 		// Arrange
@@ -162,6 +188,32 @@ public class ShapeTests
 
 		// Act
 		var actual = sphere.WorldToObject(new Point(-2, 0, -10));
+
+		// Assert
+		Assert.Equal(expected, actual);
+	}
+
+	[Fact]
+	public void NormalToWorld_ShouldConvertObjectSpaceNormalToWorldSpace()
+	{
+		// Arrange
+		Matrix transform1 = Matrix.RotationY(Math.PI / 2);
+		Group group1 = new(transform1);
+
+		Matrix transform2 = Matrix.Scaling(1, 2, 3);
+		Group group2 = new(transform2);
+
+		group1.AddChild(group2);
+
+		Matrix transform3 = Matrix.Translation(5, 0, 0);
+		Sphere sphere = new(transform3);
+
+		group2.AddChild(sphere);
+
+		Vector expected = new(0.2857, 0.4286, -0.8571);
+
+		// Act
+		var actual = sphere.NormalToWorld(new Vector(Math.Sqrt(3) / 3, Math.Sqrt(3) / 3, Math.Sqrt(3) / 3));
 
 		// Assert
 		Assert.Equal(expected, actual);

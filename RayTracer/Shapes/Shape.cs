@@ -29,19 +29,6 @@ public abstract class Shape
     }
 
     /// <summary>
-    /// Converts a <see cref="Point"/> in world space to object space
-    /// taking into consideration any <see cref="Parent"/> objects between
-    /// the two spaces.
-    /// </summary>
-    public Point WorldToObject(Point point)
-    {
-        if (Parent != null)
-            point = Parent.WorldToObject(point);
-
-        return (Point)(Transform.Inverse() * point);
-    }
-
-    /// <summary>
     /// Returns an <see cref="Intersections"/> collection built from where the given <paramref name="ray"/>
     /// intersects the <see cref="Shape"/>.
     /// </summary>
@@ -64,16 +51,43 @@ public abstract class Shape
     /// <returns>A new <see cref="Vector"/>.</returns>
     public Vector Normal(Point worldPoint)
     {
-        var localPoint = (Point)(Transform.Inverse() * worldPoint);
+        var localPoint = WorldToObject(worldPoint);
         var localNormal = LocalNormal(localPoint);
+        return NormalToWorld(localNormal);
+    }
+
+    /// <summary>
+    /// Converts a <see cref="Point"/> in world space to object space
+    /// taking into consideration any <see cref="Parent"/> objects between
+    /// the two spaces.
+    /// </summary>
+    public Point WorldToObject(Point point)
+    {
+        if (Parent != null)
+            point = Parent.WorldToObject(point);
+
+        return (Point)(Transform.Inverse() * point);
+    }
+
+    /// <summary>
+    /// Converts a normal <see cref="Vector"/> in object space to world space
+    /// taking into consideration any <see cref="Parent"/> objects between
+    /// the two spaces.
+    /// </summary>
+    public Vector NormalToWorld(Vector normal)
+    {
+        var worldNormal = (Transform.Inverse().Transpose() * normal);
         // Technically we should be getting Transform.Submatrix(3, 3) as
         // any translations will screw the W value of a vector.
         // We can avoid that by simply using the normal 4x4 functionality
         // then setting the W to 0 afterwards.
-        var worldNormal = Transform.Inverse().Transpose() * localNormal;
         worldNormal[3, 0] = 0;
+        normal = ((Vector)worldNormal).Normalize();
 
-        return ((Vector)worldNormal).Normalize();
+        if (Parent != null)
+            normal = Parent.NormalToWorld(normal);
+
+        return normal;
     }
 
     /// <summary>
