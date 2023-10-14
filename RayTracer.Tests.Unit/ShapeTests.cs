@@ -7,6 +7,17 @@ namespace RayTracer.Tests.Unit;
 public class ShapeTests
 {
 	[Fact]
+	public void Parent_ShouldBeNull_WhenInitialized()
+	{
+		// Arrange
+		// Act
+		Shape shape = new TestShape();
+
+		// Assert
+		Assert.Null(shape.Parent);
+	}
+
+	[Fact]
 	public void Transform_ShouldBeIdentityMatrix_WhenInitialized()
 	{
 		// Arrange

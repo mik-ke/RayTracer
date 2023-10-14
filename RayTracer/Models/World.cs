@@ -28,7 +28,7 @@ public sealed class World
 
     /// <summary>
     /// Returns a collection of t values where the given <paramref name="ray"/> intersects
-    /// with the <see cref="Objects"/>
+    /// with the <see cref="Objects"/>.
     /// </summary>
     public Intersections Intersect(Ray ray)
     {

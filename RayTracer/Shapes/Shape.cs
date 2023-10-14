@@ -5,6 +5,11 @@ namespace RayTracer.Shapes;
 public abstract class Shape
 {
     /// <summary>
+    /// Parent <see cref="Group"/> of this shape, if any.
+    /// </summary>
+    public Group? Parent { get; set; }
+
+    /// <summary>
     /// The transform of the shape. I.e. the conversion from object space (unit shape) to world space.
     /// 4x4 Identity matrix by default.
     /// </summary>
