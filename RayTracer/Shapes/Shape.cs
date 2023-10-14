@@ -29,6 +29,19 @@ public abstract class Shape
     }
 
     /// <summary>
+    /// Converts a <see cref="Point"/> in world space to object space
+    /// taking into consideration any <see cref="Parent"/> objects between
+    /// the two spaces.
+    /// </summary>
+    public Point WorldToObject(Point point)
+    {
+        if (Parent != null)
+            point = Parent.WorldToObject(point);
+
+        return (Point)(Transform.Inverse() * point);
+    }
+
+    /// <summary>
     /// Returns an <see cref="Intersections"/> collection built from where the given <paramref name="ray"/>
     /// intersects the <see cref="Shape"/>.
     /// </summary>

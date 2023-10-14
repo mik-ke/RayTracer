@@ -1,6 +1,7 @@
 ﻿using RayTracer.Extensions;
 using RayTracer.Shapes;
 using RayTracer.Models;
+using Xunit;
 
 namespace RayTracer.Tests.Unit;
 
@@ -135,6 +136,32 @@ public class ShapeTests
 
 		// Act
 		var actual = shape.Normal(point);
+
+		// Assert
+		Assert.Equal(expected, actual);
+	}
+
+	[Fact]
+	public void WorldToObject_ShouldConvertWorldPointToObjectPoint()
+	{
+		// Arrange
+		Matrix transform1 = Matrix.RotationY(Math.PI / 2);
+		Group group1 = new(transform1);
+
+		Matrix transform2 = Matrix.Scaling(2, 2, 2);
+		Group group2 = new(transform2);
+
+		group1.AddChild(group2);
+
+		Matrix transform3 = Matrix.Translation(5, 0, 0);
+		Sphere sphere = new(transform3);
+
+		group2.AddChild(sphere);
+
+		Point expected = new(0, 0, -1);
+
+		// Act
+		var actual = sphere.WorldToObject(new Point(-2, 0, -10));
 
 		// Assert
 		Assert.Equal(expected, actual);
