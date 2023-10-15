@@ -23,7 +23,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sphere3DRender.CLI", "Spher
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WorldRender.CLI", "WorldRender.CLI\WorldRender.CLI.csproj", "{7AD57F82-5B5C-4A0F-902A-0647BCCF00AA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TableWorldRender.CLI", "TableWorldRender.CLI\TableWorldRender.CLI.csproj", "{02B5FE74-516A-4CFE-8DCC-8F9B3B0BE52C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TableWorldRender.CLI", "TableWorldRender.CLI\TableWorldRender.CLI.csproj", "{02B5FE74-516A-4CFE-8DCC-8F9B3B0BE52C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HexagonRender.CLI", "HexagonRender.CLI\HexagonRender.CLI.csproj", "{78C2EEC6-4BF1-4511-A1F0-F5DCA9C269FF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -71,6 +73,10 @@ Global
 		{02B5FE74-516A-4CFE-8DCC-8F9B3B0BE52C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{02B5FE74-516A-4CFE-8DCC-8F9B3B0BE52C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{02B5FE74-516A-4CFE-8DCC-8F9B3B0BE52C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{78C2EEC6-4BF1-4511-A1F0-F5DCA9C269FF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{78C2EEC6-4BF1-4511-A1F0-F5DCA9C269FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{78C2EEC6-4BF1-4511-A1F0-F5DCA9C269FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{78C2EEC6-4BF1-4511-A1F0-F5DCA9C269FF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -83,6 +89,7 @@ Global
 		{38A3D59B-0D68-4CEE-894B-0486D555D48A} = {5EF8F723-0F78-4549-A0A5-14B27B45727F}
 		{7AD57F82-5B5C-4A0F-902A-0647BCCF00AA} = {5EF8F723-0F78-4549-A0A5-14B27B45727F}
 		{02B5FE74-516A-4CFE-8DCC-8F9B3B0BE52C} = {5EF8F723-0F78-4549-A0A5-14B27B45727F}
+		{78C2EEC6-4BF1-4511-A1F0-F5DCA9C269FF} = {5EF8F723-0F78-4549-A0A5-14B27B45727F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3EF37C13-6F1C-48E0-81FB-6B33FCD2D8DE}
