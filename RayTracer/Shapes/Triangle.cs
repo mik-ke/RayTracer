@@ -6,7 +6,7 @@ namespace RayTracer.Shapes;
 /// <summary>
 /// A triangle shape. Composed of three <see cref="Point"/>s.
 /// </summary>
-public class Triangle : Shape
+public sealed class Triangle : Shape
 {
     public Point Point1 { get; }
     public Point Point2 { get; }
