@@ -1,5 +1,6 @@
 ﻿using RayTracer.Models;
 using RayTracer.Shapes;
+using Xunit;
 
 namespace RayTracer.Tests.Unit;
 
@@ -27,4 +28,26 @@ public class TriangleTests
 		Assert.Equal(edge2, triangle.Edge2);
 		Assert.Equal(normal, triangle.NormalVector);
 	}
+
+	[Theory]
+	[MemberData(nameof(NormalData))]
+	public void Normal_ShouldBePrecomputed_WhenDifferentPointsUsed(Point normalPoint)
+	{
+		// Arrange
+		Triangle triangle = new(new Point(0, 1, 0), new Point(-1, 0, 0), new Point(1, 0, 0));
+
+		// Act
+		var result = triangle.Normal(normalPoint);
+
+		// Assert
+		Assert.Equal(triangle.NormalVector, result);
+	}
+	public static IEnumerable<object[]> NormalData =>
+		new List<object[]>
+		{
+			new object[] { new Point (0, 0.5, 0) },
+			new object[] { new Point (-0.5, 0.75, 0) },
+			new object[] { new Point (0.5, 0.25, 0) },
+		};
+
 }

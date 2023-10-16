@@ -12,6 +12,9 @@ public class Triangle : Shape
     public Point Point3 { get; }
     public Vector Edge1 { get; }
     public Vector Edge2 { get; }
+    /// <summary>
+    /// Precomputed normal used for every point of the triangle.
+    /// </summary>
     public Vector NormalVector { get; }
 
     public Triangle(Point point1, Point point2, Point point3, Matrix? transform = null) : base(transform)
@@ -30,8 +33,5 @@ public class Triangle : Shape
         throw new NotImplementedException();
     }
 
-    protected override Vector LocalNormal(Point localPoint)
-    {
-        throw new NotImplementedException();
-    }
+    protected override Vector LocalNormal(Point localPoint) => NormalVector;
 }
