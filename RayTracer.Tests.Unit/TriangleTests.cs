@@ -50,4 +50,17 @@ public class TriangleTests
 			new object[] { new Point (0.5, 0.25, 0) },
 		};
 
+	[Fact]
+	public void Intersect_ShouldReturnEmpty_WhenRayParallel()
+	{
+		// Arrange
+		Triangle triangle = new(new Point(0, 1, 0), new Point(-1, 0, 0), new Point(1, 0, 0));
+		Ray ray = new(new Point(0, -1, -2), new Vector(0, 1, 0));
+
+		// Act
+		var result = triangle.Intersect(ray);
+
+		// Assert
+		Assert.Empty(result);
+	}
 }

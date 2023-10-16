@@ -1,4 +1,5 @@
-﻿using RayTracer.Models;
+﻿using RayTracer.Extensions;
+using RayTracer.Models;
 
 namespace RayTracer.Shapes;
 
@@ -30,7 +31,16 @@ public class Triangle : Shape
 
     protected override Intersections LocalIntersect(Ray localRay)
     {
-        throw new NotImplementedException();
+        if (IsRayParallel(localRay)) return Intersections.Empty;
+
+        return null!;
+    }
+
+    private bool IsRayParallel(Ray ray)
+    {
+        var directionCrossEdge2 = ray.Direction.Cross(Edge2);
+        var determinant = Edge1.Dot(directionCrossEdge2);
+        return Math.Abs(determinant) < DoubleExtensions.EPSILON;
     }
 
     protected override Vector LocalNormal(Point localPoint) => NormalVector;
