@@ -31,17 +31,26 @@ public sealed class Triangle : Shape
 
     protected override Intersections LocalIntersect(Ray localRay)
     {
-        if (IsRayParallel(localRay)) return Intersections.Empty;
-
-        return null!;
-    }
-
-    private bool IsRayParallel(Ray ray)
-    {
-        var directionCrossEdge2 = ray.Direction.Cross(Edge2);
+        var directionCrossEdge2 = localRay.Direction.Cross(Edge2);
         var determinant = Edge1.Dot(directionCrossEdge2);
-        return Math.Abs(determinant) < DoubleExtensions.EPSILON;
+
+        if (IsRayParallel(determinant)) return Intersections.Empty;
+
+        var f = 1.0 / determinant;
+        var point1ToOrigin = localRay.Origin - Point1;
+        var u = f * point1ToOrigin.Dot(directionCrossEdge2);
+        if (u < 0 || u > 1) return Intersections.Empty;
+
+        var originCrossEdge1 = point1ToOrigin.Cross(Edge1);
+        var v = f * localRay.Direction.Dot(originCrossEdge1);
+        if (v < 0 || (u + v) > 1) return Intersections.Empty;
+
+        var t = f * Edge2.Dot(originCrossEdge1);
+        Intersection intersection = new(t, this);
+        return new Intersections(intersection);
     }
+
+    private bool IsRayParallel(in double determinant) => Math.Abs(determinant) < DoubleExtensions.EPSILON;
 
     protected override Vector LocalNormal(Point localPoint) => NormalVector;
 }

@@ -1,4 +1,5 @@
-﻿using RayTracer.Models;
+﻿using RayTracer.Extensions;
+using RayTracer.Models;
 using RayTracer.Shapes;
 
 namespace RayTracer.Tests.Unit;
@@ -61,5 +62,64 @@ public class TriangleTests
 
 		// Assert
 		Assert.Empty(result);
+	}
+
+	[Fact]
+	public void Intersect_ShouldReturnEmpty_WhenRayMissesP1P3Edge()
+	{
+		// Arrange
+		Triangle triangle = new(new Point(0, 1, 0), new Point(-1, 0, 0), new Point(1, 0, 0));
+		Ray ray = new(new Point(1, 1, -2), new Vector(0, 0, 1));
+
+		// Act
+		var result = triangle.Intersect(ray);
+
+		// Assert
+		Assert.Empty(result);
+	}
+
+	[Fact]
+	public void Intersect_ShouldReturnEmpty_WhenRayMissesP1P2Edge()
+	{
+		// Arrange
+		Triangle triangle = new(new Point(0, 1, 0), new Point(-1, 0, 0), new Point(1, 0, 0));
+		Ray ray = new(new Point(-1, 1, -2), new Vector(0, 0, 1));
+
+		// Act
+		var result = triangle.Intersect(ray);
+
+		// Assert
+		Assert.Empty(result);
+	}
+
+	[Fact]
+	public void Intersect_ShouldReturnEmpty_WhenRayMissesP2P3Edge()
+	{
+		// Arrange
+		Triangle triangle = new(new Point(0, 1, 0), new Point(-1, 0, 0), new Point(1, 0, 0));
+		Ray ray = new(new Point(0, -1, -2), new Vector(0, 0, 1));
+
+		// Act
+		var result = triangle.Intersect(ray);
+
+		// Assert
+		Assert.Empty(result);
+	}
+
+	[Fact]
+	public void Intersect_ShouldBeCorrect_WhenRayStrikesTriangle()
+	{
+		// Arrange
+		Triangle triangle = new(new Point(0, 1, 0), new Point(-1, 0, 0), new Point(1, 0, 0));
+		Ray ray = new(new Point(0, 0.5, -2), new Vector(0, 0, 1));
+		const int expectedCount = 1;
+		const double expectedT = 2.0;
+
+		// Act
+		var result = triangle.Intersect(ray);
+
+		// Assert
+		Assert.Equal(expectedCount, result.Length);
+		Assert.True(expectedT.IsEqualTo(result[0].T));
 	}
 }
