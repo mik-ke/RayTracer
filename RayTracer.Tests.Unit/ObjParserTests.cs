@@ -1,5 +1,7 @@
 ﻿using RayTracer.Models;
 using RayTracer.Parsers;
+using RayTracer.Shapes;
+using Xunit;
 
 namespace RayTracer.Tests.Unit;
 
@@ -22,10 +24,12 @@ and came back the previous night.
 		// Act
 		// Assert
 		await obj.LoadFromStringAsync(objData);
+		Assert.Empty(obj.Vertices);
+		Assert.Empty(obj.Group);
 	}
 
 	[Fact]
-	public async void LoadFromStringAsync_ShouldSetVerticesCorrectly()
+	public async Task LoadFromStringAsync_ShouldSetVerticesCorrectly()
 	{
 		// Arrange
 		const string objData =
@@ -50,5 +54,35 @@ v 1 1 0
 		Assert.Equal(expectedVertice2, obj.Vertices[1]);
 		Assert.Equal(expectedVertice3, obj.Vertices[2]);
 		Assert.Equal(expectedVertice4, obj.Vertices[3]);
+	}
+
+	[Fact]
+	public async Task LoadFromStringAsync_ShouldAddTrianglesToGroup_WhenFacesInObjString()
+	{
+		// Arrange
+		const string objData =
+@"
+v -1 1 0
+v -1 0 0
+v 1 0 0
+v 1 1 0
+
+f 1 2 3
+f 1 3 4
+";
+		Obj obj = new();
+
+		// Act
+		await obj.LoadFromStringAsync(objData);
+
+		// Assert
+		var childOne = (Triangle)obj.Group[0];
+		var childTwo = (Triangle)obj.Group[1];
+		Assert.Equal(obj.Vertices[0], childOne.Point1);
+		Assert.Equal(obj.Vertices[1], childOne.Point2);
+		Assert.Equal(obj.Vertices[2], childOne.Point3);
+		Assert.Equal(obj.Vertices[0], childTwo.Point1);
+		Assert.Equal(obj.Vertices[2], childTwo.Point2);
+		Assert.Equal(obj.Vertices[3], childTwo.Point3);
 	}
 }

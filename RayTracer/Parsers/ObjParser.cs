@@ -1,5 +1,6 @@
 ﻿
 using RayTracer.Models;
+using RayTracer.Shapes;
 using System.Globalization;
 
 namespace RayTracer.Parsers;
@@ -10,7 +11,12 @@ namespace RayTracer.Parsers;
 /// </summary>
 public class Obj
 {
-    public List<Point> Vertices;
+    public List<Point> Vertices = new(0);
+
+    /// <summary>
+    /// Represents the OBJ file as a <see cref="Shapes.Group"/>
+    /// </summary>
+    public Group Group = new();
 
     /// <summary>
     /// Parses the OBJ-formatted <paramref name="objData"/> data and initializes the <see cref="Obj"/>.
@@ -37,12 +43,15 @@ public class Obj
         switch (arguments[0])
         {
             case "v":
-                ProcessVertice(arguments);
+                ProcessVertex(arguments);
+                break;
+            case "f":
+                ProcessTriangle(arguments);
                 break;
         }
     }
 
-    private void ProcessVertice(in string[] arguments)
+    private void ProcessVertex(in string[] arguments)
     {
         if (arguments.Length != 4) return;
 
@@ -59,7 +68,36 @@ public class Obj
             CultureInfo.InvariantCulture,
             out double z)) return;
 
-        Point vertice = new(x, y, z);
-        Vertices.Add(vertice);
+        Point vertex = new(x, y, z);
+        Vertices.Add(vertex);
     }
+
+    private void ProcessTriangle(in string[] arguments)
+    {
+        if (arguments.Length != 4) return;
+
+        if (!int.TryParse(arguments[1],
+            NumberStyles.Any,
+            CultureInfo.InvariantCulture,
+            out int point1Index)) return;
+        if (!IsPointIndexInbounds(point1Index)) return;
+
+        if (!int.TryParse(arguments[2],
+            NumberStyles.Any,
+            CultureInfo.InvariantCulture,
+            out int point2Index)) return;
+        if (!IsPointIndexInbounds(point2Index)) return;
+
+        if (!int.TryParse(arguments[3],
+            NumberStyles.Any,
+            CultureInfo.InvariantCulture,
+            out int point3Index)) return;
+        if (!IsPointIndexInbounds(point3Index)) return;
+
+
+        Triangle triangle = new(Vertices[point1Index - 1], Vertices[point2Index - 1], Vertices[point3Index - 1]);
+        Group.AddChild(triangle);
+    }
+
+    private bool IsPointIndexInbounds(int pointIndex) => pointIndex >= 1 && pointIndex <= Vertices.Count;
 }

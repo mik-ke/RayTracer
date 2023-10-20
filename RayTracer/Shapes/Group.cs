@@ -25,6 +25,9 @@ public sealed class Group : Shape, IEnumerable<Shape>
         child.Parent = this;
     }
 
+    public Shape this[int index] => ChildAt(index);
+    public Shape ChildAt(int index) => _shapes[index];
+
     /// <summary>
     /// The number of <see cref="Shape"/>s in the <see cref="Group"/>.
     /// </summary>
