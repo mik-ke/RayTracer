@@ -74,7 +74,7 @@ public class Obj
 
     private void ProcessTriangle(in string[] arguments)
     {
-        if (arguments.Length != 4) return;
+        if (arguments.Length < 4) return;
 
         if (!int.TryParse(arguments[1],
             NumberStyles.Any,

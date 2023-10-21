@@ -85,4 +85,38 @@ f 1 3 4
 		Assert.Equal(obj.Vertices[2], childTwo.Point2);
 		Assert.Equal(obj.Vertices[3], childTwo.Point3);
 	}
+
+	[Fact]
+	public async void LoadFromStringAsync_ShouldCreatTriangles_WhenPolygonsInObjString()
+	{
+		// Arrange
+		const string objData =
+@"
+v -1 1 0
+v -1 0 0
+v 1 0 0
+v 1 1 0
+v 0 2 0
+
+f 1 2 3 4 5
+";
+		Obj obj = new();
+
+		// Act
+		await obj.LoadFromStringAsync(objData);
+
+		// Assert
+		var childOne = (Triangle)obj.Group[0];
+		var childTwo = (Triangle)obj.Group[1];
+		var childThree = (Triangle)obj.Group[2];
+		Assert.Equal(obj.Vertices[0], childOne.Point1);
+		Assert.Equal(obj.Vertices[1], childOne.Point2);
+		Assert.Equal(obj.Vertices[2], childOne.Point3);
+		Assert.Equal(obj.Vertices[0], childTwo.Point1);
+		Assert.Equal(obj.Vertices[2], childTwo.Point2);
+		Assert.Equal(obj.Vertices[3], childTwo.Point3);
+		Assert.Equal(obj.Vertices[0], childThree.Point1);
+		Assert.Equal(obj.Vertices[3], childThree.Point2);
+		Assert.Equal(obj.Vertices[4], childThree.Point3);
+	}
 }
