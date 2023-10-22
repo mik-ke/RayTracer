@@ -1,5 +1,4 @@
-﻿
-using RayTracer.Models;
+﻿using RayTracer.Models;
 using RayTracer.Shapes;
 using System.Globalization;
 
@@ -76,27 +75,32 @@ public class Obj
     {
         if (arguments.Length < 4) return;
 
-        if (!int.TryParse(arguments[1],
-            NumberStyles.Any,
-            CultureInfo.InvariantCulture,
-            out int point1Index)) return;
-        if (!IsPointIndexInbounds(point1Index)) return;
+        List<int> pointIndices = new();
+        for (int i = 1; i  < arguments.Length; i++)
+        {
+            if (!int.TryParse(arguments[i],
+                NumberStyles.Any,
+                CultureInfo.InvariantCulture,
+                out int pointIndex)) return;
+            if (!IsPointIndexInbounds(pointIndex)) return;
 
-        if (!int.TryParse(arguments[2],
-            NumberStyles.Any,
-            CultureInfo.InvariantCulture,
-            out int point2Index)) return;
-        if (!IsPointIndexInbounds(point2Index)) return;
+            pointIndices.Add(pointIndex - 1);
+        }
 
-        if (!int.TryParse(arguments[3],
-            NumberStyles.Any,
-            CultureInfo.InvariantCulture,
-            out int point3Index)) return;
-        if (!IsPointIndexInbounds(point3Index)) return;
+        FanTriangulation(pointIndices);
+    }
 
-
-        Triangle triangle = new(Vertices[point1Index - 1], Vertices[point2Index - 1], Vertices[point3Index - 1]);
-        Group.AddChild(triangle);
+    /// <summary>
+    /// Takes vertex indices and creates and adds <see cref="Triangle"/>s
+    /// based on them. With more than three indices polygons are triangulated.
+    /// </summary>
+    private void FanTriangulation(List<int> pointIndices)
+    {
+        for (int i = 1; i < pointIndices.Count - 1; i++)
+        {
+            Triangle triangle = new(Vertices[pointIndices[0]], Vertices[pointIndices[i]], Vertices[pointIndices[i + 1]]);
+            Group.AddChild(triangle);
+        }
     }
 
     private bool IsPointIndexInbounds(int pointIndex) => pointIndex >= 1 && pointIndex <= Vertices.Count;
