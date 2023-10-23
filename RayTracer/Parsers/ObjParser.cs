@@ -1,6 +1,7 @@
 ﻿using RayTracer.Models;
 using RayTracer.Shapes;
 using System.Globalization;
+using System.Threading.Tasks.Dataflow;
 
 namespace RayTracer.Parsers;
 
@@ -38,6 +39,21 @@ public class Obj
                 ProcessLine(currentLine);
             }
         }
+    }
+
+    /// <summary>
+    /// Creates a <see cref="Group"/> based on the parsed OBJ string.
+    /// </summary>
+    /// <remarks><see cref="LoadFromStringAsync(string)"/> should be called before calling this.</remarks>
+    public Group ToGroup()
+    {
+        Group group = new();
+        foreach (var child in DefaultGroup)
+            group.AddChild(child);
+        foreach (var namedGroup in NamedGroups.Values)
+            group.AddChild(namedGroup);
+
+        return group;
     }
 
     private string? _currentGroupName = null;

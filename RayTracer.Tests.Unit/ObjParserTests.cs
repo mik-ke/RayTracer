@@ -123,6 +123,7 @@ f 1 2 3 4 5
 	[Fact]
 	public async Task LoadFromStringAsync_ShouldSetNamedGroups_WhenGroupsInObjStr()
 	{
+		// Arrange
 		const string objData =
 @"
 v -1 1 0
@@ -151,5 +152,34 @@ f 1 3 4
 		Assert.Equal(obj.Vertices[0], triangleTwo.Point1);
 		Assert.Equal(obj.Vertices[2], triangleTwo.Point2);
 		Assert.Equal(obj.Vertices[3], triangleTwo.Point3);
+	}
+
+	[Fact]
+	public async Task ToGroup_ShouldConvertObjToGroup()
+	{
+		// Arrange
+		const string objData =
+@"
+v -1 1 0
+v -1 0 0
+v 1 0 0
+v 1 1 0
+
+g FirstGroup
+f 1 2 3
+g SecondGroup
+f 1 3 4
+";
+		Obj obj = new();
+		await obj.LoadFromStringAsync(objData);
+		var groupOne = obj.NamedGroups["FirstGroup"];
+		var groupTwo = obj.NamedGroups["SecondGroup"];
+
+		// Act
+		var result = obj.ToGroup();
+
+		// Assert
+		Assert.Contains(groupOne, result);
+		Assert.Contains(groupTwo, result);
 	}
 }
