@@ -50,7 +50,7 @@ public sealed class Triangle : Shape
         return new Intersections(intersection);
     }
 
-    private bool IsRayParallel(in double determinant) => Math.Abs(determinant) < DoubleExtensions.EPSILON;
+    private static bool IsRayParallel(in double determinant) => Math.Abs(determinant) < DoubleExtensions.EPSILON;
 
     protected override Vector LocalNormal(Point localPoint) => NormalVector;
 }

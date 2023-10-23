@@ -26,24 +26,36 @@ public class Obj
     /// </summary>
     public async Task LoadFromStringAsync(string objData)
     {
-        Vertices = new();
-        DefaultGroup = new();
-        _currentGroupName = null;
+        using StringReader reader = new(objData);
+        await LoadFromTextReaderAsync(reader);
+    }
 
-        using (StringReader reader = new StringReader(objData))
+
+    /// <summary>
+    /// Parses the OBJ-formatted file in <paramref name="objFilePath"/> and initialized the <see cref="Obj"/>.
+    /// </summary>
+    public async Task LoadFromFileAsync(string objFilePath)
+    {
+        using StreamReader reader = new(objFilePath);
+        await LoadFromTextReaderAsync(reader);
+    }
+
+    public async Task LoadFromTextReaderAsync(TextReader reader)
+    {
+        ResetValues();
+        string? currentLine;
+        while ((currentLine = await reader.ReadLineAsync()) != null)
         {
-            string? currentLine;
-            while ((currentLine = await reader.ReadLineAsync()) != null)
-            {
-                ProcessLine(currentLine);
-            }
+            ProcessLine(currentLine);
         }
     }
 
     /// <summary>
     /// Creates a <see cref="Group"/> based on the parsed OBJ string.
     /// </summary>
-    /// <remarks><see cref="LoadFromStringAsync(string)"/> should be called before calling this.</remarks>
+    /// <remarks>
+    /// see cref="LoadFromStringAsync(string)"/> or <see cref="LoadFromFileAsync(string)"/> should be called before calling this.
+    /// </remarks>
     public Group ToGroup()
     {
         Group group = new();
@@ -133,8 +145,7 @@ public class Obj
             Triangle triangle = new(Vertices[pointIndices[0]], Vertices[pointIndices[i]], Vertices[pointIndices[i + 1]]);
             if (_currentGroupName != null)
             {
-                Group? currentGroup;
-                if (!NamedGroups.TryGetValue(_currentGroupName, out currentGroup))
+                if (!NamedGroups.TryGetValue(_currentGroupName, out Group? currentGroup))
                 {
                     NamedGroups[_currentGroupName] = currentGroup = new Group();
                 }
@@ -147,4 +158,11 @@ public class Obj
     }
 
     private bool IsPointIndexInbounds(int pointIndex) => pointIndex >= 1 && pointIndex <= Vertices.Count;
+
+    private void ResetValues()
+    {
+        Vertices = new();
+        DefaultGroup = new();
+        _currentGroupName = null;
+    }
 }

@@ -27,6 +27,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TableWorldRender.CLI", "Tab
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HexagonRender.CLI", "HexagonRender.CLI\HexagonRender.CLI.csproj", "{78C2EEC6-4BF1-4511-A1F0-F5DCA9C269FF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ObjParserRender.CLI", "ObjParserRender.CLI\ObjParserRender.CLI.csproj", "{2D8A5589-BA20-42C1-BB68-165ABBB0F47D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -77,6 +79,10 @@ Global
 		{78C2EEC6-4BF1-4511-A1F0-F5DCA9C269FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{78C2EEC6-4BF1-4511-A1F0-F5DCA9C269FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{78C2EEC6-4BF1-4511-A1F0-F5DCA9C269FF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2D8A5589-BA20-42C1-BB68-165ABBB0F47D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2D8A5589-BA20-42C1-BB68-165ABBB0F47D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2D8A5589-BA20-42C1-BB68-165ABBB0F47D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2D8A5589-BA20-42C1-BB68-165ABBB0F47D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -90,6 +96,7 @@ Global
 		{7AD57F82-5B5C-4A0F-902A-0647BCCF00AA} = {5EF8F723-0F78-4549-A0A5-14B27B45727F}
 		{02B5FE74-516A-4CFE-8DCC-8F9B3B0BE52C} = {5EF8F723-0F78-4549-A0A5-14B27B45727F}
 		{78C2EEC6-4BF1-4511-A1F0-F5DCA9C269FF} = {5EF8F723-0F78-4549-A0A5-14B27B45727F}
+		{2D8A5589-BA20-42C1-BB68-165ABBB0F47D} = {5EF8F723-0F78-4549-A0A5-14B27B45727F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3EF37C13-6F1C-48E0-81FB-6B33FCD2D8DE}
