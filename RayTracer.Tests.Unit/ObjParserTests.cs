@@ -1,7 +1,6 @@
 ﻿using RayTracer.Models;
 using RayTracer.Parsers;
 using RayTracer.Shapes;
-using Xunit;
 
 namespace RayTracer.Tests.Unit;
 
