@@ -13,9 +13,13 @@ public class Obj
     public List<Point> Vertices = new(0);
 
     /// <summary>
-    /// Represents the OBJ file as a <see cref="Shapes.Group"/>
+    /// Represents the named groups of the OBJ file.
     /// </summary>
-    public Group Group = new();
+    public Dictionary<string, Group> NamedGroups = new();
+    /// <summary>
+    /// Represents the default group of the OBJ file.
+    /// </summary>
+    public Group DefaultGroup = new();
 
     /// <summary>
     /// Parses the OBJ-formatted <paramref name="objData"/> data and initializes the <see cref="Obj"/>.
@@ -23,6 +27,8 @@ public class Obj
     public async Task LoadFromStringAsync(string objData)
     {
         Vertices = new();
+        DefaultGroup = new();
+        _currentGroupName = null;
 
         using (StringReader reader = new StringReader(objData))
         {
@@ -33,6 +39,8 @@ public class Obj
             }
         }
     }
+
+    private string? _currentGroupName = null;
 
     private void ProcessLine(in string line)
     {
@@ -45,7 +53,10 @@ public class Obj
                 ProcessVertex(arguments);
                 break;
             case "f":
-                ProcessTriangle(arguments);
+                ProcessFace(arguments);
+                break;
+            case "g":
+                ProcessGroup(arguments);
                 break;
         }
     }
@@ -71,7 +82,7 @@ public class Obj
         Vertices.Add(vertex);
     }
 
-    private void ProcessTriangle(in string[] arguments)
+    private void ProcessFace(in string[] arguments)
     {
         if (arguments.Length < 4) return;
 
@@ -90,16 +101,33 @@ public class Obj
         FanTriangulation(pointIndices);
     }
 
+    private void ProcessGroup(string[] arguments)
+    {
+        if (arguments.Length != 2) return;
+        _currentGroupName = arguments[1];
+    }
+
     /// <summary>
     /// Takes vertex indices and creates and adds <see cref="Triangle"/>s
-    /// based on them. With more than three indices polygons are triangulated.
+    /// based on them. With more than three indices, polygons are triangulated.
     /// </summary>
     private void FanTriangulation(List<int> pointIndices)
     {
         for (int i = 1; i < pointIndices.Count - 1; i++)
         {
             Triangle triangle = new(Vertices[pointIndices[0]], Vertices[pointIndices[i]], Vertices[pointIndices[i + 1]]);
-            Group.AddChild(triangle);
+            if (_currentGroupName != null)
+            {
+                Group? currentGroup;
+                if (!NamedGroups.TryGetValue(_currentGroupName, out currentGroup))
+                {
+                    NamedGroups[_currentGroupName] = currentGroup = new Group();
+                }
+                currentGroup.AddChild(triangle);
+                continue;
+            }
+
+            DefaultGroup.AddChild(triangle);
         }
     }
 
