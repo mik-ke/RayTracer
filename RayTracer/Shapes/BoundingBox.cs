@@ -32,6 +32,18 @@ public class BoundingBox
     }
 
     /// <summary>
+    /// Merges the given <paramref name="other"/> to the <see cref="BoundingBox"/>.
+    /// </summary>
+    /// <remarks>
+    /// The <see cref="BoundingBox"/> is resized sufficiently to contain the given <paramref name="other"/>.
+    /// </remarks>
+    public void Add(BoundingBox other)
+    {
+        Add(other.Minimum);
+        Add(other.Maximum);
+    }
+
+    /// <summary>
     /// "Adds" the given <paramref name="point"/> to the <see cref="BoundingBox"/>.
     /// </summary>
     /// <remarks>

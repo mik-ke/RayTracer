@@ -1,5 +1,6 @@
 ﻿using RayTracer.Models;
 using RayTracer.Shapes;
+using Xunit;
 
 namespace RayTracer.Tests.Unit;
 
@@ -36,7 +37,7 @@ public class BoundingBoxTests
 	}
 
 	[Fact]
-	public void Add_ShouldAdjustMinMax_WhenEmptyBoundingBox()
+	public void Add_ShouldAdjustMinMax_WhenPointGiven()
 	{
 		// Arrange
 		BoundingBox boundingBox = new();
@@ -52,5 +53,22 @@ public class BoundingBoxTests
 		// Assert
 		Assert.Equal(expectedMinimum, boundingBox.Minimum);
 		Assert.Equal(expectedMaximum, boundingBox.Maximum);
+	}
+
+	[Fact]
+	public void Add_ShouldAdjustMinMax_WhenOtherBoundingBoxGiven()
+	{
+		// Arrange
+		BoundingBox boxOne = new(minimum: new(-5, -2, 0), new(7, 4, 4));
+		BoundingBox boxTwo = new(minimum: new(8, -7, -2), new(14, 2, 8));
+		Point expectedMin = new(-5, -7, -2);
+		Point expectedMax = new(14, 4, 8);
+
+		// Act
+		boxOne.Add(boxTwo);
+
+		// Assert
+		Assert.Equal(expectedMin, boxOne.Minimum);
+		Assert.Equal(expectedMax, boxOne.Maximum);
 	}
 }
