@@ -99,4 +99,40 @@ public class ConeTests
 			new object[] { new Point(1, 1, 1), new Vector(1, -Math.Sqrt(2), 1) },
 			new object[] { new Point(-1, -1, 0), new Vector(-1, 1, 0) },
 		};
+
+	[Fact]
+	public void BoundsOf_ShouldBeCorrect_WhenConeUnbound()
+	{
+		// Arrange
+		Cone cone = new();
+		Point expectedMinimum = new(double.NegativeInfinity, double.NegativeInfinity, double.NegativeInfinity);
+		Point expectedMaximum = new(double.PositiveInfinity, double.PositiveInfinity, double.PositiveInfinity);
+
+		// Act
+		var result = cone.BoundsOf();
+
+		// Assert
+		Assert.Equal(expectedMinimum, result.Minimum);
+		Assert.Equal(expectedMaximum, result.Maximum);
+	}
+
+	[Fact]
+	public void BoundsOf_ShouldBeCorrect_WhenConeBound()
+	{
+		// Arrange
+		Cone cone = new()
+		{
+			Minimum = -5,
+			Maximum = 3
+		};
+		Point expectedMinimum = new(-5, -5, -5);
+		Point expectedMaximum = new(5, 3, 5);
+
+		// Act
+		var result = cone.BoundsOf();
+
+		// Assert
+		Assert.Equal(expectedMinimum, result.Minimum);
+		Assert.Equal(expectedMaximum, result.Maximum);
+	}
 }

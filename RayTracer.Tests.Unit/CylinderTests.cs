@@ -1,6 +1,7 @@
 ﻿using RayTracer.Extensions;
 using RayTracer.Models;
 using RayTracer.Shapes;
+using Xunit;
 
 namespace RayTracer.Tests.Unit;
 
@@ -194,4 +195,40 @@ public class CylinderTests
 			new object[] { new Point(0.5, 2, 0), new Vector(0, 1, 0) },
 			new object[] { new Point(0, 2, 0.5), new Vector(0, 1, 0) }
 		};
+
+	[Fact]
+	public void BoundsOf_ShouldBeCorrect_WhenCylinderUnbound()
+	{
+		// Arrange
+		Cylinder cylinder = new();
+		Point expectedMinimum = new(-1, double.NegativeInfinity, -1);
+		Point expectedMaximum = new(1, double.PositiveInfinity, 1);
+
+		// Act
+		var result = cylinder.BoundsOf();
+
+		// Assert
+		Assert.Equal(expectedMinimum, result.Minimum);
+		Assert.Equal(expectedMaximum, result.Maximum);
+	}
+
+	[Fact]
+	public void BoundsOf_ShouldBeCorrect_WhenCylinderBound()
+	{
+		// Arrange
+		Cylinder cylinder = new()
+		{
+			Minimum = -5,
+			Maximum = 3
+		};
+		Point expectedMinimum = new(-1, -5, -1);
+		Point expectedMaximum = new(1, 3, 1);
+
+		// Act
+		var result = cylinder.BoundsOf();
+
+		// Assert
+		Assert.Equal(expectedMinimum, result.Minimum);
+		Assert.Equal(expectedMaximum, result.Maximum);
+	}
 }

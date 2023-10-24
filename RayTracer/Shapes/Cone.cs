@@ -138,4 +138,15 @@ public sealed class Cone : Shape
         distance < Math.Abs(Maximum) && localPoint.Y >= Maximum - DoubleExtensions.EPSILON;
     private bool IsPointOnMinimumCap(in double distance, Point localPoint) =>
         distance < Math.Abs(Minimum) && localPoint.Y <= Minimum + DoubleExtensions.EPSILON;
+
+    public override BoundingBox BoundsOf()
+    {
+        var a = Math.Abs(Minimum);
+        var b = Math.Abs(Maximum);
+        var limit = Math.Max(a, b);
+
+        return new BoundingBox(
+            minimum: new(-limit, Minimum, -limit),
+            maximum: new(limit, Maximum, limit));
+    }
 }

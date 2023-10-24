@@ -53,5 +53,12 @@ public sealed class Sphere : Shape
     }
 
     public override int GetHashCode() => ID.GetHashCode();
+
+    public override BoundingBox BoundsOf()
+    {
+        return new BoundingBox(
+            minimum: new(-1, -1, -1),
+            maximum: new(1, 1, 1));
+    }
     #endregion
 }

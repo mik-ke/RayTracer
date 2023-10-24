@@ -94,6 +94,10 @@ public abstract class Shape
     /// Normal functionality specific to the inherting shape.
     /// </summary>
     /// <param name="localPoint">Transformed world point.</param>
-    /// <returns></returns>
     protected abstract Vector LocalNormal(Point localPoint);
+
+    /// <summary>
+    /// Returns a <see cref="BoundingBox"/> for the shape in object space.
+    /// </summary>
+    public abstract BoundingBox BoundsOf();
 }

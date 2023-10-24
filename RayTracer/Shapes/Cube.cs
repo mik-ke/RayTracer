@@ -70,4 +70,11 @@ public sealed class Cube : Shape
 
         return (tMin, tMax);
     }
+
+    public override BoundingBox BoundsOf()
+    {
+        return new BoundingBox(
+            minimum: new(-1, -1, -1),
+            maximum: new(1, 1, 1));
+    }
 }

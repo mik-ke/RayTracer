@@ -124,4 +124,11 @@ public class Cylinder : Shape
         distance < 1 && localPoint.Y >= Maximum - DoubleExtensions.EPSILON;
     private bool IsPointOnMinimumCap(in double distance, Point localPoint) =>
         distance < 1 && localPoint.Y <= Minimum + DoubleExtensions.EPSILON;
+
+    public override BoundingBox BoundsOf()
+    {
+        return new BoundingBox(
+            minimum: new(-1, Minimum, -1),
+            maximum: new(1, Maximum, 1));
+    }
 }

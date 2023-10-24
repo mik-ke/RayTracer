@@ -53,4 +53,13 @@ public sealed class Triangle : Shape
     private static bool IsRayParallel(in double determinant) => Math.Abs(determinant) < DoubleExtensions.EPSILON;
 
     protected override Vector LocalNormal(Point localPoint) => NormalVector;
+
+    public override BoundingBox BoundsOf()
+    {
+        BoundingBox box = new();
+        box.Add(Point1);
+        box.Add(Point2);
+        box.Add(Point3);
+        return box;
+    }
 }

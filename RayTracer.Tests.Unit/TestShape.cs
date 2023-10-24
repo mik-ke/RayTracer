@@ -24,4 +24,9 @@ public sealed class TestShape : Shape
 
     protected override Vector LocalNormal(Point localPoint) =>
         new(localPoint.X, localPoint.Y, localPoint.Z);
+
+    public override BoundingBox BoundsOf()
+    {
+        return new BoundingBox(new(-1, -1, -1), new(1, 1, 1));
+    }
 }

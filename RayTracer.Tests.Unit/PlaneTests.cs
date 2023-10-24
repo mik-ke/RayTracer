@@ -1,6 +1,7 @@
 ﻿using RayTracer.Extensions;
 using RayTracer.Models;
 using RayTracer.Shapes;
+using Xunit;
 
 namespace RayTracer.Tests.Unit;
 
@@ -71,5 +72,21 @@ public class PlaneTests
 		// Assert
 		Assert.True(expectedT.IsEqualTo(result[0].T));
 		Assert.Equal(expectedObject, result[0].Object);
+	}
+
+	[Fact]
+	public void BoundsOf_ShouldBeCorrect()
+	{
+		// Arrange
+		Plane plane = new();
+		Point expectedMinimum = new(double.NegativeInfinity, 0, double.NegativeInfinity);
+		Point expectedMaximum = new(double.PositiveInfinity, 0, double.PositiveInfinity);
+
+		// Act
+		var result = plane.BoundsOf();
+
+		// Assert
+		Assert.Equal(expectedMinimum, result.Minimum);
+		Assert.Equal(expectedMaximum, result.Maximum);
 	}
 }

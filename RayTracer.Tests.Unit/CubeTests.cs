@@ -1,5 +1,6 @@
 ﻿using RayTracer.Models;
 using RayTracer.Shapes;
+using Xunit;
 
 namespace RayTracer.Tests.Unit;
 
@@ -83,4 +84,20 @@ public class CubeTests
 			new object[] { new Point(1, 1, 1), new Vector(1, 0, 0) },
 			new object[] { new Point(-1, -1, -1), new Vector(-1, 0, 0) },
 		};
+
+	[Fact]
+	public void BoundsOf_ShouldBeCorrect()
+	{
+		// Arrange
+		Cube cube = new();
+		Point expectedMinimum = new(-1, -1, -1);
+		Point expectedMaximum = new(1, 1, 1);
+
+		// Act
+		var result = cube.BoundsOf();
+
+		// Assert
+		Assert.Equal(expectedMinimum, result.Minimum);
+		Assert.Equal(expectedMaximum, result.Maximum);
+	}
 }

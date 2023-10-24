@@ -60,5 +60,10 @@ public sealed class Group : Shape, IEnumerable<Shape>
             yield return shape;
     }
     IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+
+    public override BoundingBox BoundsOf()
+    {
+        throw new NotImplementedException();
+    }
     #endregion
 }

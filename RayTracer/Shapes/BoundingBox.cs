@@ -7,7 +7,16 @@ namespace RayTracer.Shapes;
 /// </summary>
 public class BoundingBox
 {
+    /// <summary>
+    /// The minimum point on the box.
+    /// </summary>
+    /// <remarks>Where the x, y and z coordinates are the smallest.</remarks>
     public Point Minimum { get; }
+
+    /// <summary>
+    /// The maximum point on the box.
+    /// </summary>
+    /// <remarks>Where the x, y and z coordinates are the largest.</remarks>
     public Point Maximum { get;  }
 
     public BoundingBox(Point minimum, Point maximum)

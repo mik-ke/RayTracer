@@ -27,4 +27,11 @@ public sealed class Plane : Shape
 
     private static readonly Vector _planeNormal = new(0, 1, 0);
     protected override Vector LocalNormal(Point localPoint) => _planeNormal;
+
+    public override BoundingBox BoundsOf()
+    {
+        return new BoundingBox(
+            minimum: new(double.NegativeInfinity, 0, double.NegativeInfinity),
+            maximum: new(double.PositiveInfinity, 0, double.PositiveInfinity));
+    }
 }

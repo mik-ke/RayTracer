@@ -122,4 +122,23 @@ public class TriangleTests
 		Assert.Equal(expectedCount, result.Length);
 		Assert.True(expectedT.IsEqualTo(result[0].T));
 	}
+
+	[Fact]
+	public void BoundsOf_ShouldBeCorrect()
+	{
+		// Arrange
+		Point pointOne = new(-3, 7, 2);
+		Point pointTwo = new(6, 2, -4);
+		Point pointThree = new(2, -1, -1);
+		Triangle triangle = new(pointOne, pointTwo, pointThree);
+		Point expectedMinimum = new(-3, -1, -4);
+		Point expectedMaximum = new(6, 7, 2);
+
+		// Act
+		var result = triangle.BoundsOf();
+
+		// Assert
+		Assert.Equal(expectedMinimum, result.Minimum);
+		Assert.Equal(expectedMaximum, result.Maximum);
+	}
 }

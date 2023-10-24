@@ -1,5 +1,6 @@
 ﻿using RayTracer.Shapes;
 using RayTracer.Models;
+using Xunit;
 
 namespace RayTracer.Tests.Unit;
 
@@ -186,5 +187,21 @@ public class SphereTests
 
 		// Assert
 		Assert.Equal(normal, normalized);
+	}
+
+	[Fact]
+	public void BoundsOf_ShouldBeCorrect()
+	{
+		// Arrange
+		Sphere sphere = new();
+		Point expectedMinimum = new(-1, -1, -1);
+		Point expectedMaximum = new(1, 1, 1);
+
+		// Act
+		var result = sphere.BoundsOf();
+
+		// Assert
+		Assert.Equal(expectedMinimum, result.Minimum);
+		Assert.Equal(expectedMaximum, result.Maximum);
 	}
 }
