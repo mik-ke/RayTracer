@@ -1,5 +1,4 @@
-﻿using RayTracer.Utilities;
-using System.Collections;
+﻿using System.Collections;
 
 namespace RayTracer.Models;
 
@@ -83,10 +82,5 @@ public sealed class Canvas : IEnumerable<Color>
     }
 
     IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
-
-    public Task SaveToPpmFileAsync(PpmWriter writer, string v)
-    {
-        throw new NotImplementedException();
-    }
     #endregion
 }
