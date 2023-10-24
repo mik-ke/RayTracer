@@ -23,11 +23,13 @@ internal class Program
         var objGroup = await LoadObjGroupAsync();
         world.Objects.Add(objGroup);
 
+        // TODO: try again after bounding boxes implemented
+        // OBJ file has thousands of triangles, so render takes time
         var camera = CreateCamera();
         Canvas canvas = camera.Render(world);
 
         var writer = new PpmWriter();
-        await canvas.SaveToPpmFileAsync(writer, "");
+        await canvas.SaveToPpmFileAsync(writer, "OBJ_render.ppm");
     }
 
     static async Task<Group> LoadObjGroupAsync()
