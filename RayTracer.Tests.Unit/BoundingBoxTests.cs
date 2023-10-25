@@ -71,4 +71,43 @@ public class BoundingBoxTests
 		Assert.Equal(expectedMin, boxOne.Minimum);
 		Assert.Equal(expectedMax, boxOne.Maximum);
 	}
+
+	[Theory]
+	[InlineData(5, -2, 0)]
+	[InlineData(11, 4, 7)]
+	[InlineData(8, 1, 3)]
+	public void Contains_ShouldBeTrue_WhenPointInBox(double pointX, double pointY, double pointZ)
+	{
+		// Arrange
+		BoundingBox boundingBox = new(minimum: new(5, -2, 0), maximum: new(11, 4, 7));
+		Point point = new(pointX, pointY, pointZ);
+		const bool expected = true;
+
+		// Act
+		var actual = boundingBox.Contains(point);
+
+		// Assert
+		Assert.Equal(expected, actual);
+	}
+
+	[Theory]
+	[InlineData(3, 0, 3)]
+	[InlineData(8, -4, 3)]
+	[InlineData(8, 1, -1)]
+	[InlineData(13, 1, 3)]
+	[InlineData(8, 5, 3)]
+	[InlineData(8, 1, 8)]
+	public void Contains_ShouldBeFalse_WhenPointOutsideBox(double pointX, double pointY, double pointZ)
+	{
+		// Arrange
+		BoundingBox boundingBox = new();
+		Point point = new(pointX, pointY, pointZ);
+		const bool expected = false;
+
+		// Act
+		var actual = boundingBox.Contains(point);
+
+		// Assert
+		Assert.Equal(expected, actual);
+	}
 }

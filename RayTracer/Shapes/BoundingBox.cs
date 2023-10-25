@@ -61,4 +61,15 @@ public class BoundingBox
         if (point.Y > Maximum.Y) Maximum.Y = point.Y;
         if (point.Z > Maximum.Z) Maximum.Z = point.Z;
     }
+
+    /// <summary>
+    /// Returns true if the <see cref="BoundingBox"/> contains the given <paramref name="point"/>.
+    /// </summary>
+    public bool Contains(Point point)
+    {
+        if (point.X < Minimum.X || point.X > Maximum.X) return false;
+        if (point.Y < Minimum.Y || point.Y > Maximum.Y) return false;
+        if (point.Z < Minimum.Z || point.Z > Maximum.Z) return false;
+        return true;
+    }
 }
