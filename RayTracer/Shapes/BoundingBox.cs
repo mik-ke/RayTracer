@@ -83,4 +83,29 @@ public class BoundingBox
         if (other.Minimum.Z < Minimum.Z || other.Maximum.Z > Maximum.Z) return false;
         return true;
     }
+
+    /// <summary>
+    /// Transforms the <see cref="BoundingBox"/> by the given <paramref name="transform"/>.
+    /// </summary>
+    /// <returns>A new <see cref="BoundingBox"/>.</returns>
+    public BoundingBox Transform(Matrix transform)
+    {
+        var points = new Point[]
+        {
+            Minimum,
+            new Point(Minimum.X, Minimum.Y, Maximum.Z),
+            new Point(Minimum.X, Maximum.Y, Minimum.Z),
+            new Point(Minimum.X, Maximum.Y, Maximum.Z),
+            new Point(Maximum.X, Minimum.Y, Minimum.Z),
+            new Point(Maximum.X, Minimum.Y, Maximum.Z),
+            new Point(Maximum.X, Maximum.Y, Minimum.Z),
+            Maximum
+        };
+
+        BoundingBox transformedBox = new();
+        foreach (var point in points)
+            transformedBox.Add((Point)(transform * point));
+
+        return transformedBox;
+    }
 }

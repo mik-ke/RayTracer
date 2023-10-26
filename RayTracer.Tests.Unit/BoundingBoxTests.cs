@@ -148,4 +148,21 @@ public class BoundingBoxTests
 		yield return new object[] { new Point(4, -3, -1), new Point(10, 3, 6) };
         yield return new object[] { new Point(6, -1, 1), new Point(12, 5, 8) };
 	}
+
+	[Fact]
+	public void Transform_ShouldAdjustMinMax_WhenTransformGiven()
+	{
+        // Arrange
+        BoundingBox boundingBox = new(minimum: new(-1, -1, -1), maximum: new(1, 1, 1));
+        Matrix transform = Matrix.RotationX(Math.PI / 4) * Matrix.RotationY(Math.PI / 4);
+		Point expectedMinimum = new(-1.4142, -1.7071, -1.7071);
+		Point expectedMaximum = new(1.4142, 1.7071, 1.7071);
+
+        // Act
+        var result = boundingBox.Transform(transform);
+
+        // Assert
+        Assert.Equal(expectedMinimum, result.Minimum);
+        Assert.Equal(expectedMaximum, result.Maximum);
+    }
 }
