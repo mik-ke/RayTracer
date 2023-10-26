@@ -15,6 +15,13 @@ public sealed class Group : Shape, IEnumerable<Shape>
         _shapes = new();
     }
 
+    public Group(IEnumerable<Shape> shapes, Matrix? transform = null) : base(transform)
+    {
+        _shapes = new();
+        foreach (var shape in shapes)
+            AddChild(shape);
+    }
+
     /// <summary>
     /// Adds the given <paramref name="child"/> to the <see cref="Group"/>
     /// and sets the <paramref name="child"/>'s <see cref="Shape.Parent"/> as the <see cref="Group"/>.
@@ -48,6 +55,16 @@ public sealed class Group : Shape, IEnumerable<Shape>
                 yield return intersection;
     }
 
+    public override BoundingBox BoundsOf()
+    {
+        BoundingBox boundingBox = new();
+
+        foreach (var child in _shapes)
+            boundingBox.Add(child.ParentSpaceBoundsOf());
+
+        return boundingBox;
+    }
+
     protected override Vector LocalNormal(Point localPoint)
     {
         throw new NotImplementedException();
@@ -60,10 +77,5 @@ public sealed class Group : Shape, IEnumerable<Shape>
             yield return shape;
     }
     IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
-
-    public override BoundingBox BoundsOf()
-    {
-        throw new NotImplementedException();
-    }
     #endregion
 }

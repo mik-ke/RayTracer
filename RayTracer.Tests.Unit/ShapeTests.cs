@@ -1,7 +1,6 @@
 ﻿using RayTracer.Extensions;
 using RayTracer.Shapes;
 using RayTracer.Models;
-using Xunit;
 
 namespace RayTracer.Tests.Unit;
 
@@ -218,4 +217,21 @@ public class ShapeTests
 		// Assert
 		Assert.Equal(expected, actual);
 	}
+
+	[Fact]
+	public void ParentSpaceBoundsOf_ShouldReturnCorrectBoundingBox()
+	{
+		// Arrange
+		Matrix transform = Matrix.Scaling(0.5, 2, 4).Translate(1, -3, 5);
+		Sphere shape = new(transform);
+		Point expectedMinimum = new(0.5, -5, 1);
+		Point expectedMaximum = new(1.5, -1, 9);
+
+        // Act
+		var result = shape.ParentSpaceBoundsOf();
+
+        // Assert
+		Assert.Equal(expectedMinimum, result.Minimum);
+		Assert.Equal(expectedMaximum, result.Maximum);
+    }
 }

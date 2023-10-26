@@ -100,4 +100,12 @@ public abstract class Shape
     /// Returns a <see cref="BoundingBox"/> for the shape in object space.
     /// </summary>
     public abstract BoundingBox BoundsOf();
+
+    public BoundingBox ParentSpaceBoundsOf()
+    {
+        var objectSpaceBounds = BoundsOf();
+        var parentSpaceBounds = objectSpaceBounds.Transform(Transform);
+
+        return parentSpaceBounds;
+    }
 }

@@ -1,5 +1,6 @@
 ﻿using RayTracer.Models;
 using RayTracer.Shapes;
+using RayTracer.Extensions;
 
 namespace RayTracer.Tests.Unit;
 
@@ -109,5 +110,29 @@ public class GroupTests
 
 		// Assert
 		Assert.Equal(expectedLength, result.Length);
+	}
+
+	[Fact]
+	public void BoundsOf_ShouldReturnBoundingBoxThatContainsChildren()
+	{
+		// Arrange
+		Matrix sphereTransform = Matrix.Scaling(2, 2, 2).Translate(2, 5, -3);
+		Sphere sphere = new(sphereTransform);
+		Matrix cylinderTransform = Matrix.Scaling(0.5, 1, 0.5).Translate(-4, -1, 4);
+		Cylinder cylinder = new(cylinderTransform)
+		{
+			Minimum = -2,
+			Maximum = 2
+		};
+		Group group = new(new Shape[] { sphere, cylinder } );
+		Point expectedMinimum = new(-4.5, -3, -5);
+		Point expectedMaximum = new(4, 7, 4.5);
+
+		// Act
+		var result = group.BoundsOf();
+
+		// Assert
+		Assert.Equal(expectedMinimum, result.Minimum);
+		Assert.Equal(expectedMaximum, result.Maximum);
 	}
 }
