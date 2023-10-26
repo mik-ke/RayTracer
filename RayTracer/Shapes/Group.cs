@@ -44,8 +44,17 @@ public sealed class Group : Shape, IEnumerable<Shape>
     {
         if (_shapes.Count == 0) return Intersections.Empty;
 
-        var intersections = GetAllIntersections(localRay).ToArray();
-        return new Intersections(intersections);
+        var boundingBox = BoundsOf();
+        if (boundingBox.Intersects(localRay))
+        {
+            var intersections = GetAllIntersections(localRay).ToArray();
+            return new Intersections(intersections);
+        }
+        else
+        {
+            return Intersections.Empty;
+        }
+
     }
 
     private IEnumerable<Intersection> GetAllIntersections(Ray ray)

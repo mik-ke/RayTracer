@@ -19,7 +19,7 @@ public sealed class TestShape : Shape
     protected override Intersections LocalIntersect(Ray localRay)
     {
         SavedLocalRay = localRay;
-        return null!;
+        return Intersections.Empty;
     }
 
     protected override Vector LocalNormal(Point localPoint) =>
