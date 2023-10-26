@@ -81,13 +81,12 @@ public class BoundingBoxTests
 		// Arrange
 		BoundingBox boundingBox = new(minimum: new(5, -2, 0), maximum: new(11, 4, 7));
 		Point point = new(pointX, pointY, pointZ);
-		const bool expected = true;
 
 		// Act
-		var actual = boundingBox.Contains(point);
+		var result = boundingBox.Contains(point);
 
 		// Assert
-		Assert.Equal(expected, actual);
+		Assert.True(result);
 	}
 
 	[Theory]
@@ -100,14 +99,53 @@ public class BoundingBoxTests
 	public void Contains_ShouldBeFalse_WhenPointOutsideBox(double pointX, double pointY, double pointZ)
 	{
 		// Arrange
-		BoundingBox boundingBox = new();
+		BoundingBox boundingBox = new(minimum: new(5, -2, 0), maximum: new(11, 4, 7));
 		Point point = new(pointX, pointY, pointZ);
-		const bool expected = false;
 
 		// Act
-		var actual = boundingBox.Contains(point);
+		var result = boundingBox.Contains(point);
 
 		// Assert
-		Assert.Equal(expected, actual);
+		Assert.False(result);
+	}
+
+	[Theory]
+	[MemberData(nameof(GetPointsInsideBox))]
+	public void Contains_ShouldBeTrue_WhenBoxInsideBox(Point minPoint, Point maxPoint)
+	{
+		// Arrange
+		BoundingBox boundingBox = new(minimum: new(5, -2, 0), maximum: new(11, 4, 7));
+		BoundingBox boundingBox2 = new(minimum: minPoint, maximum: maxPoint);
+
+		// Act
+		var result = boundingBox.Contains(boundingBox2);
+
+		// Assert
+		Assert.True(result);
+	}
+	public static IEnumerable<object[]> GetPointsInsideBox()
+	{
+        yield return new object[] { new Point(5, -2, 0), new Point(11, 4, 7) };
+        yield return new object[] { new Point(6, -1, 1), new Point(10, 3, 6) };
+    }
+
+	[Theory]
+	[MemberData(nameof(GetPointsOutsideBox))]
+	public void Contains_ShouldBeFalse_WhenBoxOutsideBox(Point minPoint, Point maxPoint)
+	{
+		// Arrange
+		BoundingBox boundingBox = new(minimum: new(5, -2, 0), maximum: new(11, 4, 7));
+		BoundingBox boundingBox2 = new(minimum: minPoint, maximum: maxPoint);
+
+		// Act
+		var result = boundingBox.Contains(boundingBox2);
+
+		// Assert
+		Assert.False(result);
+	}
+	public static IEnumerable<object[]> GetPointsOutsideBox()
+	{
+		yield return new object[] { new Point(4, -3, -1), new Point(10, 3, 6) };
+        yield return new object[] { new Point(6, -1, 1), new Point(12, 5, 8) };
 	}
 }

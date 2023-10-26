@@ -72,4 +72,15 @@ public class BoundingBox
         if (point.Z < Minimum.Z || point.Z > Maximum.Z) return false;
         return true;
     }
+
+    /// <summary>
+    /// Returns true if the <see cref="BoundingBox"/> contains the given <paramref name="other"/> box.
+    /// </summary>
+    public bool Contains(BoundingBox other)
+    {
+        if (other.Minimum.X < Minimum.X || other.Maximum.X > Maximum.X) return false;
+        if (other.Minimum.Y < Minimum.Y || other.Maximum.Y > Maximum.Y) return false;
+        if (other.Minimum.Z < Minimum.Z || other.Maximum.Z > Maximum.Z) return false;
+        return true;
+    }
 }
