@@ -1,6 +1,6 @@
 ﻿using RayTracer.Models;
 using RayTracer.Shapes;
-using Xunit;
+using RayTracer.Extensions;
 
 namespace RayTracer.Tests.Unit;
 
@@ -165,4 +165,53 @@ public class BoundingBoxTests
         Assert.Equal(expectedMinimum, result.Minimum);
         Assert.Equal(expectedMaximum, result.Maximum);
     }
+
+	[Theory]
+	[MemberData(nameof(GetIntersectRays))]
+	public void Intersect_ShouldReturnTrue_WhenRayIntersectsBox(Point origin, Vector direction)
+	{
+		// Arrange
+		BoundingBox boundingBox = new(minimum: new(5, -2, 0), maximum: new(11, 4, 7));
+		Ray ray = new(origin, direction.Normalize());
+
+		// Act
+		var result = boundingBox.Intersects(ray);
+
+		// Assert
+		Assert.True(result);
+    }
+	public static IEnumerable<object[]> GetIntersectRays()
+	{
+		yield return new object[] { new Point(15, 1, 2), new Vector(-1, 0, 0) };
+        yield return new object[] { new Point(-5, -1, 4), new Vector(1, 0, 0) };
+        yield return new object[] { new Point(7, 6, 5), new Vector(0, -1, 0) };
+        yield return new object[] { new Point(9, -5, 6), new Vector(0, 1, 0) };
+        yield return new object[] { new Point(8, 2, 12), new Vector(0, 0, -1) };
+        yield return new object[] { new Point(6, 0, -5), new Vector(0, 0, 1) };
+        yield return new object[] { new Point(8, 1, 3.5), new Vector(0, 0, 1) };
+	}
+
+	[Theory]
+	[MemberData(nameof(GetNonIntersectRays))]
+	public void Intersect_ShouldReturnFalse_WhenRayDoesNotIntersectBox(Point origin, Vector direction)
+	{
+        // Arrange
+        BoundingBox boundingBox = new(minimum: new(5, -2, 0), maximum: new(11, 4, 7));
+        Ray ray = new(origin, direction.Normalize());
+
+        // Act
+        var result = boundingBox.Intersects(ray);
+
+        // Assert
+        Assert.False(result);
+    }
+	public static IEnumerable<object[]> GetNonIntersectRays()
+	{
+		yield return new object[] { new Point(9, -1, -8), new Vector(2, 4, 6) };
+        yield return new object[] { new Point(8, 3, -4), new Vector(6, 2, 4) };
+        yield return new object[] { new Point(9, -1, -2), new Vector(4, 6, 2) };
+        yield return new object[] { new Point(4, 0, 9), new Vector(0, 0, -1) };
+        yield return new object[] { new Point(8, 6, -1), new Vector(0, -1, 0) };
+        yield return new object[] { new Point(12, 5, 4), new Vector(-1, 0, 0) };
+	}
 }

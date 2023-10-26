@@ -1,4 +1,5 @@
-﻿using RayTracer.Models;
+﻿using RayTracer.Extensions;
+using RayTracer.Models;
 
 namespace RayTracer.Shapes;
 
@@ -107,5 +108,48 @@ public class BoundingBox
             transformedBox.Add((Point)(transform * point));
 
         return transformedBox;
+    }
+
+    /// <summary>
+    /// Returns true if the given <paramref name="ray"/> intersects the <see cref="BoundingBox"/>.
+    /// </summary>
+    public bool Intersects(Ray ray)
+    {
+        var (tMinX, tMaxX) = CheckAxis(ray.Origin.X, ray.Direction.X, Minimum.X, Maximum.X);
+        var (tMinY, tMaxY) = CheckAxis(ray.Origin.Y, ray.Direction.Y, Minimum.Y, Maximum.Y);
+        var (tMinZ, tMaxZ) = CheckAxis(ray.Origin.Z, ray.Direction.Z, Minimum.Z, Maximum.Z);
+
+        var tMin = Math.Max(tMinX, Math.Max(tMinY, tMinZ));
+        var tMax = Math.Min(tMaxX, Math.Min(tMaxY, tMaxZ));
+
+        return tMin <= tMax;
+    }
+
+    /// <summary>
+    /// Checks where the ray intersects the corresponding plane.
+    /// Returns the minimum and maximum t values.
+    /// </summary>
+    private (double tMin, double tMax) CheckAxis(double origin, double direction, double min, double max)
+    {
+        double tMin, tMax;
+
+        var tMinNumerator = min - origin;
+        var tMaxNumerator = max - origin;
+
+        if (Math.Abs(direction) >= DoubleExtensions.EPSILON)
+        {
+            tMin = tMinNumerator / direction;
+            tMax = tMaxNumerator / direction;
+        }
+        else
+        {
+            tMin = tMinNumerator * double.PositiveInfinity;
+            tMax = tMaxNumerator * double.PositiveInfinity;
+        }
+
+        if (tMin > tMax)
+            return (tMax, tMin);
+
+        return (tMin, tMax);
     }
 }
