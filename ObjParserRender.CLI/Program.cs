@@ -15,7 +15,7 @@ internal class Program
 
         World world = new();
 
-        PointLight lightSource = new(new Point(-3, 2, 2), new Color(1, 1, 1));
+        PointLight lightSource = new(new Point(-10, 5, 5), new Color(1, 1, 1));
         world.LightSources.Add(lightSource);
 
         AddFloorAndWalls(world);
@@ -46,12 +46,12 @@ internal class Program
 
     static Camera CreateCamera()
     {
-        Point from = new(3, 4, -2);
+        Point from = new(10, 10, -7);
         Point to = new(0, 1, 0);
         Vector up = new(0, 1, 0);
         Matrix cameraTransform = Matrix.View(from, to, up);
 
-        return new Camera(200, 100, Math.PI / 3, cameraTransform);
+        return new Camera(100, 50, Math.PI / 3, cameraTransform);
     }
 
     static void AddFloorAndWalls(World world)

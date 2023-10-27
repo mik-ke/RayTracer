@@ -135,4 +135,22 @@ public class GroupTests
 		Assert.Equal(expectedMinimum, result.Minimum);
 		Assert.Equal(expectedMaximum, result.Maximum);
 	}
+
+	[Fact]
+	public void PartitionChildren_ShouldLeaveShapeInMiddleInGroup()
+	{
+		// Arrange
+		Sphere sphere1 = new(Matrix.Translation(-2, 0, 0));
+		Sphere sphere2 = new(Matrix.Translation(2, 0, 0));
+		Sphere sphere3 = new();
+		Group group = new(new Shape[] { sphere1, sphere2, sphere3 });
+
+        // Act
+		var (left, right) = group.PartitionChildren();
+
+		// Assert
+		Assert.Contains(sphere3, group);
+		Assert.Equal(left, sphere1);
+		Assert.Equal(right, sphere2);
+    }
 }

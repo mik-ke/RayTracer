@@ -1,6 +1,7 @@
 ﻿using RayTracer.Models;
 using RayTracer.Shapes;
 using RayTracer.Extensions;
+using Xunit;
 
 namespace RayTracer.Tests.Unit;
 
@@ -214,4 +215,84 @@ public class BoundingBoxTests
         yield return new object[] { new Point(8, 6, -1), new Vector(0, -1, 0) };
         yield return new object[] { new Point(12, 5, 4), new Vector(-1, 0, 0) };
 	}
+
+	[Fact]
+	public void SplitBounds_ShouldSplit_WhenPerfectCube()
+	{
+        // Arrange
+        BoundingBox boundingBox = new(minimum: new(-1, -4, -5), maximum: new(9, 6, 5));
+		Point expectedLeftMin = new(-1, -4, -5);
+		Point expectedLeftMax = new(4, 6, 5);
+		Point expectedRightMin = new(4, -4, -5);
+		Point expectedRightMax = new(9, 6, 5);
+
+        // Act
+		var (left, right) = boundingBox.SplitBounds();
+
+        // Assert
+        Assert.Equal(expectedLeftMin, left.Minimum);
+        Assert.Equal(expectedLeftMax, left.Maximum);
+        Assert.Equal(expectedRightMin, right.Minimum);
+		Assert.Equal(expectedRightMax, right.Maximum);
+	}
+
+	[Fact]
+	public void SplitBounds_ShouldSplit_WhenXWide()
+	{
+        // Arrange
+        BoundingBox boundingBox = new(minimum: new(-1, -2, -3), maximum: new(9, 5.5, 3));
+        Point expectedLeftMin = new(-1, -2, -3);
+        Point expectedLeftMax = new(4, 5.5, 3);
+        Point expectedRightMin = new(4, -2, -3);
+        Point expectedRightMax = new(9, 5.5, 3);
+
+        // Act
+        var (left, right) = boundingBox.SplitBounds();
+
+        // Assert
+        Assert.Equal(expectedLeftMin, left.Minimum);
+        Assert.Equal(expectedLeftMax, left.Maximum);
+        Assert.Equal(expectedRightMin, right.Minimum);
+        Assert.Equal(expectedRightMax, right.Maximum);
+    }
+
+	[Fact]
+	public void SplitBounds_ShouldSplit_WhenYWide()
+	{
+        // Arrange
+        BoundingBox boundingBox = new(minimum: new(-1, -2, -3), maximum: new(5, 8, 3));
+        Point expectedLeftMin = new(-1, -2, -3);
+        Point expectedLeftMax = new(5, 3, 3);
+        Point expectedRightMin = new(-1, 3, -3);
+        Point expectedRightMax = new(5, 8, 3);
+
+        // Act
+        var (left, right) = boundingBox.SplitBounds();
+
+        // Assert
+        Assert.Equal(expectedLeftMin, left.Minimum);
+        Assert.Equal(expectedLeftMax, left.Maximum);
+        Assert.Equal(expectedRightMin, right.Minimum);
+        Assert.Equal(expectedRightMax, right.Maximum);
+    }
+
+	[Fact]
+	public void SplitBounds_ShouldSplit_WhenZWide()
+	{
+        // Arrange
+        BoundingBox boundingBox = new(minimum: new(-1, -2, -3), maximum: new(5, 3, 7));
+        Point expectedLeftMin = new(-1, -2, -3);
+        Point expectedLeftMax = new(5, 3, 2);
+        Point expectedRightMin = new(-1, -2, 2);
+        Point expectedRightMax = new(5, 3, 7);
+
+        // Act
+        var (left, right) = boundingBox.SplitBounds();
+
+        // Assert
+        Assert.Equal(expectedLeftMin, left.Minimum);
+        Assert.Equal(expectedLeftMax, left.Maximum);
+        Assert.Equal(expectedRightMin, right.Minimum);
+        Assert.Equal(expectedRightMax, right.Maximum);
+    }
 }

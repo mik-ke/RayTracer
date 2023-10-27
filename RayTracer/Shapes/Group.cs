@@ -74,6 +74,21 @@ public sealed class Group : Shape, IEnumerable<Shape>
         return boundingBox;
     }
 
+    public (Shape[] left, Shape[] right) ParitionChildren()
+    {
+
+    }
+
+    /// <summary>
+    /// Adds the given <paramref name="shapes"/> into a new subgroup
+    /// and adds that subgroup to the <see cref="Group"/>.
+    /// </summary>
+    public void MakeSubgroup(Shape[] shapes)
+    {
+        Group subgroup = new(shapes);
+        AddChild(subgroup);
+    }
+
     protected override Vector LocalNormal(Point localPoint)
     {
         throw new NotImplementedException();

@@ -105,6 +105,7 @@ public sealed class Camera
                 Ray ray = RayForPixel(x, y);
                 Color color = world.ColorAt(ray);
                 image[x, y] = color;
+                Console.WriteLine($"{x}, {y}");
             });
         });
 

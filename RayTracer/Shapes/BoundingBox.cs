@@ -126,6 +126,53 @@ public class BoundingBox
     }
 
     /// <summary>
+    /// Splits the <see cref="BoundingBox"/> into two smaller <see cref="BoundingBox"/>es.
+    /// Splits along the longest axis.
+    /// </summary>
+    /// <returns></returns>
+    public (BoundingBox left, BoundingBox right) SplitBounds()
+    {
+        var dx = Maximum.X - Minimum.X;
+        var dy = Maximum.Y - Minimum.Y;
+        var dz = Maximum.Z - Minimum.Z;
+
+        var greatest = Math.Max(dx, Math.Max(dy, dz));
+
+        var x0 = Minimum.X;
+        var y0 = Minimum.Y;
+        var z0 = Minimum.Z;
+
+        var x1 = Maximum.X;
+        var y1 = Maximum.Y;
+        var z1 = Maximum.Z;
+
+        // adjust points so they lie on the dividing plane
+        if (greatest == dx)
+        {
+            x1 = x0 + dx / 2;
+            x0 = x1;
+        }
+        else if (greatest == dy)
+        {
+            y1 = y0 + dy / 2;
+            y0 = y1;
+        }
+        else
+        {
+            z1 = z0 + dz / 2;
+            z0 = z1;
+        }
+
+        var midMin = new Point(x0, y0, z0);
+        var midMax = new Point(x1, y1, z1);
+
+        var left = new BoundingBox(Minimum, midMax);
+        var right = new BoundingBox(midMin, Maximum);
+
+        return (left, right);
+    }
+
+    /// <summary>
     /// Checks where the ray intersects the corresponding plane.
     /// Returns the minimum and maximum t values.
     /// </summary>
