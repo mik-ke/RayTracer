@@ -150,7 +150,24 @@ public class GroupTests
 
 		// Assert
 		Assert.Contains(sphere3, group);
-		Assert.Equal(left, sphere1);
-		Assert.Equal(right, sphere2);
+		Assert.Contains(sphere1, left);
+		Assert.Contains(sphere2, right);
     }
+
+	[Fact]
+	public void MakeSubGroup_ShouldAddNewGroup_WhenShapesGiven()
+	{
+		// Arrange
+		Sphere sphere1 = new();
+		Sphere sphere2 = new();
+		Group group = new();
+
+		// Act
+		group.MakeSubgroup(new Shape[] { sphere1, sphere2 });
+
+		// Assert
+		Assert.True(group[0] is Group);
+		Assert.Contains(sphere1, (Group)group[0]);
+		Assert.Contains(sphere2, (Group)group[0]);
+	}
 }

@@ -74,9 +74,25 @@ public sealed class Group : Shape, IEnumerable<Shape>
         return boundingBox;
     }
 
-    public (Shape[] left, Shape[] right) ParitionChildren()
+    public (List<Shape> left, List<Shape> right) PartitionChildren()
     {
+        var (left, right) = BoundsOf().SplitBounds();
+        var leftShapes = new List<Shape>();
+        var rightShapes = new List<Shape>();
+        foreach (var child in _shapes)
+        {
+            var inLeft = left.Contains(child.ParentSpaceBoundsOf());
+            var inRight = right.Contains(child.ParentSpaceBoundsOf());
 
+            if (inLeft && inRight) continue;
+            else if (inLeft) leftShapes.Add(child);
+            else if (inRight) rightShapes.Add(child);
+        }
+
+        foreach (var shape in leftShapes) _shapes.Remove(shape);
+        foreach (var shape in rightShapes) _shapes.Remove(shape);
+
+        return (leftShapes, rightShapes);
     }
 
     /// <summary>
