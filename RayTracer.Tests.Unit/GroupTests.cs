@@ -170,4 +170,69 @@ public class GroupTests
 		Assert.Contains(sphere1, (Group)group[0]);
 		Assert.Contains(sphere2, (Group)group[0]);
 	}
+
+	[Fact]
+	public void Divide_ShouldNotDivide_WhenThresholdLessThanChildrenCount()
+	{
+        // Arrange
+        Sphere sphere1 = new();
+        Sphere sphere2 = new();
+        Group group = new(new Shape[] { sphere1, sphere2 });
+        const int threshold = 3;
+
+        // Act
+        group.Divide(threshold);
+
+        // Assert
+        Assert.Contains(sphere1, group);
+        Assert.Contains(sphere2, group);
+    }
+
+	[Fact]
+	public void Divide_ShouldDivide_WhenThresholdGreaterThanChildrenCount()
+	{
+        // Arrange
+        Sphere sphere1 = new(Matrix.Translation(-2, -2, 0));
+        Sphere sphere2 = new(Matrix.Translation(-2, 2, 0));
+        Sphere sphere3 = new(Matrix.Scaling(4, 4, 4));
+        Group group = new(new Shape[] { sphere1, sphere2, sphere3 });
+        const int threshold = 1;
+
+        // Act
+        group.Divide(threshold);
+
+		// Assert
+		Assert.Equal(sphere3, group[0]);
+		Assert.True(group[1] is Group);
+		var subgroup = (Group)group[1];
+        Assert.Contains(sphere1, (Group)subgroup[0]);
+        Assert.Contains(sphere2, (Group)subgroup[1]);
+    }
+
+	[Fact]
+	public void Divide_ShouldDivideChildren_WhenThresholdGreaterThanChildrenCount()
+	{
+        // Arrange
+        Sphere sphere1 = new(Matrix.Translation(-2, 0, 0));
+        Sphere sphere2 = new(Matrix.Translation(2, 1, 0));
+        Sphere sphere3 = new(Matrix.Translation(2, -1, 0));
+        Group subgroup = new(new Shape[] { sphere1, sphere2, sphere3 });
+		Sphere sphere4 = new();
+		Group group = new(new Shape[] { subgroup, sphere4 });
+        const int threshold = 3;
+
+        // Act
+        group.Divide(threshold);
+
+        // Assert
+        Assert.Equal(subgroup, group[0]);
+		Assert.Equal(sphere4, group[1]);
+		Assert.Equal(2, subgroup.Count);
+		Assert.True(subgroup[0] is Group);
+		Assert.True(subgroup[1] is Group);
+		var subgroup1 = (Group)subgroup[0];
+		var subgroup2 = (Group)subgroup[1];
+        Assert.Contains(sphere1, subgroup1);
+        Assert.Contains(sphere2, subgroup2);
+    }
 }

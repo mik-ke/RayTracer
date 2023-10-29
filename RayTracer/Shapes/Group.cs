@@ -99,10 +99,30 @@ public sealed class Group : Shape, IEnumerable<Shape>
     /// Adds the given <paramref name="shapes"/> into a new subgroup
     /// and adds that subgroup to the <see cref="Group"/>.
     /// </summary>
-    public void MakeSubgroup(Shape[] shapes)
+    public void MakeSubgroup(IEnumerable<Shape> shapes)
     {
         Group subgroup = new(shapes);
         AddChild(subgroup);
+    }
+
+    /// <summary>
+    /// Divides the <see cref="Group"/> and its children into subgroups recursively.
+    /// If the <see cref="Group"/> has fewer children than the given <paramref name="threshold"/>,
+    /// then the <see cref="Group"/> is not divided. However, its children may still be divided
+    /// if they are a group and have more children than the given <paramref name="threshold"/>.
+    /// </summary>
+    public void Divide(int threshold)
+    {
+        if (threshold <= Count)
+        {
+            var (left, right) = PartitionChildren();
+            if (left.Count > 0) MakeSubgroup(left);
+            if (right.Count > 0) MakeSubgroup(right);
+        }
+
+        foreach (var shape in _shapes)
+            if (shape is Group group)
+                group.Divide(threshold);
     }
 
     protected override Vector LocalNormal(Point localPoint)
