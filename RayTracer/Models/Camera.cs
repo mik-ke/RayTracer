@@ -108,6 +108,19 @@ public sealed class Camera
                 Console.WriteLine($"{x}, {y}");
             });
         });
+        /*
+        for (int y = 0; y < VerticalSize - 48; y++)
+        {
+            for (int x = 0; x < HorizontalSize; x++)
+            {
+                Ray ray = RayForPixel(x, y);
+                Color color = world.ColorAt(ray);
+                image[x, y] = color;
+                Console.WriteLine($"{x}, {y}");
+            }
+        }
+        */
+
 
         return image;
     }

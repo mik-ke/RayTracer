@@ -21,7 +21,7 @@ internal class Program
         AddFloorAndWalls(world);
 
         var objGroup = await LoadObjGroupAsync();
-        objGroup.Divide(50);
+        //objGroup.Divide(50);
         world.Objects.Add(objGroup);
 
         // TODO: try again after bounding boxes implemented

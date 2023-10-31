@@ -183,10 +183,12 @@ public sealed class Matrix
     /// <exception cref="ArgumentOutOfRangeException">Thrown when row or column index is less than 0 or greater than or equal to the number of rows or columns, respectively.</exception>
     public double GetValue(int row, int column)
     {
+        /*
         if (!IsRowInbounds(row))
             throw new ArgumentOutOfRangeException(nameof(row));
         if (!IsColumnInbounds(column))
             throw new ArgumentOutOfRangeException(nameof(column));
+        */
         return _matrix[row, column];
     }
 
