@@ -96,32 +96,36 @@ public sealed class Camera
     /// <returns>A new <see cref="Canvas"/>.</returns>
     public Canvas Render(World world)
     {
-        Canvas image = new(HorizontalSize, VerticalSize);
-
-        Parallel.For(0, VerticalSize, y =>
+        try
         {
-            Parallel.For(0, HorizontalSize,  x =>
+            Canvas image = new(HorizontalSize, VerticalSize);
+
+            object sync = new();
+            int size = HorizontalSize * VerticalSize;
+            int i = 0;
+
+            Parallel.For(0, VerticalSize, y =>
             {
-                Ray ray = RayForPixel(x, y);
-                Color color = world.ColorAt(ray);
-                image[x, y] = color;
-                Console.WriteLine($"{x}, {y}");
+                Parallel.For(0, HorizontalSize,  x =>
+                {
+                    Ray ray = RayForPixel(x, y);
+                    Color color = world.ColorAt(ray);
+                    image[x, y] = color;
+
+                    // TODO: remove, just for debugging purposes
+                    lock (sync)
+                    {
+                        i++;
+                        Console.WriteLine($"{i} / {size}");
+                    }
+                });
             });
-        });
-        /*
-        for (int y = 0; y < VerticalSize - 48; y++)
-        {
-            for (int x = 0; x < HorizontalSize; x++)
-            {
-                Ray ray = RayForPixel(x, y);
-                Color color = world.ColorAt(ray);
-                image[x, y] = color;
-                Console.WriteLine($"{x}, {y}");
-            }
+
+            return image;
         }
-        */
-
-
-        return image;
+        finally
+        {
+            world.ResetStoredBounds();
+        }
     }
 }

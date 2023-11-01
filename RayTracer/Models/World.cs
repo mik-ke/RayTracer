@@ -138,4 +138,17 @@ public sealed class World
 
         return color * computations.Object.Material.Transparency;
     }
+
+    /// <summary>
+    /// Resets the stored bounding box of each <see cref="Group"/> contained within the <see cref="World"/>.
+    /// Called after rendering.
+    /// </summary>
+    public void ResetStoredBounds()
+    {
+        foreach (var obj in Objects)
+            if (obj is Group group)
+            {
+                group.ResetStoredBounds();
+            }
+    }
 }

@@ -9,6 +9,7 @@ namespace RayTracer.Shapes;
 public sealed class Group : Shape, IEnumerable<Shape>
 {
     private readonly List<Shape> _shapes;
+    private BoundingBox? _boundingBox;
 
     public Group(Matrix? transform = null) : base(transform)
     {
@@ -66,12 +67,32 @@ public sealed class Group : Shape, IEnumerable<Shape>
 
     public override BoundingBox BoundsOf()
     {
+        if (_boundingBox != null)
+            return _boundingBox;
+
         BoundingBox boundingBox = new();
 
         foreach (var child in _shapes)
             boundingBox.Add(child.ParentSpaceBoundsOf());
 
-        return boundingBox;
+        _boundingBox = boundingBox;
+
+        return _boundingBox;
+    }
+
+    /// <summary>
+    /// Resets the <see cref="Group"/>'s stored <see cref="BoundingBox"/>.
+    /// This should be called after a render is complete.
+    /// </summary>
+    /// <remarks>
+    /// Recursively calls <see cref="ResetStoredBounds"/> on all children of type <see cref="BoundingBox"/> as well.
+    /// </remarks>
+    public void ResetStoredBounds()
+    {
+        _boundingBox = null;
+        foreach (var child in _shapes)
+            if (child is Group group)
+                group.ResetStoredBounds();
     }
 
     public (List<Shape> left, List<Shape> right) PartitionChildren()

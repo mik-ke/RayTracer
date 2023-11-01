@@ -15,13 +15,13 @@ internal class Program
 
         World world = new();
 
-        PointLight lightSource = new(new Point(-10, 5, 5), new Color(1, 1, 1));
+        PointLight lightSource = new(new Point(7, 10, -11), new Color(1, 1, 1));
         world.LightSources.Add(lightSource);
 
         AddFloorAndWalls(world);
 
         var objGroup = await LoadObjGroupAsync();
-        //objGroup.Divide(50);
+        objGroup.Divide(50);
         world.Objects.Add(objGroup);
 
         // TODO: try again after bounding boxes implemented
@@ -47,8 +47,8 @@ internal class Program
 
     static Camera CreateCamera()
     {
-        Point from = new(10, 10, -7);
-        Point to = new(0, 1, 0);
+        Point from = new(10, 7, -11);
+        Point to = new(0, 3, 0);
         Vector up = new(0, 1, 0);
         Matrix cameraTransform = Matrix.View(from, to, up);
 
@@ -59,7 +59,7 @@ internal class Program
     {
         var floor = CreateFloor();
         var backdrop = CreateBackdrop();
-        var rightWall = CreateRightWall();
+        var rightWall = CreateLeftWall();
         world.Objects.Add(floor);
         world.Objects.Add(backdrop);
         world.Objects.Add(rightWall);
@@ -72,8 +72,7 @@ internal class Program
             Material = new()
             {
                 Color = new(1, 0.9, 0.9),
-                Specular = 0,
-                Pattern = new RingPattern(new Color(0.25, 0.25, 0.25), new Color(0.75, 0.75, 0.75))
+                Specular = 0
             },
             Transform = Matrix.RotationY(Math.PI / 4)
         };
@@ -83,7 +82,7 @@ internal class Program
     {
         return new Plane()
         {
-            Transform = Matrix.RotationX(Math.PI / 2).Translate(0, 0, 5),
+            Transform = Matrix.RotationX(Math.PI / 2).Translate(0, 0, 10),
             Material = new()
             {
                 Color = Color.White,
@@ -93,11 +92,11 @@ internal class Program
         };
     }
 
-    static Plane CreateRightWall()
+    static Plane CreateLeftWall()
     {
         return new Plane()
         {
-            Transform = Matrix.RotationX(Math.PI / 2).RotateY(Math.PI / 2).Translate(5, 0, 0),
+            Transform = Matrix.RotationX(Math.PI / 2).RotateY(Math.PI / 2).Translate(-10, 0, 0),
             Material = new()
             {
                 Color = Color.White,
