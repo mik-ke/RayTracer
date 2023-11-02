@@ -52,7 +52,7 @@ internal class Program
         Vector up = new(0, 1, 0);
         Matrix cameraTransform = Matrix.View(from, to, up);
 
-        return new Camera(100, 50, Math.PI / 3, cameraTransform);
+        return new Camera(500, 250, Math.PI / 3, cameraTransform);
     }
 
     static void AddFloorAndWalls(World world)
@@ -72,7 +72,8 @@ internal class Program
             Material = new()
             {
                 Color = new(1, 0.9, 0.9),
-                Specular = 0
+                Specular = 0,
+                Pattern = new StripePattern(new(0.5, 0.5, 0.5), new(0.75, 0.75, 0.75))
             },
             Transform = Matrix.RotationY(Math.PI / 4)
         };

@@ -10,6 +10,7 @@ public sealed class Group : Shape, IEnumerable<Shape>
 {
     private readonly List<Shape> _shapes;
     private BoundingBox? _boundingBox;
+    private object _lock = new();
 
     public Group(Matrix? transform = null) : base(transform)
     {
@@ -65,19 +66,25 @@ public sealed class Group : Shape, IEnumerable<Shape>
                 yield return intersection;
     }
 
+
     public override BoundingBox BoundsOf()
     {
         if (_boundingBox != null)
             return _boundingBox;
 
-        BoundingBox boundingBox = new();
+        lock (_lock)
+        {
+            if (_boundingBox != null)
+                return _boundingBox;
+            BoundingBox boundingBox = new();
 
-        foreach (var child in _shapes)
-            boundingBox.Add(child.ParentSpaceBoundsOf());
+            foreach (var child in _shapes)
+                boundingBox.Add(child.ParentSpaceBoundsOf());
 
-        _boundingBox = boundingBox;
+            _boundingBox = boundingBox;
 
-        return _boundingBox;
+            return _boundingBox;
+        }
     }
 
     /// <summary>
