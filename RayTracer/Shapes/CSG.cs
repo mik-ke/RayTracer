@@ -20,12 +20,22 @@ public sealed class CSG : Shape
 
     public override BoundingBox BoundsOf()
     {
+        // TODO
         throw new NotImplementedException();
     }
 
     protected override Intersections LocalIntersect(Ray localRay)
     {
-        throw new NotImplementedException();
+        // TODO
+        //if (!BoundsOf().Intersects(localRay))
+            //return Intersections.Empty;
+
+        var leftIntersections = Left.Intersect(localRay);
+        var rightIntersections = Right.Intersect(localRay);
+
+        var intersections = new Intersections(leftIntersections.Concat(rightIntersections).ToArray());
+
+        return FilterIntersections(intersections);
     }
 
     public Intersections FilterIntersections(Intersections intersections)

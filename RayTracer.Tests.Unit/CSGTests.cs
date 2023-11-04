@@ -153,4 +153,38 @@ public class CSGTests
         // Assert
         Assert.Equal(expected, result);
     }
+
+    [Fact]
+    public void Intersect_ShouldReturnFalse_WhenRayMisses()
+    {
+        // Arrange
+        CSG csg = new(Operation.Union, new Sphere(), new Cube());
+        Ray ray = new(new Point(0, 2, -5), new Vector(0, 0, 1));
+
+        // Act
+        var result = csg.Intersect(ray);
+
+        // Assert
+        Assert.Equal(Intersections.Empty, result);
+    }
+
+    [Fact]
+    public void Intersect_ShouldReturnTrue_WhenRayHits()
+    {
+        // Arrange
+        Sphere sphereOne = new();
+        Sphere sphereTwo = new(Matrix.Translation(0, 0, 0.5));
+        CSG csg = new(Operation.Union, sphereOne, sphereTwo);
+        Ray ray = new(new Point(0, 0, -5), new Vector(0, 0, 1));
+
+        // Act
+        var result = csg.Intersect(ray);
+
+        // Assert
+        Assert.Equal(2, result.Length);
+        Assert.Equal(4, result[0].T);
+        Assert.Equal(sphereOne, result[0].Object);
+        Assert.Equal(6.5, result[1].T);
+        Assert.Equal(sphereTwo, result[1].Object);
+    }
 }
