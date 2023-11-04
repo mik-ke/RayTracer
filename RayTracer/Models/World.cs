@@ -146,9 +146,9 @@ public sealed class World
     public void ResetStoredBounds()
     {
         foreach (var obj in Objects)
-            if (obj is Group group)
+            if (obj is IDivisibleShape divisible)
             {
-                group.ResetStoredBounds();
+                divisible.ResetStoredBounds();
             }
     }
 }
