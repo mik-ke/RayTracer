@@ -5,7 +5,7 @@ namespace RayTracer.Shapes;
 /// <summary>
 /// Constructive solid geometry. Combines two <see cref="Shape"/>s via set operations.
 /// </summary>
-public sealed class CSG : Shape
+public sealed class CSG : Shape, IDivisibleShape
 {
     public Shape Left { get; init; }
     public Shape Right { get; init; }
@@ -20,15 +20,35 @@ public sealed class CSG : Shape
 
     public override BoundingBox BoundsOf()
     {
-        // TODO
-        throw new NotImplementedException();
+        var box = new BoundingBox();
+        box.Add(Left.ParentSpaceBoundsOf());
+        box.Add(Right.ParentSpaceBoundsOf());
+        return box;
+    }
+
+    public void ResetStoredBounds()
+    {
+        if (Left is IDivisibleShape leftDivisible)
+            leftDivisible.ResetStoredBounds();
+        if (Right is IDivisibleShape rightDivisible)
+            rightDivisible.ResetStoredBounds();
+    }
+
+    /// <summary>
+    /// Divides the <see cref="CSG"/>'s children into subgroups recursively if they are <see cref="IDivisibleShape"/>s.
+    /// </summary>
+    public void Divide(int threshold)
+    {
+        if (Left is IDivisibleShape leftDivisible)
+            leftDivisible.Divide(threshold);
+        if (Right is IDivisibleShape rightDivisible)
+            rightDivisible.Divide(threshold);
     }
 
     protected override Intersections LocalIntersect(Ray localRay)
     {
-        // TODO
-        //if (!BoundsOf().Intersects(localRay))
-            //return Intersections.Empty;
+        if (!BoundsOf().Intersects(localRay))
+            return Intersections.Empty;
 
         var leftIntersections = Left.Intersect(localRay);
         var rightIntersections = Right.Intersect(localRay);

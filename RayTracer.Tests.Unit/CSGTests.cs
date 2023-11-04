@@ -187,4 +187,80 @@ public class CSGTests
         Assert.Equal(6.5, result[1].T);
         Assert.Equal(sphereTwo, result[1].Object);
     }
+
+    [Fact]
+    public void Intersect_ShouldNotTestChildren_WhenBoundingBoxMissed()
+    {
+        // Arrange
+        TestShape left = new();
+        TestShape right = new();
+        CSG csg = new(Operation.Difference, left, right);
+        Ray ray = new(new Point(0, 0, -5), new Vector(0, 1, 0));
+
+        // Act
+        csg.Intersect(ray);
+
+        // Assert
+        Assert.Null(left.SavedLocalRay);
+        Assert.Null(right.SavedLocalRay);
+    }
+
+    [Fact]
+    public void Intersect_ShouldTestChildren_WhenBoundingBoxHit()
+    {
+        // Arrange
+        TestShape left = new();
+        TestShape right = new();
+        CSG csg = new(Operation.Difference, left, right);
+        Ray ray = new(new Point(0, 0, -5), new Vector(0, 0, 1));
+
+        // Act
+        csg.Intersect(ray);
+
+        // Assert
+        Assert.NotNull(left.SavedLocalRay);
+        Assert.NotNull(right.SavedLocalRay);
+    }
+
+    [Fact]
+    public void BoundsOf_ShouldReturnBoundingBoxThatContainsChildren()
+    {
+        // Arrange
+        Sphere sphereOne = new();
+        Sphere sphereTwo = new(Matrix.Translation(2, 3, 4));
+        CSG csg = new(Operation.Difference, sphereOne, sphereTwo);
+
+        // Act
+        var result = csg.BoundsOf();
+
+        // Assert
+        Assert.Equal(new Point(-1, -1, -1), result.Minimum);
+        Assert.Equal(new Point(3, 4, 5), result.Maximum);
+    }
+
+    [Fact]
+    public void Divide_ShouldDivideChildren()
+    {
+        // Arrange
+        Sphere sphereOne = new(Matrix.Translation(-1.5, 0, 0));
+        Sphere sphereTwo = new(Matrix.Translation(1.5, 0, 0));
+        Group left = new(new[] { sphereOne, sphereTwo });
+        Sphere sphereThree = new(Matrix.Translation(0, 0, -1.5));
+        Sphere sphereFour = new(Matrix.Translation(0, 0, 1.5));
+        Group right = new(new[] { sphereThree, sphereFour });
+        CSG csg = new(Operation.Difference, left, right);
+
+        // Act
+        csg.Divide(1);
+
+        // Assert
+        Assert.True(left[0] is Group);
+        Assert.Equal(sphereOne, ((Group)left[0])[0]);
+        Assert.True(left[1] is Group);
+        Assert.Equal(sphereTwo, ((Group)left[1])[0]);
+        Assert.True(right[0] is Group);
+        Assert.Equal(sphereThree, ((Group)right[0])[0]);
+        Assert.True(right[1] is Group);
+        Assert.Equal(sphereFour, ((Group)right[1])[0]);
+    }
 }

@@ -113,6 +113,38 @@ public class GroupTests
 	}
 
 	[Fact]
+	public void Intersect_ShouldNotTestChildren_WhenBoundingBoxMissed()
+	{
+		// Arrange
+		TestShape child = new();
+		Group group = new();
+		group.AddChild(child);
+		Ray ray = new(new(0, 0, -5), new(0, 1, 0));
+
+		// Act
+		group.Intersect(ray);
+
+		// Assert
+		Assert.Null(child.SavedLocalRay);
+	}
+
+	[Fact]
+	public void Intersect_ShouldTestChildren_WhenBoundingBoxHit()
+	{
+        // Arrange
+        TestShape child = new();
+        Group group = new();
+        group.AddChild(child);
+        Ray ray = new(new(0, 0, -5), new(0, 0, 1));
+
+        // Act
+        group.Intersect(ray);
+
+        // Assert
+        Assert.NotNull(child.SavedLocalRay);
+    }
+
+	[Fact]
 	public void BoundsOf_ShouldReturnBoundingBoxThatContainsChildren()
 	{
 		// Arrange

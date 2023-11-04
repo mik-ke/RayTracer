@@ -6,11 +6,11 @@ namespace RayTracer.Shapes;
 /// <summary>
 /// A container for multiple <see cref="Shape"/>s.
 /// </summary>
-public sealed class Group : Shape, IEnumerable<Shape>
+public sealed class Group : Shape, IEnumerable<Shape>, IDivisibleShape
 {
     private readonly List<Shape> _shapes;
     private BoundingBox? _boundingBox;
-    private object _lock = new();
+    private readonly object _lock = new();
 
     public Group(Matrix? transform = null) : base(transform)
     {
@@ -98,8 +98,8 @@ public sealed class Group : Shape, IEnumerable<Shape>
     {
         _boundingBox = null;
         foreach (var child in _shapes)
-            if (child is Group group)
-                group.ResetStoredBounds();
+            if (child is IDivisibleShape divisible)
+                divisible.ResetStoredBounds();
     }
 
     public (List<Shape> left, List<Shape> right) PartitionChildren()
@@ -149,8 +149,8 @@ public sealed class Group : Shape, IEnumerable<Shape>
         }
 
         foreach (var shape in _shapes)
-            if (shape is Group group)
-                group.Divide(threshold);
+            if (shape is IDivisibleShape divisible)
+                divisible.Divide(threshold);
     }
 
     public override bool Includes(Shape other)
