@@ -1,5 +1,5 @@
-﻿using RayTracer.Shapes;
-using Xunit;
+﻿using RayTracer.Models;
+using RayTracer.Shapes;
 
 namespace RayTracer.Tests.Unit;
 
@@ -83,6 +83,72 @@ public class CSGTests
 
         // Act
 		var result = CSG.IntersectionAllowed(operation, leftHit, inLeft, inRight);
+
+        // Assert
+        Assert.Equal(expected, result);
+    }
+
+	[Fact]
+	public void FilterIntersections_ShouldReturnCorrectResult_WhenUnionOperation()
+	{
+        // Arrange
+        Sphere left = new();
+        Cube right = new();
+        Operation operation = Operation.Union;
+        CSG csg = new(operation, left, right);
+        Intersection intersectionOne = new(1, left);
+        Intersection intersectionTwo = new(2, right);
+        Intersection intersectionThree = new(3, left);
+        Intersection intersectionFour = new(4, right);
+        Intersections intersections = new(intersectionOne, intersectionTwo, intersectionThree, intersectionFour);
+        Intersections expected = new(intersectionOne, intersectionFour);
+
+        // Act
+        var result = csg.FilterIntersections(intersections);
+
+        // Assert
+        Assert.Equal(expected, result);
+    }
+
+	[Fact]
+	public void FilterIntersections_ShouldReturnCorrectResult_WhenIntersectionOperation()
+	{
+        // Arrange
+        Sphere left = new();
+        Cube right = new();
+        Operation operation = Operation.Intersection;
+        CSG csg = new(operation, left, right);
+        Intersection intersectionOne = new(1, left);
+        Intersection intersectionTwo = new(2, right);
+        Intersection intersectionThree = new(3, left);
+        Intersection intersectionFour = new(4, right);
+        Intersections intersections = new(intersectionOne, intersectionTwo, intersectionThree, intersectionFour);
+        Intersections expected = new(intersectionTwo, intersectionThree);
+
+        // Act
+        var result = csg.FilterIntersections(intersections);
+
+        // Assert
+        Assert.Equal(expected, result);
+    }
+
+	[Fact]
+	public void FilterIntersections_ShouldReturnCorrectResult_WhenDifferenceOperation()
+	{
+        // Arrange
+        Sphere left = new();
+        Cube right = new();
+        Operation operation = Operation.Difference;
+        CSG csg = new(operation, left, right);
+        Intersection intersectionOne = new(1, left);
+        Intersection intersectionTwo = new(2, right);
+        Intersection intersectionThree = new(3, left);
+        Intersection intersectionFour = new(4, right);
+        Intersections intersections = new(intersectionOne, intersectionTwo, intersectionThree, intersectionFour);
+        Intersections expected = new(intersectionOne, intersectionTwo);
+
+        // Act
+        var result = csg.FilterIntersections(intersections);
 
         // Assert
         Assert.Equal(expected, result);

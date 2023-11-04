@@ -153,6 +153,15 @@ public sealed class Group : Shape, IEnumerable<Shape>
                 group.Divide(threshold);
     }
 
+    public override bool Includes(Shape other)
+    {
+        foreach (var shape in _shapes)
+            if (shape.Includes(other))
+                return true;
+
+        return false;
+    }
+
     protected override Vector LocalNormal(Point localPoint)
     {
         throw new NotImplementedException();

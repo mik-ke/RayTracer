@@ -108,4 +108,9 @@ public abstract class Shape
 
         return parentSpaceBounds;
     }
+
+    /// <summary>
+    /// Checks whether the given <paramref name="other"/> is within this <see cref="Shape"/>.
+    /// </summary>
+    public virtual bool Includes(Shape other) => this == other;
 }

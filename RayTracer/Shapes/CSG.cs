@@ -28,6 +28,32 @@ public sealed class CSG : Shape
         throw new NotImplementedException();
     }
 
+    public Intersections FilterIntersections(Intersections intersections)
+    {
+        bool inLeft = false;
+        bool inRight = false;
+
+        var result = new List<Intersection>();
+        foreach (var intersection in intersections)
+        {
+            bool leftHit = Left.Includes(intersection.Object);
+            if (IntersectionAllowed(Operation, leftHit, inLeft, inRight))
+                result.Add(intersection);
+
+            if (leftHit)
+                inLeft = !inLeft;
+            else
+                inRight = !inRight;
+        }
+
+        return new Intersections(result.ToArray());
+    }
+
+    public override bool Includes(Shape other)
+    {
+        return Left.Includes(other) || Right.Includes(other);
+    }
+
     protected override Vector LocalNormal(Point localPoint)
     {
         throw new NotImplementedException();
