@@ -6,7 +6,7 @@ namespace RayTracer.Shapes;
 /// <summary>
 /// A triangle shape. Composed of three <see cref="Point"/>s.
 /// </summary>
-public sealed class Triangle : Shape, ITriangle
+public sealed class Triangle : Shape
 {
     public Point Point1 { get; }
     public Point Point2 { get; }
@@ -48,11 +48,6 @@ public sealed class Triangle : Shape, ITriangle
         var t = f * Edge2.Dot(originCrossEdge1);
         Intersection intersection = new(t, this);
         return new Intersections(intersection);
-    }
-
-    public Intersection IntersectionWithUV(double t, double u, double v)
-    {
-        throw new NotImplementedException();
     }
 
     private static bool IsRayParallel(in double determinant) => Math.Abs(determinant) < DoubleExtensions.EPSILON;

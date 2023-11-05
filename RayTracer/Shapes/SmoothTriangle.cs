@@ -5,7 +5,7 @@ namespace RayTracer.Shapes;
 /// <summary>
 /// A triangle with smooth shading.
 /// </summary>
-public class SmoothTriangle : Shape, ITriangle
+public class SmoothTriangle : Shape
 {
     public Point Point1 { get; }
     public Point Point2 { get; }
@@ -31,11 +31,6 @@ public class SmoothTriangle : Shape, ITriangle
     }
 
     protected override Intersections LocalIntersect(Ray localRay)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Intersection IntersectionWithUV(double t, double u, double v)
     {
         throw new NotImplementedException();
     }

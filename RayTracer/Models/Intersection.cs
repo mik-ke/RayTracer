@@ -2,7 +2,7 @@
 
 namespace RayTracer.Models;
 
-public sealed class Intersection
+public class Intersection
 {
     /// <summary>
     /// t value of the intersection.
