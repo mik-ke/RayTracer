@@ -1,4 +1,5 @@
-﻿using RayTracer.Models;
+﻿using RayTracer.Extensions;
+using RayTracer.Models;
 using RayTracer.Shapes;
 
 namespace RayTracer.Tests.Unit;
@@ -35,5 +36,20 @@ public class SmoothTriangleTests
         Assert.Equal(expectedNormal1, smoothTriangle.Normal1);
         Assert.Equal(expectedNormal2, smoothTriangle.Normal2);
         Assert.Equal(expectedNormal3, smoothTriangle.Normal3);
+    }
+
+    [Fact]
+    public void Intersect_ShouldReturnUAndVValues()
+    {
+        // Arrange
+        SmoothTriangle smoothTriangle = GetTestSmoothTriangle();
+        Ray ray = new(new Point(-0.2, 0.3, -2), new Vector(0, 0, 1));
+
+        // Act
+        Intersections result = smoothTriangle.Intersect(ray);
+
+        // Assert
+        Assert.True(0.45.IsEqualTo(((IntersectionWithUV)result[0]).U));
+        Assert.True(0.25.IsEqualTo(((IntersectionWithUV)result[0]).V));
     }
 }
