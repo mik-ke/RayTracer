@@ -52,4 +52,18 @@ public class SmoothTriangleTests
         Assert.True(0.45.IsEqualTo(((IntersectionWithUV)result[0]).U));
         Assert.True(0.25.IsEqualTo(((IntersectionWithUV)result[0]).V));
     }
+
+    [Fact]
+    public void Normal_ShouldInterpolateTheNormal()
+    {
+        // Arrange
+        SmoothTriangle smoothTriangle = GetTestSmoothTriangle();
+        IntersectionWithUV intersection = new(1, smoothTriangle, 0.45, 0.25);
+
+        // Act
+        Vector result = smoothTriangle.Normal(new Point(0, 0, 0), intersection);
+
+        // Assert
+        Assert.Equal(new Vector(-0.5547, 0.83205, 0), result);
+    }
 }
