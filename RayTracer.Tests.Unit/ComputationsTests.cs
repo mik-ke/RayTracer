@@ -210,4 +210,21 @@ public class ComputationsTests
 		// Assert
 		Assert.True(expected.IsEqualTo(actual));
 	}
+
+	[Fact]
+	public void NormalVector_ShouldUseIntersection()
+	{
+		// Arrange
+		IntersectionWithUV intersection = new(1, SmoothTriangleTests.GetTestSmoothTriangle(),
+			0.45, 0.25);
+		Ray ray = new(new Point(-0.2, 0.3, -2), new Vector(0, 0, 1));
+		Intersections intersections = new(intersection);
+		Vector expected = new(-0.5547, 0.83205, 0);
+
+		// Act
+		Computations computations = new(intersection, ray, intersections);
+
+		// Assert
+		Assert.Equal(expected, computations.NormalVector);
+	}
 }

@@ -58,12 +58,12 @@ public sealed record Computations
     /// <summary>
     /// Refractive index of the material the ray is passing from.
     /// </summary>
-    public double N1 { get; set; }
+    public double N1 { get; private set; }
 
     /// <summary>
     /// Refractive index of the material the ray is passing to.
     /// </summary>
-    public double N2 { get; set; }
+    public double N2 { get; private set; }
 
     public Computations(Intersection intersection, Ray ray, Intersections? intersections = null)
     {
@@ -71,7 +71,7 @@ public sealed record Computations
         Object = intersection.Object;
         Point = ray.Position(T);
         EyeVector = -ray.Direction;
-        NormalVector = Object.Normal(Point);
+        NormalVector = Object.Normal(Point, intersection);
 
         if (NormalVector.Dot(EyeVector) < 0)
         {
@@ -91,7 +91,7 @@ public sealed record Computations
         LinkedList<Shape> containers = new();
         foreach (Intersection intersection in intersections)
         {
-            bool isHit = intersection == hit;
+            var isHit = intersection == hit;
             if (isHit)
             {
                 if (containers.Count < 1)
@@ -105,15 +105,14 @@ public sealed record Computations
             else
                 containers.AddLast(intersection.Object);
 
-            if (isHit)
-            {
-                if (containers.Count < 1)
-                    N2 = 1.0;
-                else
-                    N2 = containers.Last!.ValueRef.Material.RefractiveIndex;
+            if (!isHit) continue;
+            
+            if (containers.Count < 1)
+                N2 = 1.0;
+            else
+                N2 = containers.Last!.ValueRef.Material.RefractiveIndex;
 
-                break;
-            }
+            break;
         }
     }
 

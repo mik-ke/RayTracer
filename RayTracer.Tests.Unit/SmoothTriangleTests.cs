@@ -6,7 +6,7 @@ namespace RayTracer.Tests.Unit;
 
 public class SmoothTriangleTests
 {
-    private static SmoothTriangle GetTestSmoothTriangle() =>
+    public static SmoothTriangle GetTestSmoothTriangle() =>
         new(
             new Point(0, 1, 0),
             new Point(-1, 0, 0),
@@ -66,5 +66,4 @@ public class SmoothTriangleTests
         // Assert
         Assert.Equal(new Vector(-0.5547, 0.83205, 0), result);
     }
-    
 }
