@@ -49,10 +49,10 @@ public abstract class Shape
     /// Returns the (surface) normal of the <see cref="Shape"/> at the given <paramref name="worldPoint"/>.
     /// </summary>
     /// <returns>A new <see cref="Vector"/>.</returns>
-    public Vector Normal(Point worldPoint)
+    public Vector Normal(Point worldPoint, Intersection? intersection = null)
     {
-        var localPoint = WorldToObject(worldPoint);
-        var localNormal = LocalNormal(localPoint);
+        Point localPoint = WorldToObject(worldPoint);
+        Vector localNormal = LocalNormal(localPoint, intersection);
         return NormalToWorld(localNormal);
     }
 
@@ -94,7 +94,8 @@ public abstract class Shape
     /// Normal functionality specific to the inherting shape.
     /// </summary>
     /// <param name="localPoint">Transformed world point.</param>
-    protected abstract Vector LocalNormal(Point localPoint);
+    /// <param name="intersection"></param>
+    protected abstract Vector LocalNormal(Point localPoint, Intersection? intersection = null);
 
     /// <summary>
     /// Returns a <see cref="BoundingBox"/> for the shape in object space.

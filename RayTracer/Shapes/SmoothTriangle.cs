@@ -41,8 +41,12 @@ public sealed class SmoothTriangle : Triangle
         return new Intersections(intersection);
     }
 
-    protected override Vector LocalNormal(Point localPoint)
+    protected override Vector LocalNormal(Point localPoint, Intersection? intersection = null)
     {
-        throw new NotImplementedException();
+        var u = ((IntersectionWithUV)intersection!).U;
+        var v = ((IntersectionWithUV)intersection!).V;
+        return Normal2 * u +
+               Normal3 * v +
+               Normal1 * (1 - u - v);
     }
 }

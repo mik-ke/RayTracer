@@ -84,7 +84,7 @@ public sealed class CSG : Shape, IDivisibleShape
         return Left.Includes(other) || Right.Includes(other);
     }
 
-    protected override Vector LocalNormal(Point localPoint)
+    protected override Vector LocalNormal(Point localPoint, Intersection? intersection = null)
     {
         throw new NotImplementedException();
     }

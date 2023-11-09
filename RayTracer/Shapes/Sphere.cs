@@ -39,7 +39,7 @@ public sealed class Sphere : Shape
         return new Intersections(intersection1, intersection2);
     }
 
-    protected override Vector LocalNormal(Point localPoint)
+    protected override Vector LocalNormal(Point localPoint, Intersection? intersection = null)
     {
         return localPoint - Origin;
     }

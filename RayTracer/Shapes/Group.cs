@@ -162,7 +162,7 @@ public sealed class Group : Shape, IEnumerable<Shape>, IDivisibleShape
         return false;
     }
 
-    protected override Vector LocalNormal(Point localPoint)
+    protected override Vector LocalNormal(Point localPoint, Intersection? intersection = null)
     {
         throw new NotImplementedException();
     }

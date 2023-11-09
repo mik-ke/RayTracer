@@ -107,7 +107,7 @@ public class Cylinder : Shape
 
     private bool IsYInBounds(in double y) => Minimum < y && y < Maximum;
 
-    protected override Vector LocalNormal(Point localPoint)
+    protected override Vector LocalNormal(Point localPoint, Intersection? intersection = null)
     {
         double distance = localPoint.X * localPoint.X +
             localPoint.Z * localPoint.Z;

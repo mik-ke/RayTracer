@@ -22,7 +22,7 @@ public sealed class TestShape : Shape
         return Intersections.Empty;
     }
 
-    protected override Vector LocalNormal(Point localPoint) =>
+    protected override Vector LocalNormal(Point localPoint, Intersection? intersection = null) =>
         new(localPoint.X, localPoint.Y, localPoint.Z);
 
     public override BoundingBox BoundsOf()

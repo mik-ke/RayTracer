@@ -66,4 +66,5 @@ public class SmoothTriangleTests
         // Assert
         Assert.Equal(new Vector(-0.5547, 0.83205, 0), result);
     }
+    
 }

@@ -26,7 +26,7 @@ public sealed class Plane : Shape
 
 
     private static readonly Vector _planeNormal = new(0, 1, 0);
-    protected override Vector LocalNormal(Point localPoint) => _planeNormal;
+    protected override Vector LocalNormal(Point localPoint, Intersection? intersection = null) => _planeNormal;
 
     public override BoundingBox BoundsOf()
     {

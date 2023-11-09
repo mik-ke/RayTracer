@@ -10,7 +10,7 @@ public sealed class Cube : Shape
 {
     public Cube(Matrix? transform = null) : base(transform) { }
 
-    protected override Vector LocalNormal(Point localPoint)
+    protected override Vector LocalNormal(Point localPoint, Intersection? intersection = null)
     {
         var xAbs = Math.Abs(localPoint.X);
         var yAbs = Math.Abs(localPoint.Y);

@@ -52,7 +52,7 @@ public class Triangle : Shape
 
     protected static bool IsRayParallel(in double determinant) => Math.Abs(determinant) < DoubleExtensions.EPSILON;
 
-    protected override Vector LocalNormal(Point localPoint) => NormalVector;
+    protected override Vector LocalNormal(Point localPoint, Intersection? intersection = null) => NormalVector;
 
     public override BoundingBox BoundsOf()
     {
