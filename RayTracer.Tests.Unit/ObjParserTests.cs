@@ -11,13 +11,13 @@ public class ObjTests
 	{
 		// Arrange
 		const string objData =
-@"
-There was a young lady named Bright
-who traveled much faster than light.
-She set out one day
-in a relative way,
-and came back the previous night.
-";
+			"""
+			There was a young lady named Bright
+			who traveled much faster than light.
+			She set out one day
+			in a relative way,
+			and came back the previous night.
+			""";
 		Obj obj = new();
 
 		// Act
@@ -32,12 +32,12 @@ and came back the previous night.
 	{
 		// Arrange
 		const string objData =
-@"
-v -1 1 0
-v -1.0000 0.5000 0.0000
-v 1 0 0
-v 1 1 0
-";
+			"""
+			v -1 1 0
+			v -1.0000 0.5000 0.0000
+			v 1 0 0
+			v 1 1 0
+			""";
 		Obj obj = new();
 
 		Point expectedVertice1 = new(-1, 1, 0);
@@ -60,15 +60,15 @@ v 1 1 0
 	{
 		// Arrange
 		const string objData =
-@"
-v -1 1 0
-v -1 0 0
-v 1 0 0
-v 1 1 0
+			"""
+			v -1 1 0
+			v -1 0 0
+			v 1 0 0
+			v 1 1 0
 
-f 1 2 3
-f 1 3 4
-";
+			f 1 2 3
+			f 1 3 4
+			""";
 		Obj obj = new();
 
 		// Act
@@ -90,15 +90,15 @@ f 1 3 4
 	{
 		// Arrange
 		const string objData =
-@"
-v -1 1 0
-v -1 0 0
-v 1 0 0
-v 1 1 0
-v 0 2 0
+			"""
+			v -1 1 0
+			v -1 0 0
+			v 1 0 0
+			v 1 1 0
+			v 0 2 0
 
-f 1 2 3 4 5
-";
+			f 1 2 3 4 5
+			""";
 		Obj obj = new();
 
 		// Act
@@ -124,17 +124,17 @@ f 1 2 3 4 5
 	{
 		// Arrange
 		const string objData =
-@"
-v -1 1 0
-v -1 0 0
-v 1 0 0
-v 1 1 0
+			"""
+			v -1 1 0
+			v -1 0 0
+			v 1 0 0
+			v 1 1 0
 
-g FirstGroup
-f 1 2 3
-g SecondGroup
-f 1 3 4
-";
+			g FirstGroup
+			f 1 2 3
+			g SecondGroup
+			f 1 3 4
+			""";
 		Obj obj = new();
 
 		// Act
@@ -152,23 +152,47 @@ f 1 3 4
 		Assert.Equal(obj.Vertices[2], triangleTwo.Point2);
 		Assert.Equal(obj.Vertices[3], triangleTwo.Point3);
 	}
+	
+	[Fact]
+	public async Task LoadFromStringAsync_ShouldCreateNormalVector_WhenVNInObjString()
+	{
+		// Arrange
+		const string objData =
+			"""
+			vn 0 0 1
+			vn 0.707 0 -0.707
+			vn 1 2 3
+			""";
+		Vector expectedNormal1 = new(0, 0, 1);
+		Vector expectedNormal2 = new(0.707, 0, -0.707);
+		Vector expectedNormal3 = new(1, 2, 3);
+		Obj obj = new();
+		
+		// Act
+		await obj.LoadFromStringAsync(objData);
+		
+		// Assert
+		Assert.Equal(expectedNormal1, obj.Normals[0]);
+		Assert.Equal(expectedNormal2, obj.Normals[1]);
+		Assert.Equal(expectedNormal3, obj.Normals[2]);
+	}
 
 	[Fact]
 	public async Task ToGroup_ShouldConvertObjToGroup()
 	{
 		// Arrange
 		const string objData =
-@"
-v -1 1 0
-v -1 0 0
-v 1 0 0
-v 1 1 0
+			"""
+			v -1 1 0
+			v -1 0 0
+			v 1 0 0
+			v 1 1 0
 
-g FirstGroup
-f 1 2 3
-g SecondGroup
-f 1 3 4
-";
+			g FirstGroup
+			f 1 2 3
+			g SecondGroup
+			f 1 3 4
+			""";
 		Obj obj = new();
 		await obj.LoadFromStringAsync(objData);
 		var groupOne = obj.NamedGroups["FirstGroup"];

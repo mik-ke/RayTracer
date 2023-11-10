@@ -11,11 +11,12 @@ namespace RayTracer.Parsers;
 public class Obj
 {
     public List<Point> Vertices = new(0);
+    public List<Vector> Normals = new(0);
 
     /// <summary>
     /// Represents the named groups of the OBJ file.
     /// </summary>
-    public Dictionary<string, Group> NamedGroups = new();
+    public readonly Dictionary<string, Group> NamedGroups = new();
     /// <summary>
     /// Represents the default group of the OBJ file.
     /// </summary>
@@ -59,9 +60,9 @@ public class Obj
     public Group ToGroup()
     {
         Group group = new();
-        foreach (var child in DefaultGroup)
+        foreach (Shape child in DefaultGroup)
             group.AddChild(child);
-        foreach (var namedGroup in NamedGroups.Values)
+        foreach (Group namedGroup in NamedGroups.Values)
             group.AddChild(namedGroup);
 
         return group;
@@ -71,13 +72,16 @@ public class Obj
 
     private void ProcessLine(in string line)
     {
-        string[] arguments = line.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+        var arguments = line.Split(' ', StringSplitOptions.RemoveEmptyEntries);
         if (arguments.Length == 0) return;
 
         switch (arguments[0])
         {
             case "v":
                 ProcessVertex(arguments);
+                break;
+            case "vn":
+                ProcessNormal(arguments);
                 break;
             case "f":
                 ProcessFace(arguments);
@@ -107,6 +111,27 @@ public class Obj
 
         Point vertex = new(x, y, z);
         Vertices.Add(vertex);
+    }
+
+    private void ProcessNormal(string[] arguments)
+    {
+        if (arguments.Length != 4) return;
+
+        if (!double.TryParse(arguments[1],
+            NumberStyles.Any,
+            CultureInfo.InvariantCulture,
+            out double x)) return;
+        if (!double.TryParse(arguments[2],
+            NumberStyles.Any,
+            CultureInfo.InvariantCulture,
+            out double y)) return;
+        if (!double.TryParse(arguments[3],
+            NumberStyles.Any,
+            CultureInfo.InvariantCulture,
+            out double z)) return;
+
+        Vector normal = new(x, y, z);
+        Normals.Add(normal);
     }
 
     private void ProcessFace(in string[] arguments)
@@ -162,6 +187,7 @@ public class Obj
     private void ResetValues()
     {
         Vertices = new();
+        Normals = new();
         DefaultGroup = new();
         _currentGroupName = null;
     }
