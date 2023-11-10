@@ -178,6 +178,52 @@ public class ObjTests
 	}
 
 	[Fact]
+	public async Task LoadFromStringAsync_ShouldSetSmoothTriangleNormals_WhenVNInObjString()
+	{
+		// Arrange
+		const string objData =
+			"""
+			v 0 1 0
+			v -1 0 0
+			v 1 0 0
+
+			vn -1 0 0
+			vn 1 0 0
+			vn 0 1 0
+
+			f 1//3 2//1 3//2
+			f 1/0/3 2/102/1 3/14/2
+			""";
+		Obj obj = new();
+		SmoothTriangle expectedTriangle = new(
+			new Point(0, 1, 0),
+			new Point(-1, 0, 0),
+			new Point(1, 0, 0),
+			new Vector(0, 1, 0),
+			new Vector(-1, 0, 0),
+			new Vector(1, 0, 0));
+		
+		// Act
+		await obj.LoadFromStringAsync(objData);
+		var triangle = (SmoothTriangle)obj.DefaultGroup[0];
+		var triangle2 = (SmoothTriangle)obj.DefaultGroup[1];
+		
+		// Assert
+		Assert.Equal(expectedTriangle.Point1, triangle.Point1);
+		Assert.Equal(expectedTriangle.Point2, triangle.Point2);
+		Assert.Equal(expectedTriangle.Point3, triangle.Point3);
+		Assert.Equal(expectedTriangle.Normal1, triangle.Normal1);
+		Assert.Equal(expectedTriangle.Normal2, triangle.Normal2);
+		Assert.Equal(expectedTriangle.Normal3, triangle.Normal3);
+		Assert.Equal(expectedTriangle.Point1, triangle2.Point1);
+		Assert.Equal(expectedTriangle.Point2, triangle2.Point2);
+		Assert.Equal(expectedTriangle.Point3, triangle2.Point3);
+		Assert.Equal(expectedTriangle.Normal1, triangle2.Normal1);
+		Assert.Equal(expectedTriangle.Normal2, triangle2.Normal2);
+		Assert.Equal(expectedTriangle.Normal3, triangle2.Normal3);
+	}
+	
+	[Fact]
 	public async Task ToGroup_ShouldConvertObjToGroup()
 	{
 		// Arrange

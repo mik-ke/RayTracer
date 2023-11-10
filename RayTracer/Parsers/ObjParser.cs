@@ -31,7 +31,6 @@ public class Obj
         await LoadFromTextReaderAsync(reader);
     }
 
-
     /// <summary>
     /// Parses the OBJ-formatted file in <paramref name="objFilePath"/> and initialized the <see cref="Obj"/>.
     /// </summary>
@@ -68,7 +67,7 @@ public class Obj
         return group;
     }
 
-    private string? _currentGroupName = null;
+    private string? _currentGroupName;
 
     private void ProcessLine(in string line)
     {
@@ -139,18 +138,33 @@ public class Obj
         if (arguments.Length < 4) return;
 
         List<int> pointIndices = new();
+        List<int>? normalIndices = null;
         for (int i = 1; i  < arguments.Length; i++)
         {
-            if (!int.TryParse(arguments[i],
-                NumberStyles.Any,
-                CultureInfo.InvariantCulture,
-                out int pointIndex)) return;
+            string[] parts = arguments[i].Split('/');
+            
+            if (!int.TryParse(parts[0],
+                    NumberStyles.Any,
+                    CultureInfo.InvariantCulture,
+                    out int pointIndex)) return;
             if (!IsPointIndexInbounds(pointIndex)) return;
-
             pointIndices.Add(pointIndex - 1);
-        }
 
-        FanTriangulation(pointIndices);
+            if (parts.Length <= 2) continue;
+            
+            if (!int.TryParse(parts[2],
+                    NumberStyles.Any,
+                    CultureInfo.InvariantCulture,
+                    out int normalIndex)) return;
+            if (!IsNormalIndexInbounds(normalIndex)) return;
+            normalIndices ??= new();
+            normalIndices.Add(normalIndex - 1);
+        }
+        
+        if (normalIndices?.Count > 0 && pointIndices.Count != normalIndices.Count)
+            throw new ArgumentException("The number of normals and points must be the same.");
+
+        FanTriangulation(pointIndices, normalIndices);
     }
 
     private void ProcessGroup(string[] arguments)
@@ -163,11 +177,22 @@ public class Obj
     /// Takes vertex indices and creates and adds <see cref="Triangle"/>s
     /// based on them. With more than three indices, polygons are triangulated.
     /// </summary>
-    private void FanTriangulation(List<int> pointIndices)
+    private void FanTriangulation(List<int> pointIndices, List<int>? normalIndices)
     {
         for (int i = 1; i < pointIndices.Count - 1; i++)
         {
-            Triangle triangle = new(Vertices[pointIndices[0]], Vertices[pointIndices[i]], Vertices[pointIndices[i + 1]]);
+            Triangle triangle;
+            if (normalIndices is not null)
+            {
+                triangle = new SmoothTriangle(
+                    Vertices[pointIndices[0]], Vertices[pointIndices[i]], Vertices[pointIndices[i + 1]],
+                    Normals[normalIndices[0]], Normals[normalIndices[i]], Normals[normalIndices[i + 1]]);
+            }
+            else
+            {
+                triangle = new(Vertices[pointIndices[0]], Vertices[pointIndices[i]], Vertices[pointIndices[i + 1]]);
+            }
+            
             if (_currentGroupName != null)
             {
                 if (!NamedGroups.TryGetValue(_currentGroupName, out Group? currentGroup))
@@ -183,6 +208,7 @@ public class Obj
     }
 
     private bool IsPointIndexInbounds(int pointIndex) => pointIndex >= 1 && pointIndex <= Vertices.Count;
+    private bool IsNormalIndexInbounds(int normalIndex) => normalIndex >= 1 && normalIndex <= Normals.Count;
 
     private void ResetValues()
     {
