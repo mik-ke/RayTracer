@@ -29,6 +29,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HexagonRender.CLI", "Hexago
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ObjParserRender.CLI", "ObjParserRender.CLI\ObjParserRender.CLI.csproj", "{2D8A5589-BA20-42C1-BB68-165ABBB0F47D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RayTracer.UI", "RayTracer.UI\RayTracer.UI.csproj", "{429E7907-1205-4EDB-B8D6-3C6D9BA21B75}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -83,6 +85,10 @@ Global
 		{2D8A5589-BA20-42C1-BB68-165ABBB0F47D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2D8A5589-BA20-42C1-BB68-165ABBB0F47D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2D8A5589-BA20-42C1-BB68-165ABBB0F47D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{429E7907-1205-4EDB-B8D6-3C6D9BA21B75}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{429E7907-1205-4EDB-B8D6-3C6D9BA21B75}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{429E7907-1205-4EDB-B8D6-3C6D9BA21B75}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{429E7907-1205-4EDB-B8D6-3C6D9BA21B75}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
