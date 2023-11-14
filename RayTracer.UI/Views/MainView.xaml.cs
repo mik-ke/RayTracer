@@ -12,16 +12,16 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using RayTracer.UI.ViewModels;
 
 namespace RayTracer.UI;
 
-/// <summary>
-/// Interaction logic for MainWindow.xaml
-/// </summary>
-public partial class MainWindow : Window
+public partial class MainView
 {
-    public MainWindow()
+    public MainView(MainViewModel viewModel)
     {
         InitializeComponent();
+        
+        DataContext = viewModel;
     }
 }
