@@ -11,7 +11,7 @@ public class MainViewModelTests
     
     public MainViewModelTests()
     {
-        _sut = new MainViewModel(_ppmWriter);
         _ppmWriter = Substitute.For<IPpmWriter>();
+        _sut = new MainViewModel(_ppmWriter);
     }
 }
