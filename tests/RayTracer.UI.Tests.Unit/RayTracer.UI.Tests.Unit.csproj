@@ -24,7 +24,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\RayTracer.UI\RayTracer.UI.csproj" />
+      <ProjectReference Include="..\..\src\RayTracer.UI\RayTracer.UI.csproj" />
     </ItemGroup>
 
 </Project>

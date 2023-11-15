@@ -3,35 +3,35 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.7.34031.279
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RayTracer", "RayTracer\RayTracer.csproj", "{834A1D72-1F57-4C7D-A7FD-3A9E9916CFCD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RayTracer", "src\RayTracer\RayTracer.csproj", "{834A1D72-1F57-4C7D-A7FD-3A9E9916CFCD}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RayTracer.Tests.Unit", "RayTracer.Tests.Unit\RayTracer.Tests.Unit.csproj", "{8F890CB2-A5EB-4ADD-9A59-3D6302DB78DA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RayTracer.Tests.Unit", "tests\RayTracer.Tests.Unit\RayTracer.Tests.Unit.csproj", "{8F890CB2-A5EB-4ADD-9A59-3D6302DB78DA}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProjectileProgram.CLI", "ProjectileProgram.CLI\ProjectileProgram.CLI.csproj", "{4BF77BAA-6222-4CB3-A394-713D61F789FD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProjectileProgram.CLI", "samples\ProjectileProgram.CLI\ProjectileProgram.CLI.csproj", "{4BF77BAA-6222-4CB3-A394-713D61F789FD}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TestPrograms", "TestPrograms", "{5EF8F723-0F78-4549-A0A5-14B27B45727F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProjectileProgramPpm.CLI", "ProjectileProgramPpm.CLI\ProjectileProgramPpm.CLI.csproj", "{C1377A36-5609-4647-A7C6-3D74FED1999A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProjectileProgramPpm.CLI", "samples\ProjectileProgramPpm.CLI\ProjectileProgramPpm.CLI.csproj", "{C1377A36-5609-4647-A7C6-3D74FED1999A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RayTracer.Common.Library", "RayTracer.Common.Library\RayTracer.Common.Library.csproj", "{74E9976A-13FD-47A2-81AA-7C7C4DD27F79}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RayTracer.Common.Library", "src\RayTracer.Common.Library\RayTracer.Common.Library.csproj", "{74E9976A-13FD-47A2-81AA-7C7C4DD27F79}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClockProgram.CLI", "ClockProgram.CLI\ClockProgram.CLI.csproj", "{226F288B-8F5A-4AA5-B9EC-54B92F3E9CE4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClockProgram.CLI", "samples\ClockProgram.CLI\ClockProgram.CLI.csproj", "{226F288B-8F5A-4AA5-B9EC-54B92F3E9CE4}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SilhouetteProgram.CLI", "SilhouetteProgram.CLI\SilhouetteProgram.CLI.csproj", "{DCD6CBEE-CA42-46DF-A918-AFC2C9D40F1D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SilhouetteProgram.CLI", "samples\SilhouetteProgram.CLI\SilhouetteProgram.CLI.csproj", "{DCD6CBEE-CA42-46DF-A918-AFC2C9D40F1D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sphere3DRender.CLI", "Sphere3DRender.CLI\Sphere3DRender.CLI.csproj", "{38A3D59B-0D68-4CEE-894B-0486D555D48A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sphere3DRender.CLI", "samples\Sphere3DRender.CLI\Sphere3DRender.CLI.csproj", "{38A3D59B-0D68-4CEE-894B-0486D555D48A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WorldRender.CLI", "WorldRender.CLI\WorldRender.CLI.csproj", "{7AD57F82-5B5C-4A0F-902A-0647BCCF00AA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WorldRender.CLI", "samples\WorldRender.CLI\WorldRender.CLI.csproj", "{7AD57F82-5B5C-4A0F-902A-0647BCCF00AA}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TableWorldRender.CLI", "TableWorldRender.CLI\TableWorldRender.CLI.csproj", "{02B5FE74-516A-4CFE-8DCC-8F9B3B0BE52C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TableWorldRender.CLI", "samples\TableWorldRender.CLI\TableWorldRender.CLI.csproj", "{02B5FE74-516A-4CFE-8DCC-8F9B3B0BE52C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HexagonRender.CLI", "HexagonRender.CLI\HexagonRender.CLI.csproj", "{78C2EEC6-4BF1-4511-A1F0-F5DCA9C269FF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HexagonRender.CLI", "samples\HexagonRender.CLI\HexagonRender.CLI.csproj", "{78C2EEC6-4BF1-4511-A1F0-F5DCA9C269FF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ObjParserRender.CLI", "ObjParserRender.CLI\ObjParserRender.CLI.csproj", "{2D8A5589-BA20-42C1-BB68-165ABBB0F47D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ObjParserRender.CLI", "samples\ObjParserRender.CLI\ObjParserRender.CLI.csproj", "{2D8A5589-BA20-42C1-BB68-165ABBB0F47D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RayTracer.UI", "RayTracer.UI\RayTracer.UI.csproj", "{429E7907-1205-4EDB-B8D6-3C6D9BA21B75}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RayTracer.UI", "src\RayTracer.UI\RayTracer.UI.csproj", "{429E7907-1205-4EDB-B8D6-3C6D9BA21B75}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RayTracer.UI.Tests.Unit", "RayTracer.UI.Tests.Unit\RayTracer.UI.Tests.Unit.csproj", "{DBBBF9EF-F2A3-4058-BDAD-92CB1B314C62}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RayTracer.UI.Tests.Unit", "tests\RayTracer.UI.Tests.Unit\RayTracer.UI.Tests.Unit.csproj", "{DBBBF9EF-F2A3-4058-BDAD-92CB1B314C62}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
