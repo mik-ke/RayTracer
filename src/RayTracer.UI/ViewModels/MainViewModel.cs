@@ -2,7 +2,7 @@
 
 namespace RayTracer.UI.ViewModels;
 
-public class MainViewModel
+public class MainViewModel : BaseViewModel
 {
     private readonly IPpmWriter _ppmWriter;
 
