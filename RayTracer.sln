@@ -29,9 +29,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HexagonRender.CLI", "sample
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ObjParserRender.CLI", "samples\ObjParserRender.CLI\ObjParserRender.CLI.csproj", "{2D8A5589-BA20-42C1-BB68-165ABBB0F47D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RayTracer.UI", "src\RayTracer.UI\RayTracer.UI.csproj", "{429E7907-1205-4EDB-B8D6-3C6D9BA21B75}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RayTracer.UI.WPF", "src\RayTracer.UI.WPF\RayTracer.UI.WPF.csproj", "{429E7907-1205-4EDB-B8D6-3C6D9BA21B75}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RayTracer.UI.Tests.Unit", "tests\RayTracer.UI.Tests.Unit\RayTracer.UI.Tests.Unit.csproj", "{DBBBF9EF-F2A3-4058-BDAD-92CB1B314C62}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RayTracer.UI", "src\RayTracer.UI\RayTracer.UI.csproj", "{1DA0C1CC-3A39-438A-ACDC-23EE5465B36D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RayTracer.UI.WPF.Tests.Unit", "tests\RayTracer.UI.WPF.Tests.Unit\RayTracer.UI.WPF.Tests.Unit.csproj", "{CF46FD55-E7B3-4DB1-8157-AB12C7B135D2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -95,6 +99,14 @@ Global
 		{DBBBF9EF-F2A3-4058-BDAD-92CB1B314C62}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DBBBF9EF-F2A3-4058-BDAD-92CB1B314C62}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DBBBF9EF-F2A3-4058-BDAD-92CB1B314C62}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1DA0C1CC-3A39-438A-ACDC-23EE5465B36D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1DA0C1CC-3A39-438A-ACDC-23EE5465B36D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1DA0C1CC-3A39-438A-ACDC-23EE5465B36D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1DA0C1CC-3A39-438A-ACDC-23EE5465B36D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CF46FD55-E7B3-4DB1-8157-AB12C7B135D2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CF46FD55-E7B3-4DB1-8157-AB12C7B135D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CF46FD55-E7B3-4DB1-8157-AB12C7B135D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CF46FD55-E7B3-4DB1-8157-AB12C7B135D2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

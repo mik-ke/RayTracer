@@ -5,7 +5,7 @@ using RayTracer.Interfaces;
 using RayTracer.UI.ViewModels;
 using RayTracer.Utilities;
 
-namespace RayTracer.UI;
+namespace RayTracer.UI.WPF;
 
 /// <summary>
 /// Interaction logic for App.xaml
