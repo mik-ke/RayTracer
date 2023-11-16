@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RayTracer.Tests.Unit", "tes
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProjectileProgram.CLI", "samples\ProjectileProgram.CLI\ProjectileProgram.CLI.csproj", "{4BF77BAA-6222-4CB3-A394-713D61F789FD}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TestPrograms", "TestPrograms", "{5EF8F723-0F78-4549-A0A5-14B27B45727F}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{5EF8F723-0F78-4549-A0A5-14B27B45727F}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProjectileProgramPpm.CLI", "samples\ProjectileProgramPpm.CLI\ProjectileProgramPpm.CLI.csproj", "{C1377A36-5609-4647-A7C6-3D74FED1999A}"
 EndProject
