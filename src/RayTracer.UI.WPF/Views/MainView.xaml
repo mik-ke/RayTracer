@@ -7,6 +7,13 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-
+        <ListView ItemsSource="{Binding Path=SceneObjects}">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Path=Name}" />
+                    <GridViewColumn Header="Type" DisplayMemberBinding="{Binding Path=Type}" />
+                </GridView>
+            </ListView.View>
+        </ListView>
     </Grid>
 </Window>

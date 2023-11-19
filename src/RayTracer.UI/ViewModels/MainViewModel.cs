@@ -8,9 +8,11 @@ public class MainViewModel : BaseViewModel
 {
     private readonly IPpmWriter _ppmWriter;
     
+    #region Commands
     public ICommand AddShapeCommand { get; }
     public ICommand AddLightCommand { get; }
     public ICommand RenderCommand { get; }
+    #endregion
 
     public MainViewModel(IPpmWriter ppmWriter)
     {
