@@ -3,17 +3,28 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:viewModels="clr-namespace:RayTracer.UI.ViewModels;assembly=RayTracer.UI"
+        xmlns:models="clr-namespace:RayTracer.UI.Models;assembly=RayTracer.UI"
         xmlns:local="clr-namespace:RayTracer.UI.WPF"
+        xmlns:extensions="clr-namespace:RayTracer.UI.WPF.Extensions"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="450" Width="800"
+        d:DataContext="{d:DesignInstance viewModels:MainViewModel}">
     <Grid>
-        <ListView ItemsSource="{Binding Path=SceneObjects}">
-            <ListView.View>
-                <GridView>
-                    <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Path=Name}" />
-                    <GridViewColumn Header="Type" DisplayMemberBinding="{Binding Path=Type}" />
-                </GridView>
-            </ListView.View>
-        </ListView>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <StackPanel Margin="3" Orientation="Horizontal">
+            <Button Content="Add" Command="{Binding AddSceneObjectCommand}" />
+            <Button Content="Remove" Command="{Binding RemoveSceneObjectCommand}"
+                    CommandParameter="{Binding ElementName=ObjectGrid, Path=SelectedItem}" />
+        </StackPanel>
+        <DataGrid x:Name="ObjectGrid" Grid.Row="1" ItemsSource="{Binding SceneObjects}">
+            <!--
+            <DataGridComboBoxColumn ItemsSource="{extensions:EnumCollection EnumType=models:SceneObjectType}"
+                                    SelectedItemBinding="{Binding ObjectType}" />
+                                    -->
+        </DataGrid>
     </Grid>
 </Window>

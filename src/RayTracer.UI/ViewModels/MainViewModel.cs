@@ -1,15 +1,22 @@
 ﻿using System.Windows.Input;
 using RayTracer.Interfaces;
+using RayTracer.UI.Models;
 using RayTracer.UI.MVVM;
 
 namespace RayTracer.UI.ViewModels;
 
 public class MainViewModel : BaseViewModel
 {
+    #region Fields
     private readonly IPpmWriter _ppmWriter;
+    #endregion
+    
+    #region Properties
+    public List<SceneObject> SceneObjects { get; } = new();
+    #endregion
     
     #region Commands
-    public ICommand AddShapeCommand { get; }
+    public ICommand AddSceneObjectCommand { get; }
     public ICommand AddLightCommand { get; }
     public ICommand RenderCommand { get; }
     #endregion
@@ -18,14 +25,19 @@ public class MainViewModel : BaseViewModel
     {
         _ppmWriter = ppmWriter;
         
-        AddShapeCommand = new RelayCommand(AddShape); 
+        AddSceneObjectCommand = new RelayCommand(AddShape); 
         AddLightCommand = new RelayCommand(AddLight);
         RenderCommand = new AsyncRelayCommand(RenderAsync);
     }
 
     private void AddShape(object? obj)
     {
-        throw new NotImplementedException();
+        SceneObject sceneObject = new()
+        {
+            ObjectType = SceneObjectType.Sphere
+        };
+        SceneObjects.Add(sceneObject);
+        OnPropertyChanged(nameof(SceneObjects));
     }
 
     private void AddLight(object? obj)
